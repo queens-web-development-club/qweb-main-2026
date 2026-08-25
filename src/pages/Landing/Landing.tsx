@@ -69,17 +69,45 @@ function AnimatedStat({ value, prefix = '', suffix = '', label }: { value: numbe
 }
 
 export function Landing() {
+  useEffect(() => {
+    const page = document.querySelector<HTMLElement>('.page');
+    if (!page) return undefined;
+
+    const frame = requestAnimationFrame(() => page.classList.add('motion-ready'));
+    const revealItems = page.querySelectorAll<HTMLElement>('.reveal-on-scroll');
+
+    if (!('IntersectionObserver' in window)) {
+      revealItems.forEach((item) => item.classList.add('is-visible'));
+      return () => cancelAnimationFrame(frame);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    revealItems.forEach((item) => observer.observe(item));
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
+
   return <main className="page">
     <div className="noise" aria-hidden="true" />
     <section className="landing-page" aria-label="QWEB landing page">
-      <header className="nav">
+      <header className="nav page-load">
         <a className="brand" href="#top" aria-label="Queen's Web Development Club home"><img src="/assets/qweb-text-white.png" alt="QWEB" /></a>
         <nav><a href="#about">About</a><a href="#events">Events</a><a href="#projects">Projects</a><a href="#team">Team</a></nav>
         <a className="nav-cta" href="#join">Join QWEB <span>↗</span></a>
       </header>
 
       <section className="hero" id="top">
-        <div className="hero-copy">
+        <div className="hero-copy page-load page-load--delayed">
           <p className="eyebrow">Student-run <i>·</i> Queen's University <i>·</i> Kingston, ON</p>
           <h1>Queen's Web<br /><span>Development</span> Club</h1>
           <p className="intro">We teach students to build for the web, from your first line of HTML to a production deploy. Whether you are a team that ships or someone figuring it out, there is a place for you here.</p>
@@ -87,7 +115,7 @@ export function Landing() {
         </div>
         <p className="year">2026–2027</p>
         <div className="wave-field" aria-hidden="true"><div className="wave wave-a"><div className="wave-line" /></div><div className="wave wave-b"><div className="wave-line" /></div><div className="wave wave-c"><div className="wave-line" /></div><div className="wave wave-d"><div className="wave-line" /></div><div className="wave wave-e"><div className="wave-line" /></div><div className="wave wave-f"><div className="wave-line" /></div></div>
-        <section className="stats" id="stats" aria-label="QWEB statistics">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}</section>
+        <section className="stats page-load page-load--delayed-more" id="stats" aria-label="QWEB statistics">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}</section>
       </section>
 
       <section className="hero-bar" aria-label="Technologies we work with"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{languages.map((language) => <span key={language}><b>✦</b><em>{language}</em><b>✦</b></span>)}</div>)}</div></section>

@@ -15,7 +15,7 @@ const milestones = [
 ];
 
 export function AboutUs() {
-  return <section className="about-us" id="about" aria-labelledby="about-title">
+  return <section className="about-us reveal-on-scroll" id="about" aria-labelledby="about-title">
     <div className="about-us__intro">
       <div>
         <p className="about-us__eyebrow">// What we do</p>
@@ -25,14 +25,14 @@ export function AboutUs() {
     </div>
 
     <div className="about-us__offerings">
-      {offerings.map((offering) => <article className="about-us__card" key={offering.title}>
+      {offerings.map((offering) => <article className="about-us__card reveal-on-scroll" key={offering.title}>
         <img className="about-us__icon" src={offering.icon} alt="" aria-hidden="true" />
         <h3>{offering.title}</h3>
         <p>{offering.description}</p>
       </article>)}
     </div>
 
-    <div className="about-us__timeline">
+    <div className="about-us__timeline reveal-on-scroll">
       <div className="about-us__timeline-header">
         <p className="about-us__eyebrow">// Your first year</p>
         <span>Fall → Spring</span>

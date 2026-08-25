@@ -9,7 +9,7 @@ function Person({ person }: { person: string[] }) {
 }
 
 export function Team() {
-  return <section className="team-section" id="team" aria-labelledby="team-title">
+  return <section className="team-section reveal-on-scroll" id="team" aria-labelledby="team-title">
     <div className="section-heading"><div><p className="section-kicker">// The people running it</p><h2 id="team-title">Made by students.</h2></div><p className="team-summary">The people behind the builds, the workshops, and the group chat that keeps it moving.</p></div>
     <div className="people-group"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person) => <Person key={person[0]} person={person} />)}</div></div>
     <div className="people-group"><p className="people-label">Executives</p><div className="people-grid">{executives.map((person) => <Person key={person[1]} person={person} />)}</div></div>
