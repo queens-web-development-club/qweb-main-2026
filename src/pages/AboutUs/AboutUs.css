@@ -1,0 +1,29 @@
+.about-us { min-height:100svh; max-width:1130px; margin:0 auto; padding:73px clamp(22px,7vw,96px) 75px; display:flex; flex-direction:column; justify-content:center; }
+.about-us__intro { display:flex; align-items:flex-end; justify-content:space-between; gap:42px; margin-bottom:42px; }
+.about-us__eyebrow { margin:0 0 13px; color:#2b8091; font:9px 'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
+.about-us h2 { margin:0; color:#edf1f2; font-size:clamp(31px, 4vw, 50px); line-height:.98; letter-spacing:-.065em; }
+.about-us h2 span { color:#83919a; }
+.about-us__summary { max-width:220px; margin:0 0 3px; color:#74838b; font:10px/1.5 'DM Mono',monospace; }
+.about-us__offerings { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+.about-us__card { min-height:112px; padding:18px 17px 17px; border:1px solid #14242b; border-radius:8px; background:rgba(4,12,16,.58); }
+.about-us__icon { display:block; width:15px; height:15px; margin-bottom:10px; }
+.about-us__card h3 { margin:0 0 5px; color:#dfe8e9; font:500 12px 'Space Grotesk',sans-serif; }
+.about-us__card p { max-width:440px; margin:0; color:#697a83; font:9px/1.45 'DM Mono',monospace; }
+.about-us__timeline { margin-top:51px; padding:24px 20px 22px; border:1px solid #14242b; border-radius:8px; background:rgba(4,12,16,.58); }
+.about-us__timeline-header { display:flex; align-items:center; justify-content:space-between; }
+.about-us__timeline-header .about-us__eyebrow { margin:0; }
+.about-us__timeline-header span { color:#688089; font:8px 'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
+.about-us__line { height:2px; margin:7px 0 17px; background:linear-gradient(90deg,#286bea,#1bd0ae); }
+.about-us__milestones { display:grid; grid-template-columns:repeat(4,1fr); gap:25px; }
+.about-us__milestones article p { margin:0 0 7px; color:#71838a; font:8px 'DM Mono',monospace; letter-spacing:.12em; text-transform:uppercase; }
+.about-us__milestones h3 { margin:0 0 6px; color:#dce6e8; font:500 10px 'Space Grotesk',sans-serif; }
+.about-us__milestones span { display:block; color:#61737c; font:8px/1.45 'DM Mono',monospace; }
+@media (max-width:700px) {
+  .about-us { padding-top:51px; padding-bottom:54px; }
+  .about-us__intro { display:block; margin-bottom:27px; }
+  .about-us h2 { font-size:clamp(32px,9vw,48px); }
+  .about-us__summary { max-width:300px; margin-top:19px; }
+  .about-us__offerings { grid-template-columns:1fr; }
+  .about-us__timeline { margin-top:28px; padding:19px 15px; }
+  .about-us__milestones { grid-template-columns:repeat(2,1fr); gap:24px 17px; }
+}
