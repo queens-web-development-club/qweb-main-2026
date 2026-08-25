@@ -82,7 +82,7 @@ export function Landing() {
           <div className="actions"><a className="primary" href="#join">Join for 2026–27 <span>↗</span></a><a className="secondary" href="#events">See our work <span>↗</span></a></div>
         </div>
         <p className="year">2026–2027</p>
-        <div className="wave-field" aria-hidden="true"><div className="wave wave-a" /><div className="wave wave-b" /><div className="wave wave-c" /><div className="wave wave-d" /><div className="wave wave-e" /><div className="wave wave-f" /></div>
+        <div className="wave-field" aria-hidden="true"><div className="wave wave-a"><div className="wave-line" /></div><div className="wave wave-b"><div className="wave-line" /></div><div className="wave wave-c"><div className="wave-line" /></div><div className="wave wave-d"><div className="wave-line" /></div><div className="wave wave-e"><div className="wave-line" /></div><div className="wave wave-f"><div className="wave-line" /></div></div>
         <section className="stats" id="stats" aria-label="QWEB statistics">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}</section>
       </section>
 
