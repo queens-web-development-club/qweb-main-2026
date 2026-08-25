@@ -32,7 +32,7 @@ export function AboutUs() {
       </article>)}
     </div>
 
-    <div className="about-us__timeline" id="events">
+    <div className="about-us__timeline">
       <div className="about-us__timeline-header">
         <p className="about-us__eyebrow">// Your first year</p>
         <span>Fall → Spring</span>

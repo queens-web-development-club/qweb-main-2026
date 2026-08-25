@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { AboutUs } from '../AboutUs/AboutUs';
+import { Projects } from '../Projects/Projects';
+import { Term } from '../Term/Term';
+import { Team } from '../Team/Team';
+import { SiteFooter } from '../Footer/SiteFooter';
 import './Landing.css';
 
 const languages = ['HTML', 'JAVASCRIPT', 'CSS', 'TYPESCRIPT', 'REACT', 'NODE.JS'];
@@ -90,6 +94,9 @@ export function Landing() {
     </section>
 
     <AboutUs />
-    <footer><span>QWEB / Queen's Web Development Club</span><span>Built by students in Kingston, ON</span></footer>
+    <Projects />
+    <Term />
+    <Team />
+    <SiteFooter />
   </main>;
 }
