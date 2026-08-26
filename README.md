@@ -39,8 +39,7 @@ npm run preview
 
 1. Create a Supabase project and copy `.env.example` to `.env.local`.
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local`.
-3. Run `supabase/migrations/20260826000000_create_qweb_content.sql` in the Supabase SQL Editor.
-4. Add rows to `club_projects` (`name`, `photo`, `description`) and `team_members` (`name`, `photo`, `role`). Photo values should be public image URLs. `role` accepts `Co-Chair`, `Development`, `Outreach`, `Design`, or `Education`.
+3. Add rows to `club_projects` (`name`, `photo`, `description`), `team_members` (`name`, `photo`, `role`), and `term_events` (`event_name`, `description`, `event_date`). Photo values should be public image URLs. `role` accepts `Co-Chair`, `Development`, `Outreach`, `Design`, or `Education`. Use an ISO date such as `2026-09-12` for `event_date`.
 
 The site reads these tables anonymously using the publishable/anon key. Row-level security allows public reads and blocks client-side inserts, updates, and deletes. Until the environment variables and rows are present, the existing placeholder content remains visible.
 
