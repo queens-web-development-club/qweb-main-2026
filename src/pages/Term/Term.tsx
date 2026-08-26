@@ -49,6 +49,6 @@ export function Term() {
     {isLoading && <p className="term-feedback">Loading events...</p>}
     {!isLoading && error && <p className="term-feedback term-feedback--error" role="alert">{error}</p>}
     {!isLoading && !error && events.length === 0 && <p className="term-feedback">No events have been scheduled yet.</p>}
-    {!isLoading && !error && events.length > 0 && <div className="term-list">{events.map((event, index) => { const status = getEventStatus(event, nextEventId); return <article className="term-row reveal-on-scroll" key={event.id}><span className="term-number">{String(index + 1).padStart(2, '0')}</span><div><h3>{event.event_name}</h3><p>{event.description}</p></div><time dateTime={event.event_date}>{formatEventDate(event.event_date)}</time><span className={`term-status term-status--${status}`}>{status === 'finished' ? 'Finished' : status === 'next' ? 'Next Up' : 'Soon'}</span></article>; })}</div>}
+    {!isLoading && !error && events.length > 0 && <div className="term-list">{events.map((event, index) => { const status = getEventStatus(event, nextEventId); return <article className="term-row" key={event.id}><span className="term-number">{String(index + 1).padStart(2, '0')}</span><div><h3>{event.event_name}</h3><p>{event.description}</p></div><time dateTime={event.event_date}>{formatEventDate(event.event_date)}</time><span className={`term-status term-status--${status}`}>{status === 'finished' ? 'Finished' : status === 'next' ? 'Next Up' : 'Soon'}</span></article>; })}</div>}
   </section>;
 }
