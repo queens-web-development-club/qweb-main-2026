@@ -1,21 +1,32 @@
+import { useEffect, useState } from 'react';
+import { getProjects, type ClubProject } from '../../lib/content';
 import './Projects.css';
 
-const projects = [
-  { name: 'Project name', type: 'Client site', year: '2026', tone: 'blue' },
-  { name: 'Project name', type: 'Club platform', year: '2026', tone: 'teal' },
-  { name: 'Project name', type: 'Community build', year: '2025', tone: 'green' },
+const fallbackProjects: ClubProject[] = [
+  { id: 'fallback-1', name: 'Project name', photo: null, description: 'Client site' },
+  { id: 'fallback-2', name: 'Project name', photo: null, description: 'Club platform' },
+  { id: 'fallback-3', name: 'Project name', photo: null, description: 'Community build' },
 ];
 
 export function Projects() {
-  return <section className="projects-section" id="projects" aria-labelledby="projects-title">
+  const [projects, setProjects] = useState(fallbackProjects);
+
+  useEffect(() => {
+    getProjects().then(({ data, error }) => {
+      if (error) console.error('Could not load club projects from Supabase:', error);
+      if (data?.length) setProjects(data);
+    });
+  }, []);
+
+  return <section className="projects-section reveal-on-scroll" id="projects" aria-labelledby="projects-title">
     <div className="section-heading">
       <div><p className="section-kicker">// Built by members</p><h2 id="projects-title">Live in the wild.</h2></div>
       <span className="section-index">03 / 06</span>
     </div>
     <div className="project-grid">
-      {projects.map((project, index) => <article className={`project-card project-card--${project.tone}`} key={`${project.name}-${index}`}>
-        <div className="project-art" aria-hidden="true"><span>{String(index + 1).padStart(2, '0')}</span></div>
-        <div className="project-meta"><div><h3>{project.name}</h3><p>{project.type}</p></div><span>{project.year}</span></div>
+      {projects.map((project, index) => <article className={`project-card project-card--${['blue', 'teal', 'green'][index % 3]}`} key={project.id}>
+        <div className="project-art" aria-hidden={project.photo ? undefined : true}>{project.photo && <img src={project.photo} alt="" />}<span>{String(index + 1).padStart(2, '0')}</span></div>
+        <div className="project-meta"><div><h3>{project.name}</h3><p>{project.description}</p></div></div>
       </article>)}
     </div>
   </section>;

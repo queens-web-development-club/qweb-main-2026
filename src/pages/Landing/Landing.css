@@ -21,3 +21,18 @@ h1 { font-size:clamp(50px,7.3vw,102px); line-height:.91; letter-spacing:-.075em;
 footer { border-top:1px solid rgba(255,255,255,.05); color:#4e5e66; display:flex; justify-content:space-between; padding:18px clamp(22px,7vw,96px); font:9px 'DM Mono',monospace; }
 @media (max-width:700px) { nav { display:none; }.nav { height:61px; }.nav-cta { padding:8px 11px; }.brand img { width:69px; }.hero { padding-top:36px; }.eyebrow { font-size:8px; white-space:nowrap; letter-spacing:.03em; }.eyebrow i { padding:0 2px; } h1 { font-size:clamp(48px,14vw,78px); margin-top:20px; }.intro { max-width:330px; font-size:10px; }.year { top:28px; }.wave-field { top:240px; }.stats { grid-template-columns:repeat(2,1fr); padding:16px 22px 21px; gap:8px; }.stats article { padding:12px; }.stats strong { font-size:20px; } footer { display:block; line-height:2; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; } }
+
+/* Motion is opt-in after mount so a script failure never leaves content hidden. */
+.motion-ready .reveal-on-scroll { opacity:0; transform:translateY(18px); transition:opacity 520ms ease-out,transform 520ms cubic-bezier(.22,.7,.25,1); }
+.motion-ready .reveal-on-scroll.is-visible,.motion-ready .reveal-on-scroll:focus-within { opacity:1; transform:none; }
+.motion-ready .reveal-on-scroll:nth-child(2) { transition-delay:70ms; }
+.motion-ready .reveal-on-scroll:nth-child(3) { transition-delay:140ms; }
+.motion-ready .reveal-on-scroll:nth-child(4) { transition-delay:210ms; }
+.motion-ready .page-load { animation:page-enter 560ms cubic-bezier(.22,.7,.25,1) both; }
+.motion-ready .page-load--delayed { animation-delay:90ms; }
+.motion-ready .page-load--delayed-more { animation-delay:170ms; }
+@keyframes page-enter { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce) {
+  .motion-ready .reveal-on-scroll,.motion-ready .reveal-on-scroll.is-visible,.motion-ready .reveal-on-scroll:focus-within { opacity:1; transform:none; transition:none; }
+  .motion-ready .page-load,.motion-ready .page-load--delayed,.motion-ready .page-load--delayed-more { animation:none; }
+}

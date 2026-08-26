@@ -93,6 +93,8 @@ No shared UI package or component library was found.
 | Rainbow wave drift | Page load/continuous loop | CSS keyframes, `8s`–`13s`, `ease-in-out`, alternating directions | `Landing.css`, `@keyframes drift` and `.wave-*` |
 | Framework ticker | Continuous page load loop | CSS keyframes, `23s linear`, transform-based marquee | `Landing.css`, `@keyframes marquee` |
 | Link hover | Pointer hover | Color change; no duration specified | `Landing.css`, `nav a:hover`, footer link selectors |
+| Page-load entrance | Initial mount | `560ms`, opacity/translateY, staggered by `90ms`/`170ms` | `Landing.tsx` and `Landing.css`, `.page-load` |
+| Section/card reveal | Intersection with section or card | `520ms`, opacity/translateY, compositor-only, small sibling stagger | `Landing.tsx` and `Landing.css`, `.reveal-on-scroll` |
 
 No JavaScript animation library or scroll-driven animation was found.
 <!-- /GENERATED:motion -->
@@ -106,7 +108,7 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 <!-- GENERATED:motion-reduced source=/document updated=2026-08-25 -->
 ## Reduced Motion
 
-`src/pages/Landing/Landing.tsx` checks `prefers-reduced-motion: reduce` and immediately finishes statistic counting. `src/pages/Landing/Landing.css` sets animation duration to `.01ms`, limits animation iterations, and disables smooth scrolling for reduced-motion users. This rule affects the CSS wave and ticker animations as well as any future animations under the page root.
+`src/pages/Landing/Landing.tsx` checks `prefers-reduced-motion: reduce` and immediately finishes statistic counting. `src/pages/Landing/Landing.css` sets animation duration to `.01ms`, limits animation iterations, disables smooth scrolling, removes the new page-load/reveal transitions, and leaves all content visible for reduced-motion users. This rule affects the CSS wave and ticker animations as well as motion under the page root.
 <!-- /GENERATED:motion-reduced -->
 
 <!-- GENERATED:implementation-guidance source=/document updated=2026-08-25 -->
