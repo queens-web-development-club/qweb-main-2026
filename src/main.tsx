@@ -1,4 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { Landing } from './pages/Landing/Landing';
+import { NotFound } from './pages/NotFound/NotFound';
 
-createRoot(document.getElementById('root')!).render(<Landing />);
+const Page = window.location.pathname === '/' ? Landing : NotFound;
+
+createRoot(document.getElementById('root')!).render(<Page />);
