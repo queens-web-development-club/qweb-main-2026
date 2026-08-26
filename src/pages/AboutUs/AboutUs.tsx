@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import './AboutUs.css';
 
 const offerings = [
@@ -22,7 +23,45 @@ function ArtifactGraphic({ type }: { type: string }) {
 }
 
 export function AboutUs() {
-  return <section className="about-us reveal-on-scroll" id="about" aria-labelledby="about-title">
+  const aboutRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = aboutRef.current;
+    if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const offerings = Array.from(section.querySelectorAll<HTMLElement>('.about-us__offering'));
+    section.classList.add('about-us--motion-ready');
+    let frameId: number | undefined;
+    const updateActiveOffering = () => {
+      frameId = undefined;
+      const sectionRect = section.getBoundingClientRect();
+      if (sectionRect.bottom < 0 || sectionRect.top > window.innerHeight) return;
+      const viewportCenter = window.innerHeight / 2;
+      let activeIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+      offerings.forEach((offering, index) => {
+        const rect = offering.getBoundingClientRect();
+        const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          activeIndex = index;
+        }
+      });
+      offerings.forEach((offering, index) => offering.classList.toggle('is-active', index === activeIndex));
+    };
+    const onScroll = () => {
+      if (frameId === undefined) frameId = requestAnimationFrame(updateActiveOffering);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    updateActiveOffering();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frameId) cancelAnimationFrame(frameId);
+    };
+  }, []);
+
+  return <section ref={aboutRef} className="about-us reveal-on-scroll" id="about" aria-labelledby="about-title">
     <header className="about-us__intro">
       <div className="about-us__heading">
         <p className="about-us__eyebrow">// What we do</p>
