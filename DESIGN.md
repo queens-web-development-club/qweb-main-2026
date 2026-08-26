@@ -63,7 +63,7 @@ Evidence: `src/pages/Landing/Landing.css`, `AboutUs.css`, `Projects.css`, `Term.
 | `AnimatedStat` | Counts a statistic from zero to its target when visible | `Landing.tsx`; rendered as bordered translucent stat cards |
 | `AboutUs` | Presents offerings as a numbered editorial index and first-year milestones as a continuous progress track | `src/pages/AboutUs/AboutUs.tsx` and `AboutUs.css` |
 | `Projects` | Presents three member-built project treatments | `src/pages/Projects/Projects.tsx` and `Projects.css` |
-| `Term` | Presents term events as a bordered list with dates and status labels | `src/pages/Term/Term.tsx` and `Term.css` |
+| `Term` | Presents the next event as a date-led featured panel, followed by a compact remainder-of-term list | `src/pages/Term/Term.tsx` and `Term.css` |
 | `Team` / `Person` | Presents co-chairs, executives, and membership CTA | `src/pages/Team/Team.tsx` and `Team.css` |
 | `SiteFooter` | Presents QWEB identity and grouped navigation links | `src/pages/Footer/SiteFooter.tsx` and `SiteFooter.css` |
 
@@ -79,7 +79,7 @@ No shared UI package or component library was found.
 - Stats use a four-column grid on desktop and two columns below `700px`.
 - About offerings use four full-width editorial rows with numbered titles, descriptions, and activity artifacts; its milestone track uses four horizontal stages. On mobile, rows reflow around a fixed index and the milestone track becomes vertical.
 - Projects use a three-column grid, with one visible project card on small screens.
-- Term uses a four-column row structure: index, content, date, status; mobile hides dates and reduces columns.
+- Term uses a date-led featured event panel with time/place metadata, followed by a four-column remainder list; mobile stacks featured metadata and hides list status pills.
 - Team uses a two-card co-chair grid and four-card executive grid; the membership panel is a two-sided flex composition that stacks on mobile.
 - Footer uses a two-column grid on desktop: brand on the left, navigation groups in the right half; it stacks below `700px`.
 <!-- /GENERATED:layout -->

@@ -19,6 +19,8 @@ export type TermEvent = {
   event_name: string;
   description: string;
   event_date: string;
+  event_time?: string | null;
+  event_location?: string | null;
 };
 
 export async function getProjects() {
@@ -33,5 +35,5 @@ export async function getTeamMembers() {
 
 export async function getTermEvents() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('term_events').select('id, event_name, description, event_date').order('event_date', { ascending: true });
+  return supabase.from('term_events').select('id, event_name, description, event_date, event_time, event_location').order('event_date', { ascending: true });
 }
