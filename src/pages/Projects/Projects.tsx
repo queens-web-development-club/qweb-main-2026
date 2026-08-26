@@ -25,7 +25,7 @@ export function Projects() {
     </div>
     <div className="project-grid">
       {projects.map((project, index) => <article className={`project-card project-card--${['blue', 'teal', 'green'][index % 3]} reveal-on-scroll`} key={project.id}>
-        <div className="project-art" aria-hidden={project.photo ? undefined : true}>{project.photo && <img src={project.photo} alt="" />}<span>{String(index + 1).padStart(2, '0')}</span></div>
+        <div className="project-art" aria-hidden={project.photo ? undefined : true}>{project.photo && <img src={project.photo} alt={`${project.name} project`} />}<span>{String(index + 1).padStart(2, '0')}</span></div>
         <div className="project-meta"><div><h3>{project.name}</h3><p>{project.description}</p></div></div>
       </article>)}
     </div>

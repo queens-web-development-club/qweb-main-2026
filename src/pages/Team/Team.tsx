@@ -14,7 +14,7 @@ const fallbackMembers: DisplayMember[] = [
 ];
 
 function Person({ person, index }: { person: DisplayMember; index: number }) {
-  return <article className={`person person--${person.tone}`}><div className="person-art" style={{ position: 'relative', overflow: 'hidden' }}>{person.photo && <img src={person.photo} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}<span>{String(index + 1).padStart(2, '0')}</span></div><h3>{person.name}</h3><p>{person.role} · QWEB 2026–27</p></article>;
+  return <article className={`person person--${person.tone}`}><div className="person-art" style={{ position: 'relative', overflow: 'hidden' }}>{person.photo && <img src={person.photo} alt={`${person.name}, ${person.role}`} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}<span>{String(index + 1).padStart(2, '0')}</span></div><h3>{person.name}</h3><p>{person.role} · QWEB 2026–27</p></article>;
 }
 
 export function Team() {

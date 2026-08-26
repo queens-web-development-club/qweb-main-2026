@@ -18,7 +18,8 @@ This document describes the single-page Queen's Web Development Club site implem
 | Membership heading scale | `clamp(35px, 4vw, 54px)` | `Team.css`, `.join-panel h2` |
 | Hero heading line height | `.91` | `Landing.css`, `h1` |
 | Section heading line height | `.95` to `.98` | `Projects.css`, `.section-heading h2`; `AboutUs.css`, `.about-us h2` |
-| Utility tracking | `.11em`–`.17em` | `Landing.css`, `.eyebrow` and hero bar; page CSS section labels |
+| Utility/supporting scale | `10px` minimum for audited project, team, term, footer, mobile hero, and stat labels | `Landing.css`, `Projects.css`, `Team.css`, `Term.css`, and `SiteFooter.css` |
+| Utility tracking | `.03em`–`.17em` | `Landing.css`, `.eyebrow` and hero bar; page CSS section labels |
 | Weight usage | `400`, `500`, `600`, `700` are imported; display headings use `700`, utility and card headings generally use `400`/`500` | `Landing.css` import, `h1`, and page CSS declarations |
 
 No CSS custom-property type scale or named typography token map was found.
@@ -31,7 +32,7 @@ No CSS custom-property type scale or named typography token map was found.
 | --- | --- | --- |
 | Page background | `#030607` | `Landing.css`, `:root`, `body`, `.page` |
 | Primary text | `#e9edf1`, `#eff2f2`, `#edf1f2` | `Landing.css` and section CSS headings |
-| Muted utility/body text | `#83919a`, `#74838b`, `#697a83`, `#61737c` | `Landing.css`, `AboutUs.css`, `Term.css` |
+| Muted utility/body text | `#83919a`, `#8299a2`, `#91a4ab`, `#9aadb3` in audited supporting roles; legacy muted values remain elsewhere | `Landing.css`, `Projects.css`, `Team.css`, `Term.css`, `SiteFooter.css`, `AboutUs.css` |
 | Blue accent | `#267fea`, `#2878ed`, `#2586ee`, `#286bea` | CTA gradients, hero heading, stats, timeline, project metadata |
 | Teal accent | `#19d9ae`, `#1bd6b0`, `#20cbb4`, `#1bd0ae` | CTA gradients, hero heading, ticker, timeline |
 | Green accent | `#36c88e`, `#18a86f` | Wave and team visual treatments |
@@ -78,9 +79,9 @@ No shared UI package or component library was found.
 - Landing navigation is a flex row; hero copy is left-aligned with an absolutely positioned year label and wave field.
 - Stats use a four-column grid on desktop and two columns below `700px`.
 - About offerings use a two-column grid, then milestones use four columns; both collapse to one/two-column mobile arrangements.
-- Projects use a three-column grid, with one visible project card on small screens.
+- Projects use a three-column grid and show every project in a single-column list on small screens.
 - Term uses a four-column row structure: index, content, date, status; mobile hides dates and reduces columns.
-- Team uses a two-card co-chair grid and four-card executive grid; the membership panel is a two-sided flex composition that stacks on mobile.
+- Team uses a two-card co-chair grid and four-card executive grid; both people grids use two columns below `700px`, and the membership panel stacks on mobile.
 - Footer uses a two-column grid on desktop: brand on the left, navigation groups in the right half; it stacks below `700px`.
 <!-- /GENERATED:layout -->
 
@@ -91,7 +92,7 @@ No shared UI package or component library was found.
 | --- | --- | --- | --- |
 | Animated statistics | Intersection with stat card | `requestAnimationFrame`, `1100ms`, cubic easing `1 - (1 - progress) ** 3` | `Landing.tsx`, `AnimatedStat` |
 | Rainbow wave drift | Page load/continuous loop | CSS keyframes, `8s`–`13s`, `ease-in-out`, alternating directions | `Landing.css`, `@keyframes drift` and `.wave-*` |
-| Framework ticker | Continuous page load loop | CSS keyframes, `23s linear`, transform-based marquee | `Landing.css`, `@keyframes marquee` |
+| Framework strip | Static | Repeating technology labels remain clipped within the full-width strip without continuous motion | `Landing.css`, `.hero-bar` and `.bar-track` |
 | Link hover | Pointer hover | Color change; no duration specified | `Landing.css`, `nav a:hover`, footer link selectors |
 | Page-load entrance | Initial mount | `560ms`, opacity/translateY, staggered by `90ms`/`170ms` | `Landing.tsx` and `Landing.css`, `.page-load` |
 | Section/card reveal | Intersection with section or card | `520ms`, opacity/translateY, compositor-only, small sibling stagger | `Landing.tsx` and `Landing.css`, `.reveal-on-scroll` |
@@ -102,13 +103,13 @@ No JavaScript animation library or scroll-driven animation was found.
 <!-- GENERATED:responsive source=/document updated=2026-08-25 -->
 ## Responsive
 
-The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs, Projects, Term, Team, and Footer. At this breakpoint navigation links hide, the navigation and logo compact, hero copy and ticker spacing reduce, stats change from four to two columns, About offerings collapse to one column, project cards collapse to one with only the first visible, term dates hide, and the footer stacks. Team also has an `800px` breakpoint that changes person grids to four columns and reduces art height. Evidence: the `@media` blocks in each section stylesheet.
+The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs, Projects, Term, Team, and Footer. At this breakpoint navigation links hide, the navigation and logo compact, hero copy and technology-strip spacing reduce, stats change from four to two columns, About offerings collapse to one column, all project cards form a single-column list, term dates hide, team grids use two columns, and the footer stacks. At `400px`, hero actions stack and the decorative year label hides to protect the primary reading order. Team also has an `800px` breakpoint that keeps four columns while reducing art height. Evidence: the `@media` blocks in each section stylesheet.
 <!-- /GENERATED:responsive -->
 
 <!-- GENERATED:motion-reduced source=/document updated=2026-08-25 -->
 ## Reduced Motion
 
-`src/pages/Landing/Landing.tsx` checks `prefers-reduced-motion: reduce` and immediately finishes statistic counting. `src/pages/Landing/Landing.css` sets animation duration to `.01ms`, limits animation iterations, disables smooth scrolling, removes the new page-load/reveal transitions, and leaves all content visible for reduced-motion users. This rule affects the CSS wave and ticker animations as well as motion under the page root.
+`src/pages/Landing/Landing.tsx` checks `prefers-reduced-motion: reduce` and immediately finishes statistic counting. `src/pages/Landing/Landing.css` sets animation duration to `.01ms`, limits animation iterations, disables smooth scrolling, removes the page-load/reveal transitions, and leaves all content visible for reduced-motion users. This rule affects the CSS wave animations and motion under the page root; the technology strip is static for all users.
 <!-- /GENERATED:motion-reduced -->
 
 <!-- GENERATED:implementation-guidance source=/document updated=2026-08-25 -->
