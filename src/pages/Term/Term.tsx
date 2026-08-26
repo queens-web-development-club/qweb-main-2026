@@ -8,8 +8,8 @@ const events = [
 ];
 
 export function Term() {
-  return <section className="term-section" id="events" aria-labelledby="term-title">
+  return <section className="term-section reveal-on-scroll" id="events" aria-labelledby="term-title">
     <div className="section-heading"><div><p className="section-kicker">// 2026 — 2027</p><h2 id="term-title">This term at QWEB.</h2></div><span className="section-index">04 / 06</span></div>
-    <div className="term-list">{events.map(([number,title,description,date,status])=><article className="term-row" key={number}><span className="term-number">{number}</span><div><h3>{title}</h3><p>{description}</p></div><time>{date}</time><span className={`term-status term-status--${status.toLowerCase()}`}>{status}</span></article>)}</div>
+    <div className="term-list">{events.map(([number,title,description,date,status])=><article className="term-row reveal-on-scroll" key={number}><span className="term-number">{number}</span><div><h3>{title}</h3><p>{description}</p></div><time>{date}</time><span className={`term-status term-status--${status.toLowerCase()}`}>{status}</span></article>)}</div>
   </section>;
 }
