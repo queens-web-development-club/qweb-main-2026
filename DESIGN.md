@@ -61,7 +61,7 @@ Evidence: `src/pages/Landing/Landing.css`, `AboutUs.css`, `Projects.css`, `Term.
 | --- | --- | --- |
 | `Landing` | Composes the single route, navigation, hero, animated stats, technology ticker, and page sections | `src/pages/Landing/Landing.tsx` and `Landing.css` |
 | `AnimatedStat` | Counts a statistic from zero to its target when visible | `Landing.tsx`; rendered as bordered translucent stat cards |
-| `AboutUs` | Presents offerings and first-year milestones | `src/pages/AboutUs/AboutUs.tsx` and `AboutUs.css` |
+| `AboutUs` | Presents offerings as a numbered editorial index and first-year milestones as a continuous progress track | `src/pages/AboutUs/AboutUs.tsx` and `AboutUs.css` |
 | `Projects` | Presents three member-built project treatments | `src/pages/Projects/Projects.tsx` and `Projects.css` |
 | `Term` | Presents term events as a bordered list with dates and status labels | `src/pages/Term/Term.tsx` and `Term.css` |
 | `Team` / `Person` | Presents co-chairs, executives, and membership CTA | `src/pages/Team/Team.tsx` and `Team.css` |
@@ -77,7 +77,7 @@ No shared UI package or component library was found.
 - Major sections use a centered `max-width: 1130px` container with responsive horizontal gutters, except the full-width landing frame and ticker.
 - Landing navigation is a flex row; hero copy is left-aligned with an absolutely positioned year label and wave field.
 - Stats use a four-column grid on desktop and two columns below `700px`.
-- About offerings use a two-column grid, then milestones use four columns; both collapse to one/two-column mobile arrangements.
+- About offerings use four full-width editorial rows with numbered titles, descriptions, and activity artifacts; its milestone track uses four horizontal stages. On mobile, rows reflow around a fixed index and the milestone track becomes vertical.
 - Projects use a three-column grid, with one visible project card on small screens.
 - Term uses a four-column row structure: index, content, date, status; mobile hides dates and reduces columns.
 - Team uses a two-card co-chair grid and four-card executive grid; the membership panel is a two-sided flex composition that stacks on mobile.
@@ -95,6 +95,7 @@ No shared UI package or component library was found.
 | Link hover | Pointer hover | Color change; no duration specified | `Landing.css`, `nav a:hover`, footer link selectors |
 | Page-load entrance | Initial mount | `560ms`, opacity/translateY, staggered by `90ms`/`170ms` | `Landing.tsx` and `Landing.css`, `.page-load` |
 | Section/card reveal | Intersection with section or card | `520ms`, opacity/translateY, compositor-only, small sibling stagger | `Landing.tsx` and `Landing.css`, `.reveal-on-scroll` |
+| About journey progress | About section intersection | `1100ms`, transform scale along the desktop horizontal or mobile vertical track | `AboutUs.css`, `.about-us__milestones::before` |
 
 No JavaScript animation library or scroll-driven animation was found.
 <!-- /GENERATED:motion -->
