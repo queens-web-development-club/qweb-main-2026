@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getTeamMembers, type TeamMember } from '../../lib/content';
+import { splitTeam } from '../../lib/team';
 import './Team.css';
 
 type DisplayMember = TeamMember & { tone: string };
@@ -25,8 +26,7 @@ export function Team() {
       if (data?.length) setMembers(data.map((member, index) => ({ ...member, tone: fallbackMembers[index]?.tone ?? 'blue' })));
     });
   }, []);
-  const chairs = members.filter((member) => member.role === 'Co-Chair');
-  const executives = members.filter((member) => member.role !== 'Co-Chair');
+  const { chairs, executives } = splitTeam(members);
   return <section className="team-section reveal-on-scroll" id="team" aria-labelledby="team-title" data-inspect="section.team-section#team">
     <div className="section-heading"><div><p className="section-kicker">The people running it</p><h2 id="team-title">Made by students.</h2></div><p className="team-summary">The people behind the builds, the workshops, and the group chat that keeps it moving.</p></div>
     <div className="people-group"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person, index) => <Person key={person.id} person={person} index={index} />)}</div></div>

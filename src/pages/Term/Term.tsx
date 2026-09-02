@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getTermEvents, type TermEvent } from '../../lib/content';
 import { isSupabaseConfigured } from '../../lib/supabase';
+import { findNextEvent, formatEventDate, formatEventDay, formatEventMonth, getEventStatus, todayKey } from '../../lib/events';
 import './Term.css';
-
-type EventStatus = 'finished' | 'next' | 'soon';
 
 const fallbackEvents: TermEvent[] = [
   { id: 'fallback-1', event_name: 'Kickoff night', description: 'Meet the room, set up your tools, ship a first page.', event_date: '2026-09-12', event_time: '17:30—20:00', event_location: 'Engineering Building, Lab 4.11' },
@@ -11,30 +10,6 @@ const fallbackEvents: TermEvent[] = [
   { id: 'fallback-3', event_name: 'Industry night', description: 'A working developer talks process, teams, and the first job.', event_date: '2026-10-17', event_time: '18:30—20:30', event_location: 'Beamish-Munro Hall' },
   { id: 'fallback-4', event_name: 'Project team formation', description: 'Choose a brief and turn a rough idea into a real build.', event_date: '2026-11-07', event_time: '17:30—20:00', event_location: 'Engineering Building, Lab 4.11' },
 ];
-
-function todayKey() {
-  const today = new Date();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${today.getFullYear()}-${month}-${day}`;
-}
-
-function getEventStatus(event: TermEvent, nextEventId: string | null): EventStatus {
-  if (event.event_date < todayKey()) return 'finished';
-  return event.id === nextEventId ? 'next' : 'soon';
-}
-
-function formatEventDate(date: string) {
-  return new Intl.DateTimeFormat('en-CA', { month: 'short', day: '2-digit' }).format(new Date(`${date}T00:00:00`)).toUpperCase();
-}
-
-function formatEventMonth(date: string) {
-  return new Intl.DateTimeFormat('en-CA', { month: 'short' }).format(new Date(`${date}T00:00:00`)).toUpperCase();
-}
-
-function formatEventDay(date: string) {
-  return new Intl.DateTimeFormat('en-CA', { day: '2-digit' }).format(new Date(`${date}T00:00:00`));
-}
 
 function EventMeta({ event }: { event: TermEvent }) {
   return <div className="term-featured__meta">
@@ -57,7 +32,7 @@ export function Term() {
     });
   }, []);
 
-  const nextEventId = events.find((event) => event.event_date >= todayKey())?.id ?? null;
+  const nextEventId = findNextEvent(events)?.id ?? null;
   const eventRows = events.map((event, index) => ({ event, index, status: getEventStatus(event, nextEventId) }));
   const nextEvent = eventRows.find(({ status }) => status === 'next')?.event ?? null;
   const upcomingEvents = eventRows.filter(({ event }) => event.id !== nextEvent?.id && event.event_date >= todayKey());
