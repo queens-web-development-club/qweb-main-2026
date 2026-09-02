@@ -5,6 +5,7 @@ import { Term } from '../Term/Term';
 import { Education, curriculum } from '../Education/Education';
 import { Team } from '../Team/Team';
 import { Join } from '../Join/Join';
+import { Sponsors } from '../Sponsors/Sponsors';
 import { SiteFooter } from '../Footer/SiteFooter';
 import { InspectModeProvider, InspectToggle } from '../../components/InspectMode';
 import './Landing.css';
@@ -127,7 +128,7 @@ export function Landing() {
       <section className="hero-bar" aria-label="What the club teaches" data-inspect="section.hero-bar"><p className="bar-label">What we teach</p><div className="bar-viewport"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{taught.map((entry) => <span key={entry}><b>✦</b><em>{entry}</em><b>✦</b></span>)}</div>)}</div></div></section>
     </section>
 
-    <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Team /></section>
+    <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Team /><Sponsors /></section>
     <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /><Projects /></section>
     <section className="region" id="join" data-inspect="section.region#join"><Join /></section>
     <SiteFooter />
