@@ -27,7 +27,7 @@ Meanwhile the previous site at qweb.dev holds real material this one dropped: el
 
 Hero, intro copy, and CTAs as they are today. Below: the stat row, a single "next up" event line pulled from `term_events`, and the curriculum ticker restored to its original framing — the technologies the club actually teaches, not decoration.
 
-Stats become real numbers. `150+ active members` contradicts qweb.dev's `300+`; one is wrong and Zac resolves it. `8 client sites shipped` should be the real count — the archive holds eleven.
+Stats come from qweb.dev: **300+ members**. Its other two counters (`0+ projects`, `1+ tutorials`) are visibly broken on the live site, so the project count comes from the archive instead — **11 client sites**. The workshops figure has no verified source; it stays out until someone supplies one rather than carrying today's invented `20+`.
 
 ### `#about`
 
@@ -68,15 +68,30 @@ Unchanged: near-black surface, blue/teal accents, Space Grotesk display, DM Mono
 
 Changed: `< Section />` headings replace the `//` kickers as the section device. Inspect mode and the subtractions from PR #7 carry forward.
 
-## Needed from Zac
+## Content sources
 
-1. Real member count — `150+` or `300+`.
-2. Which of the eleven archived projects are still shown, and any newer ones.
-3. Application form URLs.
-4. Sponsor names and logos, if any are current.
-5. Whether grad destination data is gatherable.
-6. Instagram and LinkedIn URLs — footer links still point at `#top`.
-7. A favicon.
+Resolved from qweb.dev and the 2024 repo at `~/Projects/Extras/qweb-main-2024`:
+
+| Item | Source |
+| --- | --- |
+| Member count | qweb.dev: 300+ |
+| Project count | Archive: 11 |
+| Projects and screenshots | `public/projects/` and `src/Components/Past-Projects/constants.js` |
+| Sponsors | COMPSA, DDQIC, Queen's University, GitHub, Red Bull — logos in `public/sponsors/logos/`, links in `src/pages/sponsorship/company.js` |
+| Socials | Instagram `@qweb_club`, LinkedIn `qweb-queens-university-website-development`, Facebook `queensuweb` |
+| Favicon | `public/favicon.ico` |
+| Discord | Keep the current invite from this repo, not the 2024 one |
+
+Still outstanding:
+
+1. Which of the eleven archived projects are still shown, and any newer ones — Zac is checking.
+2. Application form URLs — placeholder until they exist.
+3. Grad destinations — data is gatherable but not gathered; placeholder.
+4. Workshops-per-year figure, if that stat stays.
+
+### Placeholder policy
+
+Placeholders must read as unfinished, never as fabricated content. A missing application link renders a disabled control reading `Applications open soon`, not a live button to nowhere. Grad destinations ship as an empty state describing what will go there, not as invented alumni. No fake names, no fake logos, no invented numbers — the point of this restructure is that everything on the page is true.
 
 ## Order of work
 
