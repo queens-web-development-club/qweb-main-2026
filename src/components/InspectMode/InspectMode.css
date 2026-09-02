@@ -1,0 +1,11 @@
+/* Inspect mode: the site labelling its own markup. Pointer-only, never in the layout. */
+.inspect-toggle { display:flex; align-items:center; gap:6px; margin-right:20px; padding:6px 11px; border:1px solid rgba(255,255,255,.11); border-radius:999px; background:none; color:#71808c; font:10px 'DM Mono',monospace; letter-spacing:.06em; cursor:pointer; }
+.inspect-toggle:hover { color:#dceaf0; border-color:rgba(32,203,180,.4); }
+.inspect-toggle:focus-visible { outline:2px solid #20cbb4; outline-offset:2px; }
+.inspect-toggle[aria-pressed='true'] { color:#20cbb4; border-color:rgba(32,203,180,.55); background:rgba(32,203,180,.07); }
+body[data-inspect='on'] { cursor:crosshair; }
+.inspect-overlay { position:fixed; inset:0; z-index:9; pointer-events:none; }
+.inspect-outline { position:absolute; top:0; left:0; border:1px solid rgba(32,203,180,.7); border-radius:4px; background:rgba(32,203,180,.045); will-change:transform; }
+.inspect-tag { position:absolute; left:-1px; bottom:100%; margin-bottom:5px; padding:3px 8px; border-radius:3px; background:#08231f; color:#63e6c6; font:10px 'DM Mono',monospace; letter-spacing:.04em; white-space:nowrap; }
+.inspect-tag--below { top:100%; bottom:auto; margin:5px 0 0; }
+@media (max-width:700px) { .inspect-toggle { display:none; } }

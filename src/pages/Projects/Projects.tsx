@@ -18,13 +18,12 @@ export function Projects() {
     });
   }, []);
 
-  return <section className="projects-section reveal-on-scroll" id="projects" aria-labelledby="projects-title">
+  return <section className="projects-section reveal-on-scroll" id="projects" aria-labelledby="projects-title" data-inspect="section.projects-section#projects">
     <div className="section-heading">
-      <div><p className="section-kicker">// Built by members</p><h2 id="projects-title">Live in the wild.</h2></div>
-      <span className="section-index">03 / 06</span>
+      <div><p className="section-kicker">Built by members</p><h2 id="projects-title">Live in the wild.</h2></div>
     </div>
     <div className="project-grid">
-      {projects.map((project, index) => <article className={`project-card project-card--${['blue', 'teal', 'green'][index % 3]}`} key={project.id}>
+      {projects.map((project, index) => <article className={`project-card project-card--${['blue', 'teal', 'green'][index % 3]}`} key={project.id} data-inspect="article.project-card">
         <div className="project-art" aria-hidden={project.photo ? undefined : true}>{project.photo && <img src={project.photo} alt="" />}<span>{String(index + 1).padStart(2, '0')}</span></div>
         <div className="project-meta"><div><h3>{project.name}</h3><p>{project.description}</p></div></div>
       </article>)}

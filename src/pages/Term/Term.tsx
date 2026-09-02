@@ -62,8 +62,8 @@ export function Term() {
   const nextEvent = eventRows.find(({ status }) => status === 'next')?.event ?? null;
   const upcomingEvents = eventRows.filter(({ event }) => event.id !== nextEvent?.id && event.event_date >= todayKey());
 
-  return <section className="term-section reveal-on-scroll" id="events" aria-labelledby="term-title" aria-busy={isLoading}>
-    <div className="section-heading"><div><p className="section-kicker">// 2026 — 2027</p><h2 id="term-title">This term at QWEB.</h2></div><span className="section-index">04 / 06</span></div>
+  return <section className="term-section reveal-on-scroll" id="events" aria-labelledby="term-title" aria-busy={isLoading} data-inspect="section.term-section#events">
+    <div className="section-heading"><div><p className="section-kicker">2026 — 2027</p><h2 id="term-title">This term at QWEB.</h2></div></div>
     {isLoading && <p className="term-feedback">Loading events...</p>}
     {!isLoading && error && <p className="term-feedback term-feedback--error" role="alert">{error}</p>}
     {!isLoading && !error && events.length === 0 && <p className="term-feedback">No events have been scheduled yet.</p>}
