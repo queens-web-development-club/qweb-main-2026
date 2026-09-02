@@ -104,7 +104,7 @@ export function Landing() {
     <section className="landing-page" aria-label="QWEB landing page">
       <header className="nav page-load" data-inspect="header.nav">
         <a className="brand" href="#top" aria-label="Queen's Web Development Club home"><img src="/assets/qweb-text-white.png" alt="QWEB" /></a>
-        <nav><a href="#about">About</a><a href="#events">Events</a><a href="#projects">Projects</a><a href="#team">Team</a></nav>
+        <nav><a href="#about">About</a><a href="#education">Education &amp; Projects</a><a href="#join">Join</a></nav>
         <InspectToggle />
         <a className="nav-cta" href="#join">Join QWEB</a>
       </header>
@@ -124,10 +124,8 @@ export function Landing() {
       <section className="hero-bar" aria-label="What this site is built with" data-inspect="section.hero-bar"><p className="bar-label">This site runs on</p><div className="bar-viewport"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{stack.map((entry) => <span key={entry}><b>✦</b><em>{entry}</em><b>✦</b></span>)}</div>)}</div></div></section>
     </section>
 
-    <AboutUs />
-    <Projects />
-    <Term />
-    <Team />
+    <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Team /></section>
+    <section className="region" id="education" data-inspect="section.region#education"><Term /><Projects /></section>
     <SiteFooter />
   </main></InspectModeProvider>;
 }

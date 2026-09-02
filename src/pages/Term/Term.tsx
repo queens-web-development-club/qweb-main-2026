@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getTermEvents, type TermEvent } from '../../lib/content';
 import { isSupabaseConfigured } from '../../lib/supabase';
+import { SectionHeading } from '../../components/SectionHeading';
 import { findNextEvent, formatEventDate, formatEventDay, formatEventMonth, getEventStatus, todayKey } from '../../lib/events';
 import './Term.css';
 
@@ -37,8 +38,8 @@ export function Term() {
   const nextEvent = eventRows.find(({ status }) => status === 'next')?.event ?? null;
   const upcomingEvents = eventRows.filter(({ event }) => event.id !== nextEvent?.id && event.event_date >= todayKey());
 
-  return <section className="term-section reveal-on-scroll" id="events" aria-labelledby="term-title" aria-busy={isLoading} data-inspect="section.term-section#events">
-    <div className="section-heading"><div><p className="section-kicker">2026 — 2027</p><h2 id="term-title">This term at QWEB.</h2></div></div>
+  return <section className="term-section reveal-on-scroll" aria-labelledby="term-title" aria-busy={isLoading} data-inspect="section.term-section#events">
+    <SectionHeading tag="Our Events" id="term-title" title="This term at QWEB." />
     {isLoading && <p className="term-feedback">Loading events...</p>}
     {!isLoading && error && <p className="term-feedback term-feedback--error" role="alert">{error}</p>}
     {!isLoading && !error && events.length === 0 && <p className="term-feedback">No events have been scheduled yet.</p>}

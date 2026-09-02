@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { SectionHeading } from '../../components/SectionHeading';
 import './AboutUs.css';
 
 const offerings = [
@@ -61,14 +62,8 @@ export function AboutUs() {
     };
   }, []);
 
-  return <section ref={aboutRef} className="about-us reveal-on-scroll" id="about" aria-labelledby="about-title" data-inspect="section.about-us#about">
-    <header className="about-us__intro">
-      <div className="about-us__heading">
-        <p className="about-us__eyebrow">What we do</p>
-        <h2 id="about-title">Four nights a month that<br /><span>turn into a portfolio.</span></h2>
-      </div>
-      <p className="about-us__summary">Everything we run is hands-on. You leave every session with something on your screen that wasn’t there when you walked in.</p>
-    </header>
+  return <section ref={aboutRef} className="about-us reveal-on-scroll" aria-labelledby="about-title" data-inspect="section.about-us#about">
+    <SectionHeading tag="About Us" id="about-title" title={<>Four nights a month that<br /><span>turn into a portfolio.</span></>} summary="Everything we run is hands-on. You leave every session with something on your screen that wasn’t there when you walked in." />
 
     <div className="about-us__offerings" aria-label="What QWEB offers">
       {offerings.map((offering) => <article className="about-us__offering" key={offering.title} data-inspect="article.about-us__offering">

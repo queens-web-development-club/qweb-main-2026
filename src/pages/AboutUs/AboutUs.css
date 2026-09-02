@@ -6,11 +6,11 @@
   margin:0 auto;
   padding:112px clamp(22px,7vw,96px) 118px;
 }
-.about-us__intro { display:grid; grid-template-columns:minmax(0,1fr) 230px; align-items:end; gap:64px; margin-bottom:72px; }
+
 .about-us__eyebrow { margin:0 0 16px; color:#438fa0; font:500 10px 'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
 .about-us h2 { max-width:760px; margin:0; color:#edf1f2; font-size:clamp(42px,5.45vw,70px); line-height:.92; letter-spacing:-.07em; }
 .about-us h2 span { color:#82929a; }
-.about-us__summary { max-width:230px; margin:0 0 4px; color:#91a0a7; font:11px/1.65 'DM Mono',monospace; }
+
 .about-us__offerings { border-top:1px solid var(--about-line); }
 .about-us__offering { display:grid; grid-template-columns:52px minmax(190px,.72fr) minmax(260px,1.15fr) 150px; align-items:center; gap:28px; min-height:142px; border-bottom:1px solid var(--about-line); position:relative; }
 .about-us--motion-ready .about-us__offering > * { opacity:.14; transform:translateY(12px) scale(.965); transform-origin:center left; transition:opacity 620ms ease-out,transform 620ms cubic-bezier(.22,.7,.25,1); }
@@ -45,9 +45,9 @@
 .about-us__milestones li > span:last-child { display:block; max-width:205px; color:#758991; font:9px/1.55 'DM Mono',monospace; }
 @media (max-width:700px) {
   .about-us { padding-top:76px; padding-bottom:82px; }
-  .about-us__intro { display:block; margin-bottom:48px; }
+  
   .about-us h2 { font-size:clamp(39px,12vw,58px); }
-  .about-us__summary { max-width:335px; margin-top:25px; font-size:10px; }
+  
   .about-us__offering { grid-template-columns:34px 1fr; gap:10px 13px; min-height:0; padding:27px 0 29px; }
   .about-us__number { grid-row:1/4; padding-top:5px; }
   .about-us__offering h3 { font-size:clamp(25px,8vw,34px); }
