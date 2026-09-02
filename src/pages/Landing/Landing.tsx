@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AboutUs } from '../AboutUs/AboutUs';
 import { Projects } from '../Projects/Projects';
 import { Term } from '../Term/Term';
+import { NextEvent } from '../Term/NextEvent';
 import { Education, curriculum } from '../Education/Education';
 import { Team } from '../Team/Team';
 import { Join } from '../Join/Join';
@@ -13,10 +14,11 @@ import './Landing.css';
 // The ticker lists what the club teaches. It reads from the curriculum the
 // Education section renders, so the two can never drift apart.
 const taught = curriculum.map((skill) => skill.toUpperCase());
+// Member count from qweb.dev; sites shipped is the count of the archive. The
+// old 'workshops a year' figure had no source, so it is gone rather than guessed.
 const stats = [
-  { value: 150, suffix: '+', label: 'Active members' },
-  { value: 20, suffix: '+', label: 'Workshops a year' },
-  { value: 8, suffix: '', label: 'Client sites shipped' },
+  { value: 300, suffix: '+', label: 'Active members' },
+  { value: 11, suffix: '', label: 'Client sites shipped' },
   { value: 0, prefix: '$', suffix: '', label: 'Cost to join' },
 ];
 
@@ -122,7 +124,7 @@ export function Landing() {
         </div>
         <p className="year">2026–2027</p>
         <div className="wave-field" aria-hidden="true"><div className="wave wave-a"><div className="wave-line" /></div><div className="wave wave-b"><div className="wave-line" /></div><div className="wave wave-c"><div className="wave-line" /></div><div className="wave wave-d"><div className="wave-line" /></div><div className="wave wave-e"><div className="wave-line" /></div><div className="wave wave-f"><div className="wave-line" /></div></div>
-        <section className="stats page-load page-load--delayed-more" id="stats" aria-label="QWEB statistics" data-inspect="section.stats#stats">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}</section>
+        <section className="stats page-load page-load--delayed-more" id="stats" aria-label="QWEB statistics" data-inspect="section.stats#stats">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}<NextEvent /></section>
       </section>
 
       <section className="hero-bar" aria-label="What the club teaches" data-inspect="section.hero-bar"><p className="bar-label">What we teach</p><div className="bar-viewport"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{taught.map((entry) => <span key={entry}><b>✦</b><em>{entry}</em><b>✦</b></span>)}</div>)}</div></div></section>
