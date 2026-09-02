@@ -1,3 +1,20 @@
 .projects-section{max-width:1130px;margin:0 auto;padding:104px clamp(22px,7vw,96px) 112px;border-top:1px solid rgba(255,255,255,.045)}
-.project-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.project-card{border:1px solid #142832;border-radius:7px;overflow:hidden;background:#050d11}.project-art{height:190px;position:relative;display:flex;align-items:flex-end;padding:14px;background:linear-gradient(135deg,#1264ed,#18cfb0)}.project-art:before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent 35%,rgba(0,0,0,.35))}.project-art span{position:relative;color:rgba(236,248,249,.8);font:9px 'DM Mono',monospace}.project-card--teal .project-art{background:linear-gradient(135deg,#0c1a25,#0a9b8c 65%,#1bd5b1)}.project-card--green .project-art{background:linear-gradient(135deg,#071624,#086f54 50%,#155be0)}.project-meta{display:flex;justify-content:space-between;gap:12px;padding:15px 14px 16px}.project-meta h3{margin:0 0 5px;color:#dce8e9;font:500 11px 'Space Grotesk',sans-serif}.project-meta p,.project-meta>span{margin:0;color:#637982;font:8px 'DM Mono',monospace}.project-meta>span{color:#2786e9}@media(max-width:700px){.projects-section{padding:76px 22px 82px}.project-grid{grid-template-columns:1fr}.project-art{height:145px}.project-card:not(:first-child){display:none}}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.project-card{display:block;border:1px solid #142832;border-radius:7px;overflow:hidden;background:#050d11}
+a.project-card:hover{border-color:rgba(32,203,180,.45)}
+.project-art{height:190px;position:relative;display:flex;align-items:flex-end;padding:14px;background:#07131a}
+/* Screenshots sit slightly back so the page keeps its near-black surface; a live one lifts on hover. */
+.project-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:.86;transition:opacity 300ms ease-out}
+a.project-card:hover .project-art img{opacity:1}
+/* The gradient is the empty state now, not the default treatment. */
+.project-art__empty{position:absolute;inset:0;background:linear-gradient(135deg,#1264ed,#18cfb0)}
+.project-art__empty--teal{background:linear-gradient(135deg,#0c1a25,#0a9b8c 65%,#1bd5b1)}
+.project-art__empty--green{background:linear-gradient(135deg,#071624,#086f54 50%,#155be0)}
+.project-art:before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(2,8,11,.75))}
+.project-index{position:relative;color:rgba(236,248,249,.8);font:9px 'DM Mono',monospace}
+.project-meta{display:flex;justify-content:space-between;gap:12px;padding:15px 14px 16px}
+.project-meta h3{margin:0 0 5px;color:#dce8e9;font:500 11px 'Space Grotesk',sans-serif}
+.project-meta p{margin:0;color:#637982;font:8px/1.5 'DM Mono',monospace}
+.project-visit{flex:none;color:#2786e9;font:9px 'DM Mono',monospace}
+a.project-card:hover .project-visit{color:#20cbb4}
+@media(max-width:700px){.projects-section{padding:76px 22px 82px}.project-grid{grid-template-columns:1fr}.project-art{height:175px}}

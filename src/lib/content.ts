@@ -5,6 +5,7 @@ export type ClubProject = {
   name: string;
   photo: string | null;
   description: string;
+  link: string | null;
 };
 
 export type TeamMember = {
@@ -25,7 +26,7 @@ export type TermEvent = {
 
 export async function getProjects() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('club_projects').select('id, name, photo, description').order('created_at', { ascending: false });
+  return supabase.from('club_projects').select('id, name, photo, description, link').order('created_at', { ascending: false });
 }
 
 export async function getTeamMembers() {
