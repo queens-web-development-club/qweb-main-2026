@@ -42,6 +42,5 @@ export function Team() {
     <SectionHeading tag="Meet the Team" id="team-title" title="Made by students." summary="The people behind the builds, the workshops, and the group chat that keeps it moving." />
     <div className="people-group"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person, index) => <Person key={person.id} person={person} index={index} />)}</div></div>
     <div className="people-group"><p className="people-label">Executives</p><div className="people-grid">{executives.map((person, index) => <Person key={person.id} person={person} index={index + 2} />)}</div></div>
-    <div className="join-panel" id="join" data-inspect="div.join-panel#join"><div className="join-copy"><p className="section-kicker">// Join QWEB</p><h2>Memberships for<br />2026–27 are open.</h2><p>First year, fourth year, Artsci or Engineering — if you want to build things people can open in a browser, you belong here.</p></div><div className="join-actions"><a className="join-button" href="mailto:qweb@queensu.ca">Apply Now!<span>↗</span></a><a className="discord-button" href="https://discord.gg/3Zpw49BVrh">Join the Discord <span>↗</span></a><small>NO EXPERIENCE REQUIRED</small></div></div>
   </section>;
 }

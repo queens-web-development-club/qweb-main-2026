@@ -4,6 +4,7 @@ import { Projects } from '../Projects/Projects';
 import { Term } from '../Term/Term';
 import { Education, curriculum } from '../Education/Education';
 import { Team } from '../Team/Team';
+import { Join } from '../Join/Join';
 import { SiteFooter } from '../Footer/SiteFooter';
 import { InspectModeProvider, InspectToggle } from '../../components/InspectMode';
 import './Landing.css';
@@ -128,6 +129,7 @@ export function Landing() {
 
     <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Team /></section>
     <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /><Projects /></section>
+    <section className="region" id="join" data-inspect="section.region#join"><Join /></section>
     <SiteFooter />
   </main></InspectModeProvider>;
 }
