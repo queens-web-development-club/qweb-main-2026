@@ -70,3 +70,5 @@
   .about-us--motion-ready .about-us__offering > *,.about-us--motion-ready .about-us__offering.is-active > * { opacity:1; transform:none; transition:none; }
   .about-us__milestones::before { transform:none; transition:none; }
 }
+.about-us__bio { max-width:640px; margin:0 0 56px; color:#9fb0b7; font:11px/1.85 'DM Mono',monospace; }
+@media (max-width:700px) { .about-us__bio { margin-bottom:38px; font-size:10px; } }

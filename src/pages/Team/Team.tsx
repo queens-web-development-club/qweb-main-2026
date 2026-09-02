@@ -6,17 +6,27 @@ import './Team.css';
 
 type DisplayMember = TeamMember & { tone: string };
 
+// Roles only, with every personal detail null: the structure without inventing people.
+const blank = { photo: null, year: null, program: null, responsibility: null, fun_fact: null };
 const fallbackMembers: DisplayMember[] = [
-  { id: 'fallback-1', name: 'Co-chair', photo: null, role: 'Co-Chair', tone: 'blue' },
-  { id: 'fallback-2', name: 'Co-chair', photo: null, role: 'Co-Chair', tone: 'teal' },
-  { id: 'fallback-3', name: 'Development', photo: null, role: 'Development', tone: 'green' },
-  { id: 'fallback-4', name: 'Education', photo: null, role: 'Education', tone: 'cyan' },
-  { id: 'fallback-5', name: 'Outreach', photo: null, role: 'Outreach', tone: 'violet' },
-  { id: 'fallback-6', name: 'Design', photo: null, role: 'Design', tone: 'blue' },
+  { id: 'fallback-1', name: 'Co-chair', role: 'Co-Chair', tone: 'blue', ...blank },
+  { id: 'fallback-2', name: 'Co-chair', role: 'Co-Chair', tone: 'teal', ...blank },
+  { id: 'fallback-3', name: 'Development', role: 'Development', tone: 'green', ...blank },
+  { id: 'fallback-4', name: 'Education', role: 'Education', tone: 'cyan', ...blank },
+  { id: 'fallback-5', name: 'Outreach', role: 'Outreach', tone: 'violet', ...blank },
+  { id: 'fallback-6', name: 'Design', role: 'Design', tone: 'blue', ...blank },
 ];
 
 function Person({ person, index }: { person: DisplayMember; index: number }) {
-  return <article className={`person person--${person.tone}`} data-inspect="article.person"><div className="person-art" style={{ position: 'relative', overflow: 'hidden' }}>{person.photo && <img src={person.photo} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}<span>{String(index + 1).padStart(2, '0')}</span></div><h3>{person.name}</h3><p>{person.role} · QWEB 2026–27</p></article>;
+  const study = [person.year, person.program].filter(Boolean).join(' · ');
+
+  return <article className={`person person--${person.tone}`} data-inspect="article.person">
+    <div className="person-art">{person.photo && <img src={person.photo} alt="" loading="lazy" />}<span>{String(index + 1).padStart(2, '0')}</span></div>
+    <h3>{person.name}</h3>
+    <p className="person-role">{person.role}{study ? ` · ${study}` : ' · QWEB 2026–27'}</p>
+    {person.responsibility && <p className="person-responsibility">{person.responsibility}</p>}
+    {person.fun_fact && <p className="person-fact"><span aria-hidden="true">✦</span>{person.fun_fact}</p>}
+  </article>;
 }
 
 export function Team() {
