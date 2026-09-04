@@ -107,9 +107,9 @@ export function Landing() {
 
   return <InspectModeProvider><main className="page">
     <div className="noise" aria-hidden="true" />
-    <section className="landing-page" aria-label="QWEB landing page">
+    <section className="landing-page" id="home" aria-label="QWEB landing page">
       <header className="nav page-load" data-inspect="header.nav">
-        <a className="brand" href="#top" aria-label="Queen's Web Development Club home"><img src="/assets/qweb-text-white.png" alt="QWEB" /></a>
+        <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src="/assets/qweb-text-white.png" alt="QWEB" /></a>
         <nav><a href="#about">About</a><a href="#education">Education &amp; Projects</a><a href="#join">Join</a></nav>
         <InspectToggle />
         <a className="nav-cta" href="#join">Join QWEB</a>

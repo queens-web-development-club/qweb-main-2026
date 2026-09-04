@@ -21,12 +21,16 @@ export function useTermEvents(): TermEventsState {
   useEffect(() => {
     if (!isSupabaseConfigured) return;
     let active = true;
-    loadEvents().then(({ data, error }) => {
-      if (!active) return;
-      setState(error
-        ? { events: [], isLoading: false, error: 'We could not load the term events right now.' }
-        : { events: data ?? [], isLoading: false, error: '' });
-    });
+    loadEvents()
+      .then(({ data, error }) => {
+        if (!active) return;
+        setState(error
+          ? { events: [], isLoading: false, error: 'We could not load the term events right now.' }
+          : { events: data ?? [], isLoading: false, error: '' });
+      })
+      .catch(() => {
+        if (active) setState({ events: [], isLoading: false, error: 'We could not load the term events right now.' });
+      });
     return () => { active = false; };
   }, []);
 

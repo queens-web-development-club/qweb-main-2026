@@ -19,7 +19,7 @@ export function Term() {
   const nextEvent = eventRows.find(({ status }) => status === 'next')?.event ?? null;
   const upcomingEvents = eventRows.filter(({ event }) => event.id !== nextEvent?.id && event.event_date >= todayKey());
 
-  return <section className="term-section reveal-on-scroll" aria-labelledby="term-title" aria-busy={isLoading} data-inspect="section.term-section#events">
+  return <section className="term-section reveal-on-scroll" aria-labelledby="term-title" aria-busy={isLoading} data-inspect="section.term-section">
     <SectionHeading tag="Our Events" id="term-title" title="This term at QWEB." />
     {isLoading && <p className="term-feedback">Loading events...</p>}
     {!isLoading && error && <p className="term-feedback term-feedback--error" role="alert">{error}</p>}

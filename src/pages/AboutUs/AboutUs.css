@@ -45,9 +45,7 @@
 .about-us__milestones li > span:last-child { display:block; max-width:205px; color:#758991; font:9px/1.55 'DM Mono',monospace; }
 @media (max-width:700px) {
   .about-us { padding-top:76px; padding-bottom:82px; }
-  
   .about-us h2 { font-size:clamp(39px,12vw,58px); }
-  
   .about-us__offering { grid-template-columns:34px 1fr; gap:10px 13px; min-height:0; padding:27px 0 29px; }
   .about-us__number { grid-row:1/4; padding-top:5px; }
   .about-us__offering h3 { font-size:clamp(25px,8vw,34px); }

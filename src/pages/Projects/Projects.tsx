@@ -14,7 +14,7 @@ export function Projects() {
     });
   }, []);
 
-  return <section className="projects-section reveal-on-scroll" aria-labelledby="projects-title" data-inspect="section.projects-section#projects">
+  return <section className="projects-section reveal-on-scroll" aria-labelledby="projects-title" data-inspect="section.projects-section">
     <SectionHeading tag="Projects" id="projects-title" title="Live in the wild." />
     <div className="project-grid">
       {projects.map((project, index) => {

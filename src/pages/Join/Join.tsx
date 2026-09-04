@@ -4,11 +4,11 @@ const DISCORD_INVITE = 'https://discord.gg/3Zpw49BVrh';
 const CLUB_EMAIL = 'qweb@queensu.ca';
 
 export function Join() {
-  return <section className="join" aria-labelledby="join-title" data-inspect="section.join#join">
+  return <section className="join" aria-labelledby="join-title" data-inspect="section.join">
     <div className="join-panel" data-inspect="div.join-panel">
       <div className="join-copy">
         <p className="section-kicker">// Join QWEB</p>
-        <h2 id="join-title">Memberships for<br />2026–27 are open.</h2>
+        <h2 id="join-title">Build with us in<br />2026–27.</h2>
         <p>First year, fourth year, Artsci or Engineering — if you want to build things people can open in a browser, you belong here.</p>
       </div>
       <div className="join-actions">
