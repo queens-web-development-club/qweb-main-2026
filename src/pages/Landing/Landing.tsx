@@ -76,19 +76,6 @@ function AnimatedStat({ value, prefix = '', suffix = '', label }: { value: numbe
   return <article ref={statRef}><strong>{prefix}{displayValue}<span>{suffix}</span></strong><small>{label}</small></article>;
 }
 
-/**
- * The hero's wave motif at a fraction of its strength, so the same light keeps
- * moving down the page instead of stopping at the fold. Two lines per region
- * rather than the hero's six, and the colours are picked to match that region's
- * ambient wash. Decorative, so it is hidden from assistive tech; the global
- * reduced-motion rule stills the drift.
- */
-function RegionWaves({ lines }: { lines: string[] }) {
-  return <div className="region-waves" aria-hidden="true">
-    {lines.map((line) => <div className={`wave ${line}`} key={line}><div className="wave-line" /></div>)}
-  </div>;
-}
-
 function SiteWaves() {
   return <div className="site-wave-field" aria-hidden="true">
     {['wave-a', 'wave-b', 'wave-c', 'wave-d', 'wave-e', 'wave-f'].map((line) => <div className={`wave ${line}`} key={line}><div className="wave-line" /></div>)}
@@ -153,9 +140,9 @@ export function Landing() {
     {/* Projects sits directly under About Us: that section claims the club turns four
         nights a month into a portfolio, and this is the portfolio. Claim, then proof,
         then the people, then who backs them. */}
-    <section className="region" id="about" data-inspect="section.region#about"><RegionWaves lines={['wave-a', 'wave-c']} /><AboutUs /><Projects /><Team /><Sponsors /></section>
-    <section className="region" id="education" data-inspect="section.region#education"><RegionWaves lines={['wave-b', 'wave-d']} /><Education /><Term /></section>
-    <section className="region" id="join" data-inspect="section.region#join"><RegionWaves lines={['wave-f', 'wave-e']} /><Join /></section>
+    <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Projects /><Team /><Sponsors /></section>
+    <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /></section>
+    <section className="region" id="join" data-inspect="section.region#join"><Join /></section>
     <SiteFooter />
   </main></InspectModeProvider>;
 }
