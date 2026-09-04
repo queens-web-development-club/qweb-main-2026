@@ -112,7 +112,7 @@ Section-level components carry a `data-inspect` attribute holding their real sel
 - Team places the co-chair and executive groups side by side in a `2fr / 4fr` grid (`.team-people`) so the row fills the 1130px container; the groups stack below `700px`. Join uses a two-sided flex composition plus three route cards that stack on mobile. Sponsors use a five-column logo grid that becomes two columns on mobile.
 - Footer uses a two-column grid on desktop: brand on the left, navigation groups in the right half; it stacks below `700px`.
 - No rule separates sections. A hairline across the full width — accent or neutral — cut the page into stacked panels that read as separate pages rather than sections of one document; separation is spacing tiers and the ambient washes alone. Rules survive only *inside* a section, where they carry structure: the About offering rows, the About journey and Education process tracks (whose progress fill rides on the rule itself), and the Term event list.
-- Each `.region` carries an ambient radial wash drawn from the hero's wave palette (blue for `#about`, teal for `#education`, green for `#join`), and consecutive regions are separated by a hairline that fades blue → teal. The hero's animated wave field itself stops at the fold; these washes carry the same light down the page without repeating six animated layers. The fixed `.noise` grain already spans the full document.
+- A full-page animated wave field carries the six-color rainbow line language behind the document at low opacity; each `.region` adds a quieter local wash drawn from the same palette (blue for `#about`, teal for `#education`, green for `#join`). Consecutive regions are separated by a hairline that fades blue → teal, while the fixed `.noise` grain spans the full document.
 <!-- /GENERATED:layout -->
 
 <!-- GENERATED:motion source=/document updated=2026-09-03 -->
@@ -121,18 +121,19 @@ Section-level components carry a `data-inspect` attribute holding their real sel
 | Motion | Trigger | Timing/technique | Evidence |
 | --- | --- | --- | --- |
 | Animated statistics | Intersection with stat card | `requestAnimationFrame`, `1100ms`, cubic easing `1 - (1 - progress) ** 3` | `Landing.tsx`, `AnimatedStat` |
-| Rainbow wave drift | Page load/continuous loop | CSS keyframes, `8s`–`13s`, `ease-in-out`, alternating directions | `Landing.css`, `@keyframes drift` and `.wave-*` |
+| Rainbow wave drift | Continuous page background and regional atmosphere | CSS keyframes, `8s`–`23s`, `ease-in-out`, alternating directions; the full-page field is softer than the hero treatment | `Landing.tsx`, `SiteWaves`; `Landing.css`, `@keyframes drift` and `.wave-*` |
 | Framework ticker | Continuous page load loop | CSS keyframes, `23s linear`, transform-based marquee | `Landing.css`, `@keyframes marquee` |
 | Link hover | Pointer hover | Color change; no duration specified | `Landing.css`, `nav a:hover`, footer link selectors |
 | Page-load entrance | Initial mount | `560ms`, opacity/translateY, staggered by `90ms`/`170ms` | `Landing.tsx` and `Landing.css`, `.page-load` |
-| Section/card reveal | Intersection with section or card | `400ms` opacity cross-fade, no translate, no stagger | `Landing.tsx` and `Landing.css`, `.reveal-on-scroll` |
+| Section/card reveal | Intersection with section or card | `400ms` opacity cross-fade; content choreography is staged by section | `Landing.tsx` and `Landing.css`, `.reveal-on-scroll` |
+| Scroll content choreography | Section enters the viewport | `300ms`–`520ms` opacity/transform transitions, with `50ms`–`360ms` stagger caps | Local section styles for About, Education, Projects, Term, Team, Sponsors, and Join |
 | About journey progress | About section intersection | `1100ms`, transform scale along the desktop horizontal or mobile vertical track | `AboutUs.css`, `.about-us__milestones::before` |
 | Region wave drift | Continuous, per region | Two lines per region reusing the hero's `.wave` classes at `opacity:.22`, same `drift` keyframes | `Landing.tsx`, `RegionWaves`; `Landing.css`, `.region-waves` |
 | About offering focus | Scroll position while About is in view | `620ms` transform on the offering nearest the viewport center, plus a lit `#071014` surface; all rows stay fully legible | `AboutUs.tsx` and `AboutUs.css`, `.about-us__offering` |
 
-No JavaScript animation library is used; the About offering focus uses a small scroll-position listener to select the offering nearest the viewport center.
+No JavaScript animation library is used. Landing owns one `IntersectionObserver` for once-only section entry, while the About offering focus uses a small scroll-position listener to select the offering nearest the viewport center. The new local sequences keep motion meaningful to the content: offerings and curriculum arrive in order, timelines draw along their existing tracks, project cards enter as a rail, event rows follow the featured event, and the Join panel lands before its route options.
 
-The section reveal is a plain cross-fade on purpose. Seven sections each translating up by the same `18px` read as one identical entrance repeated down the page and made the page feel longer than it measured. The About offering focus is the page's one authored motion moment. That focus treatment previously dropped unfocused rows to `opacity:.14`, which failed contrast outright and forced a slow scroll through all four rows to read them; focus is now carried by a lit surface and an accent index instead.
+The section container remains a plain cross-fade so a section never moves as a whole and the page keeps its editorial steadiness. The authored moments are the scroll relationships inside each section: ordered content uses a short capped stagger, and the About offering focus still carries the strongest interaction by lighting the row nearest the viewport center. Every new sequence uses transform/opacity only, with the existing progress lines reserved for the two curriculum journeys.
 <!-- /GENERATED:motion -->
 
 <!-- GENERATED:responsive source=/document updated=2026-09-03 -->
@@ -144,7 +145,7 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 <!-- GENERATED:motion-reduced source=/document updated=2026-09-03 -->
 ## Reduced Motion
 
-`src/pages/Landing/Landing.tsx` checks `prefers-reduced-motion: reduce` and immediately finishes statistic counting. `src/pages/Landing/Landing.css` sets animation duration to `.01ms`, limits animation iterations, disables smooth scrolling, removes the new page-load/reveal transitions, and leaves all content visible for reduced-motion users. This rule affects the CSS wave and ticker animations as well as motion under the page root.
+`src/pages/Landing/Landing.tsx` checks `prefers-reduced-motion: reduce` and immediately finishes statistic counting. `src/pages/Landing/Landing.css` sets animation duration to `.01ms`, limits animation iterations, disables smooth scrolling, removes the page-load/reveal transitions, and leaves all content visible. Section-specific scroll choreography is additionally wrapped in `prefers-reduced-motion: no-preference`, so curriculum cards, project cards, event rows, people, sponsor marks, and Join routes never start hidden for reduced-motion users.
 <!-- /GENERATED:motion-reduced -->
 
 <!-- GENERATED:implementation-guidance source=/document updated=2026-09-03 -->
