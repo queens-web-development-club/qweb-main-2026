@@ -4,7 +4,7 @@ const DISCORD_INVITE = 'https://discord.gg/3Zpw49BVrh';
 const CLUB_EMAIL = 'qweb@queensu.ca';
 
 export function Join() {
-  return <section className="join" aria-labelledby="join-title" data-inspect="section.join">
+  return <section className="join reveal-on-scroll" aria-labelledby="join-title" data-inspect="section.join">
     <div className="join-panel" data-inspect="div.join-panel">
       <div className="join-copy">
         <p className="section-kicker">// Join QWEB</p>

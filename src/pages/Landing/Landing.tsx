@@ -89,6 +89,12 @@ function RegionWaves({ lines }: { lines: string[] }) {
   </div>;
 }
 
+function SiteWaves() {
+  return <div className="site-wave-field" aria-hidden="true">
+    {['wave-a', 'wave-b', 'wave-c', 'wave-d', 'wave-e', 'wave-f'].map((line) => <div className={`wave ${line}`} key={line}><div className="wave-line" /></div>)}
+  </div>;
+}
+
 export function Landing() {
   useEffect(() => {
     const page = document.querySelector<HTMLElement>('.page');
@@ -120,6 +126,7 @@ export function Landing() {
 
   return <InspectModeProvider><main className="page">
     <div className="noise" aria-hidden="true" />
+    <SiteWaves />
     <section className="landing-page" id="home" aria-label="QWEB landing page">
       <header className="nav page-load" data-inspect="header.nav">
         <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src="/assets/qweb-text-white.png" alt="QWEB" /></a>

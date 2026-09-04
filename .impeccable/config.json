@@ -1,4 +1,5 @@
 {
+  "buildPath": "comp",
   "detector": {
     "ignoreRules": [],
     "ignoreFiles": [],
