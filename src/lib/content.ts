@@ -5,6 +5,7 @@ export type ClubProject = {
   name: string;
   photo: string | null;
   description: string;
+  link: string | null;
 };
 
 export type TeamMember = {
@@ -12,6 +13,11 @@ export type TeamMember = {
   name: string;
   photo: string | null;
   role: 'Co-Chair' | 'Development' | 'Outreach' | 'Design' | 'Education';
+  /** Every detail below is optional — a card renders without any of them. */
+  year: string | null;
+  program: string | null;
+  responsibility: string | null;
+  fun_fact: string | null;
 };
 
 export type TermEvent = {
@@ -25,12 +31,12 @@ export type TermEvent = {
 
 export async function getProjects() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('club_projects').select('id, name, photo, description').order('created_at', { ascending: false });
+  return supabase.from('club_projects').select('id, name, photo, description, link').order('created_at', { ascending: false });
 }
 
 export async function getTeamMembers() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('team_members').select('id, name, photo, role').order('created_at', { ascending: true });
+  return supabase.from('team_members').select('id, name, photo, role, year, program, responsibility, fun_fact').order('created_at', { ascending: true });
 }
 
 export async function getTermEvents() {

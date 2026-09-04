@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/pages/Landing/Landing.css"
+        ],
+        "createdAt": "2026-09-04T00:28:09.861Z",
+        "reason": "Incumbent committed world: the hero h1 gradient predates this refinement, matches the QWEB logo mark, and is documented in DESIGN.md typography/color. Not user-confirmed; flagged to Zac for a separate call. Gradient text is NOT being propagated to any other heading in this pass."
+      }
+    ]
+  }
+}

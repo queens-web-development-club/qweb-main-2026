@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { SectionHeading } from '../../components/SectionHeading';
 import './AboutUs.css';
 
 const offerings = [
   { number: '01', title: 'Workshops', description: 'Zero to deployed. Weekly sessions that start at “what is a div” and end with your own site live on the internet, on your own domain.', artifactLabel: 'deploy', artifactValue: 'site.live', artifactState: 'ready', artifact: 'browser' },
   { number: '02', title: 'Build nights', description: 'Bring a half-finished idea and a laptop. Exec and senior members float the room until the bug is dead and the thing works.', artifactLabel: 'issue', artifactValue: 'resolved', artifactState: 'closed', artifact: 'bug' },
   { number: '03', title: 'Client projects', description: 'Small teams build real sites for Queen’s club and Kingston businesses — scoped, reviewed, shipped, and handed over.', artifactLabel: 'pull request', artifactValue: 'merged', artifactState: 'approved', artifact: 'merge' },
-  { number: '04', title: 'Speakers & socials', description: 'Alumni and working developers on what actually happens after graduation — plus the coffee, pizza and Discord that hold it together.', artifactLabel: 'next event', artifactValue: 'thu · 7pm', artifactState: 'open', artifact: 'calendar' },
+  { number: '04', title: 'Speakers & socials', description: 'Alumni and working developers on what actually happens after graduation — plus the coffee, pizza and Discord that hold it together.', artifactLabel: 'next event', artifactValue: 'thu · TBD', artifactState: 'open', artifact: 'calendar' },
 ];
 
 const milestones = [
@@ -61,14 +62,10 @@ export function AboutUs() {
     };
   }, []);
 
-  return <section ref={aboutRef} className="about-us reveal-on-scroll" id="about" aria-labelledby="about-title" data-inspect="section.about-us#about">
-    <header className="about-us__intro">
-      <div className="about-us__heading">
-        <p className="about-us__eyebrow">What we do</p>
-        <h2 id="about-title">Four nights a month that<br /><span>turn into a portfolio.</span></h2>
-      </div>
-      <p className="about-us__summary">Everything we run is hands-on. You leave every session with something on your screen that wasn’t there when you walked in.</p>
-    </header>
+  return <section ref={aboutRef} className="about-us reveal-on-scroll" aria-labelledby="about-title" data-inspect="section.about-us">
+    <SectionHeading tag="About Us" id="about-title" title={<>Four nights a month that<br /><span>turn into a portfolio.</span></>} summary="Everything we run is hands-on. You leave every session with something on your screen that wasn’t there when you walked in." />
+
+    <p className="about-us__bio">QWEB is a student-run club that teaches people to build websites — through tutorials, workshops, and real work for Kingston businesses and Queen’s clubs. Members are sorted into teams and handed an actual client, who stays in the room while the site takes shape. Experienced members lead those teams, and the people on them range from first-timers to fourth years. We do the design as well as the code.</p>
 
     <div className="about-us__offerings" aria-label="What QWEB offers">
       {offerings.map((offering) => <article className="about-us__offering" key={offering.title} data-inspect="article.about-us__offering">
