@@ -17,13 +17,13 @@ const fallbackMembers: DisplayMember[] = [
   { id: 'fallback-6', name: 'Design', role: 'Design', tone: 'blue', ...blank },
 ];
 
-function Person({ person, index }: { person: DisplayMember; index: number }) {
+function Person({ person }: { person: DisplayMember }) {
   const study = [person.year, person.program].filter(Boolean).join(' · ');
 
   return <article className={`person person--${person.tone}`} data-inspect="article.person">
-    <div className="person-art">{person.photo && <img src={person.photo} alt="" loading="lazy" />}<span>{String(index + 1).padStart(2, '0')}</span></div>
+    <div className="person-art">{person.photo && <img src={person.photo} alt="" loading="lazy" />}</div>
     <h3>{person.name}</h3>
-    <p className="person-role">{person.role}{study ? ` · ${study}` : ' · QWEB 2026–27'}</p>
+    <p className="person-role">{person.role}<span> · {study || 'QWEB 2026–27'}</span></p>
     {person.responsibility && <p className="person-responsibility">{person.responsibility}</p>}
     {person.fun_fact && <p className="person-fact"><span aria-hidden="true">✦</span>{person.fun_fact}</p>}
   </article>;
@@ -40,7 +40,9 @@ export function Team() {
   const { chairs, executives } = splitTeam(members);
   return <section className="team-section reveal-on-scroll" aria-labelledby="team-title" data-inspect="section.team-section">
     <SectionHeading tag="Meet the Team" id="team-title" title="Made by students." summary="The people behind the builds, the workshops, and the group chat that keeps it moving." />
-    <div className="people-group"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person, index) => <Person key={person.id} person={person} index={index} />)}</div></div>
-    <div className="people-group"><p className="people-label">Executives</p><div className="people-grid">{executives.map((person, index) => <Person key={person.id} person={person} index={index + 2} />)}</div></div>
+    <div className="team-people">
+      <div className="people-group"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person) => <Person key={person.id} person={person} />)}</div></div>
+      <div className="people-group"><p className="people-label">Executives</p><div className="people-grid">{executives.map((person) => <Person key={person.id} person={person} />)}</div></div>
+    </div>
   </section>;
 }
