@@ -24,7 +24,7 @@
 .about-us__offering:hover::before,.about-us__offering.is-active::before { opacity:1; transform:scaleX(1); }
 .about-us__offering > * { position:relative; }
 .about-us__number { align-self:start; padding-top:17px; color:#4b7f92; font:500 var(--t-micro) 'DM Mono',monospace; letter-spacing:.12em; }
-.about-us__offering h3 { margin:0; color:#e5ebed; font:600 clamp(25px,3vw,39px)/.95 'Space Grotesk',sans-serif; letter-spacing:-.055em; }
+.about-us__offering h3 { margin:0; color:#e5ebed; font:600 clamp(25px,3vw,39px)/.98 'IBM Plex Sans',sans-serif; letter-spacing:-.035em; }
 .about-us__offering > p { max-width:470px; margin:0; color:#8fa1a9; font:var(--t-body)/1.7 'DM Mono',monospace; }
 .about-us__artifact { justify-self:end; width:190px; min-height:62px; padding:5px 0 5px 12px; border-left:1px solid #24505e; display:flex; align-items:center; gap:11px; font-family:'DM Mono',monospace; text-transform:uppercase; }
 .about-us__graphic { flex:none; width:52px; height:52px; fill:none; stroke:#52717d; stroke-width:1.2; stroke-linecap:round; stroke-linejoin:round; }
@@ -46,15 +46,14 @@
 .about-us__milestones li:not(:first-child) .about-us__marker { left:24px; }
 .about-us__milestones li:last-child .about-us__marker { background:var(--about-teal); }
 .about-us__milestones li > p { margin:0 0 11px; color:#8ea3ab; font:var(--t-micro) 'DM Mono',monospace; letter-spacing:.13em; text-transform:uppercase; }
-.about-us__milestones h3 { margin:0 0 9px; color:#e0e8ea; font:500 var(--t-card) 'Space Grotesk',sans-serif; }
+.about-us__milestones h3 { margin:0 0 9px; color:#e0e8ea; font:500 var(--t-card) 'IBM Plex Sans',sans-serif; }
 .about-us__milestones li > span:last-child { display:block; max-width:250px; color:#8b9ba3; font:var(--t-meta)/1.7 'DM Mono',monospace; }
 @media (max-width:700px) {
   .about-us { padding-top:60px; padding-bottom:56px; }
-  .about-us h2 { font-size:clamp(39px,12vw,58px); }
   .about-us__offering { grid-template-columns:34px 1fr; gap:10px 13px; min-height:0; padding:27px 0 29px; }
   .about-us__number { grid-row:1/4; padding-top:5px; }
   .about-us__offering h3 { font-size:clamp(25px,8vw,34px); }
-  .about-us__offering > p { font-size:12px; }
+  .about-us__offering > p { font-size:var(--t-body); }
   .about-us__artifact { justify-self:start; width:auto; min-height:0; margin-top:5px; padding:0; border:0; gap:9px; }
   .about-us__graphic { width:38px; height:38px; }
   .about-us__artifact-copy { min-width:116px; display:flex; flex-direction:column; align-items:center; gap:4px; }
@@ -74,7 +73,6 @@
   .about-us__milestones::before { transform:none; transition:none; }
 }
 .about-us__bio { max-width:700px; margin:0 0 38px; color:#a6b6bd; font:var(--t-body)/1.85 'DM Mono',monospace; }
-@media (max-width:700px) { .about-us__bio { margin-bottom:38px; font-size:10px; } }
 
 @media (prefers-reduced-motion:no-preference) {
   .motion-ready .about-us > .section-heading,

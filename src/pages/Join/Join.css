@@ -1,20 +1,20 @@
-.section-kicker { margin:0; color:#7a939b; font:var(--t-micro) 'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
 .join { max-width:1130px; margin:0 auto; padding:0 var(--gutter) var(--sp-xl); }
-.join-panel { display:flex; justify-content:space-between; align-items:center; gap:30px; padding:26px; border:1px solid #124047; border-radius:var(--radius); background:linear-gradient(110deg,#101d31 0%,#0d2530 50%,#0b2e27 100%); }
+.join-panel { display:flex; justify-content:space-between; align-items:center; gap:30px; padding:26px; border:1px solid #124047; border-radius:var(--radius); background:#0b1d25; }
 .join-copy { max-width:600px; }
-.join-panel h2 { margin:10px 0 12px; color:#e8f0f0; font-size:clamp(35px,4vw,54px); line-height:.9; letter-spacing:-.07em; }
+.join-panel h2 { margin:0 0 12px; color:#e8f0f0; font-size:clamp(35px,4vw,54px); line-height:.96; letter-spacing:-.035em; }
 .join-copy > p:last-child { max-width:430px; margin:0; color:#8b9ba3; font:var(--t-body)/1.7 'DM Mono',monospace; }
 .join-actions { display:flex; flex-direction:column; align-items:stretch; gap:10px; min-width:196px; }
 .join-actions a { color:#a6bcc1; font:var(--t-control) 'DM Mono',monospace; text-align:center; }
 .join-button,.discord-button { border-radius:999px; padding:12px 18px; }
-.join-button { background:linear-gradient(100deg,#287fec,#1bd9ad); color:#031014!important; font-weight:700; }
+.join-button { background:#20cbb4; color:#031014!important; font-weight:700; }
+.join-button:hover { background:#9cebdc; }
 .discord-button { border:1px solid rgba(255,255,255,.12); }
 .join-actions a span { margin-left:4px; color:inherit; }
 .join-actions small { margin-top:8px; color:#6b858f; font:var(--t-micro) 'DM Mono',monospace; letter-spacing:.14em; text-align:center; text-transform:uppercase; }
 
 .join-routes { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:9px; }
 .join-route { min-width:0; padding:18px 20px 20px; border:1px solid #142832; border-radius:var(--radius); background:#050d11; }
-.join-route h3 { margin:0 0 11px; color:#e2eded; font:500 var(--t-card) 'Space Grotesk',sans-serif; }
+.join-route h3 { margin:0 0 11px; color:#e2eded; font:500 var(--t-card) 'IBM Plex Sans',sans-serif; }
 /* Unfinished content reads as unfinished — never as a live control. */
 .join-route__pending { margin:0; color:#7d919a; font:var(--t-body)/1.7 'DM Mono',monospace; }
 .join-contacts { list-style:none; margin:0; padding:0; display:grid; gap:10px; }

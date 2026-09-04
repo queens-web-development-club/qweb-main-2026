@@ -9,7 +9,6 @@ export function Projects() {
   const railRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [current, setCurrent] = useState(1);
-  const [atEnd, setAtEnd] = useState(false);
 
   useEffect(() => {
     getProjects().then(({ data, error }) => {
@@ -26,7 +25,6 @@ export function Projects() {
       const max = rail.scrollWidth - rail.clientWidth;
       const ratio = max > 8 ? Math.min(1, rail.scrollLeft / max) : 0;
       setProgress(ratio);
-      setAtEnd(max <= 8 || max - rail.scrollLeft < 8);
       const card = rail.querySelector<HTMLElement>('.project-card');
       const step = card ? card.offsetWidth + 14 : 1;
       setCurrent(Math.min(projects.length, Math.round(rail.scrollLeft / step) + 1));
@@ -40,8 +38,8 @@ export function Projects() {
   const pad = (n: number) => String(n).padStart(2, '0');
 
   return <section className="projects-section reveal-on-scroll" id="projects" aria-labelledby="projects-title" data-inspect="section.projects-section#projects">
-    <SectionHeading tag="Projects" id="projects-title" title="Live in the wild." />
-    <div className="project-rail-wrap" data-end={atEnd || undefined}>
+    <SectionHeading id="projects-title" title="Live in the wild." />
+    <div className="project-rail-wrap">
       <div
         className="project-rail"
         ref={railRef}

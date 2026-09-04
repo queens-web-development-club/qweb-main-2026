@@ -7,8 +7,7 @@ export function Join() {
   return <section className="join reveal-on-scroll" aria-labelledby="join-title" data-inspect="section.join">
     <div className="join-panel" data-inspect="div.join-panel">
       <div className="join-copy">
-        <p className="section-kicker">// Join QWEB</p>
-        <h2 id="join-title">Build with us in<br />2026–27.</h2>
+        <h2 id="join-title">Build with us.</h2>
         <p>First year, fourth year, Artsci or Engineering — if you want to build things people can open in a browser, you belong here.</p>
       </div>
       <div className="join-actions">
@@ -22,7 +21,7 @@ export function Join() {
       <article className="join-route" data-inspect="article.join-route">
         <h3>Applications</h3>
         {/* No form exists yet. A disabled state is honest; a button to nowhere is not. */}
-        <p className="join-route__pending">Developer applications for 2026–27 aren’t open yet. Ask on Discord and we’ll tell you the day they are.</p>
+        <p className="join-route__pending">Developer applications aren’t open yet. Ask on Discord and we’ll tell you the day they are.</p>
       </article>
 
       <article className="join-route" data-inspect="article.join-route">

@@ -11,7 +11,7 @@ import { SiteFooter } from '../Footer/SiteFooter';
 import { InspectModeProvider, InspectToggle } from '../../components/InspectMode';
 import './Landing.css';
 
-// The ticker lists what the club teaches. It reads from the curriculum the
+// The strip lists what the club teaches. It reads from the curriculum the
 // Education section renders, so the two can never drift apart.
 const taught = curriculum.map((skill) => skill.toUpperCase());
 // Member count from qweb.dev; sites shipped is the count of the archive. The
@@ -124,17 +124,15 @@ export function Landing() {
 
       <section className="hero" id="top" data-inspect="section.hero#top">
         <div className="hero-copy page-load page-load--delayed">
-          <p className="eyebrow">Student-run <i>·</i> Queen's University <i>·</i> Kingston, ON</p>
           <h1>Queen's Web<br /><span>Development</span> Club</h1>
           <p className="intro">We teach students to build for the web, from your first line of HTML to a production deploy. Whether you are a team that ships or someone figuring it out, there is a place for you here.</p>
-          <div className="actions"><a className="primary" href="#join">Join for 2026–27</a><a className="secondary" href="#projects">See our work</a></div>
+          <div className="actions"><a className="primary" href="#join">Join the club</a><a className="secondary" href="#projects">See our work</a></div>
         </div>
-        <p className="year">2026–2027</p>
         <div className="wave-field" aria-hidden="true"><div className="wave wave-a"><div className="wave-line" /></div><div className="wave wave-b"><div className="wave-line" /></div><div className="wave wave-c"><div className="wave-line" /></div><div className="wave wave-d"><div className="wave-line" /></div><div className="wave wave-e"><div className="wave-line" /></div><div className="wave wave-f"><div className="wave-line" /></div></div>
         <section className="stats page-load page-load--delayed-more" id="stats" aria-label="QWEB statistics" data-inspect="section.stats#stats">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}<NextEvent /></section>
       </section>
 
-      <section className="hero-bar" aria-label="What the club teaches" data-inspect="section.hero-bar"><p className="bar-label">What we teach</p><div className="bar-viewport"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{taught.map((entry) => <span key={entry}><b>✦</b><em>{entry}</em><b>✦</b></span>)}</div>)}</div></div></section>
+      <section className="hero-bar" aria-label="What the club teaches" data-inspect="section.hero-bar"><p className="bar-label">What we teach</p><div className="bar-viewport"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{taught.map((entry, index) => <span key={entry}><b className="bar-mark" aria-hidden="true" /><em>{entry}</em><small>{String(index + 1).padStart(2, '0')}</small></span>)}</div>)}</div></div></section>
     </section>
 
     {/* Projects sits directly under About Us: that section claims the club turns four
