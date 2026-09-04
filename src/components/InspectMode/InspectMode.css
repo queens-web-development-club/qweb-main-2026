@@ -1,5 +1,5 @@
 /* Inspect mode: the site labelling its own markup. Pointer-only, never in the layout. */
-.inspect-toggle { display:flex; align-items:center; gap:6px; margin-right:20px; padding:6px 11px; border:1px solid rgba(255,255,255,.11); border-radius:999px; background:none; color:#71808c; font:10px 'DM Mono',monospace; letter-spacing:.06em; cursor:pointer; }
+.inspect-toggle { display:flex; align-items:center; gap:6px; margin-right:20px; padding:6px 11px; border:1px solid rgba(255,255,255,.11); border-radius:999px; background:none; color:#71808c; font:11px 'DM Mono',monospace; letter-spacing:.04em; cursor:pointer; }
 .inspect-toggle:hover { color:#dceaf0; border-color:rgba(32,203,180,.4); }
 .inspect-toggle:focus-visible { outline:2px solid #20cbb4; outline-offset:2px; }
 .inspect-toggle[aria-pressed='true'] { color:#20cbb4; border-color:rgba(32,203,180,.55); background:rgba(32,203,180,.07); }

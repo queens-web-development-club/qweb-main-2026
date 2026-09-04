@@ -5,7 +5,7 @@ import './Sponsors.css';
 /** The sponsor-facing tail of the About region: reach, work shipped, and who backs it. */
 export function Sponsors() {
   return <section className="sponsors reveal-on-scroll" aria-labelledby="sponsors-title" data-inspect="section.sponsors">
-    <SectionHeading tag="Our Partners" id="sponsors-title" title="Backed by people who build things." summary="Sponsoring QWEB puts you in front of students who ship, all year, not once at a career fair." />
+    <SectionHeading id="sponsors-title" title="Backed by people who build things." summary="Sponsoring QWEB puts you in front of students who ship, all year, not once at a career fair." />
 
     <dl className="sponsors__reach">
       <div><dt>Members reached</dt><dd>300+</dd></div>

@@ -1,20 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
-:root { font-family:'Space Grotesk',sans-serif; color:#e9edf1; background:#030607; font-synthesis:none; }
+:root { font-family:'IBM Plex Sans',sans-serif; color:#e9edf1; background:#030607; font-synthesis:none; }
 * { box-sizing:border-box; }
 body { margin:0; min-width:320px; background:#030607; }
 
-.not-found { min-height:100dvh; position:relative; overflow:hidden; display:grid; place-items:center; padding:clamp(22px,7vw,96px); background:radial-gradient(ellipse at 50% 100%,rgba(11,46,64,.38),transparent 52%),#030607; }
+.not-found { min-height:100dvh; position:relative; overflow:hidden; display:grid; place-items:center; padding:clamp(22px,7vw,96px); background:#030607; }
 .not-found__noise { position:fixed; inset:0; opacity:.045; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
 .not-found__content { position:relative; z-index:1; width:min(720px,100%); text-align:center; }
-.not-found__code { margin:0 0 18px; color:#20cbb4; font:500 10px 'DM Mono',monospace; letter-spacing:.17em; text-transform:uppercase; }
-.not-found h1 { margin:0; color:#eff2f2; font-size:clamp(48px,7vw,88px); line-height:.95; letter-spacing:-.065em; }
-.not-found__message { max-width:480px; margin:24px auto 0; color:#83919a; font:11px/1.65 'DM Mono',monospace; }
-.not-found__link { display:inline-block; margin-top:30px; border-radius:999px; padding:12px 17px; background:linear-gradient(100deg,#267fea,#19d9ae); color:#031014; font-size:10px; font-weight:700; text-decoration:none; }
+.not-found__code { margin:0 0 18px; color:#20cbb4; font:500 11px 'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
+.not-found h1 { margin:0; color:#eff2f2; font-size:clamp(48px,7vw,88px); line-height:.98; letter-spacing:-.035em; }
+.not-found__message { max-width:480px; margin:24px auto 0; color:#83919a; font:14px/1.65 'DM Mono',monospace; }
+.not-found__link { display:inline-block; margin-top:30px; border-radius:999px; padding:12px 17px; background:#20cbb4; color:#031014; font-size:14px; font-weight:700; text-decoration:none; }
 .not-found__link span { margin-left:6px; }
 .not-found__link:focus-visible { outline:2px solid #e9edf1; outline-offset:4px; }
 
 @media (max-width:700px) {
   .not-found h1 { font-size:clamp(48px,14vw,68px); }
-  .not-found__message { font-size:10px; }
 }

@@ -23,7 +23,7 @@ function Person({ person }: { person: DisplayMember }) {
   return <article className={`person person--${person.tone}`} data-inspect="article.person">
     <div className="person-art">{person.photo && <img src={person.photo} alt="" loading="lazy" />}</div>
     <h3>{person.name}</h3>
-    <p className="person-role">{person.role}<span> · {study || 'QWEB 2026–27'}</span></p>
+    <p className="person-role">{person.role}{study && <span> · {study}</span>}</p>
     {person.responsibility && <p className="person-responsibility">{person.responsibility}</p>}
     {person.fun_fact && <p className="person-fact"><span aria-hidden="true">✦</span>{person.fun_fact}</p>}
   </article>;
@@ -39,7 +39,7 @@ export function Team() {
   }, []);
   const { chairs, executives } = splitTeam(members);
   return <section className="team-section reveal-on-scroll" aria-labelledby="team-title" data-inspect="section.team-section">
-    <SectionHeading tag="Meet the Team" id="team-title" title="Made by students." summary="The people behind the builds, the workshops, and the group chat that keeps it moving." />
+    <SectionHeading id="team-title" title="Made by students." summary="The people behind the builds, the workshops, and the group chat that keeps it moving." />
     <div className="team-people">
       <div className="people-group"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person) => <Person key={person.id} person={person} />)}</div></div>
       <div className="people-group"><p className="people-label">Executives</p><div className="people-grid">{executives.map((person) => <Person key={person.id} person={person} />)}</div></div>

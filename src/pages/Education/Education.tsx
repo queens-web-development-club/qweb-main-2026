@@ -12,7 +12,7 @@ const process = ['Consult', 'Design', 'Develop', 'Test', 'Deploy'];
 
 export function Education() {
   return <section className="education reveal-on-scroll" aria-labelledby="education-title" data-inspect="section.education">
-    <SectionHeading tag="Education" id="education-title" title="What you’ll actually learn." summary="Want more skills to put on your resume? We cover these — and more — in the curriculum." />
+    <SectionHeading id="education-title" title="What you’ll actually learn." summary="Want more skills to put on your resume? We cover these — and more — in the curriculum." />
 
     <ol className="education__curriculum">
       {curriculum.map((skill, index) => <li key={skill} data-inspect="li.education__skill">

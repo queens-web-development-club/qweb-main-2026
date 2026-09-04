@@ -11,26 +11,27 @@ This document describes the single-page Queen's Web Development Club site implem
 
 | Role | Value | Evidence |
 | --- | --- | --- |
-| Primary/display family | `Space Grotesk` | `src/pages/Landing/Landing.css`, `@import` and `:root`; headings and card titles across page CSS |
+| Primary/display family | `IBM Plex Sans` | `src/pages/Landing/Landing.css`, `@import` and `:root`; headings and card titles across page CSS |
 | Utility/body family | `DM Mono` | `src/pages/Landing/Landing.css`, `@import`; labels, metadata, navigation, body copy, and status text |
-| Hero heading scale | `clamp(50px, 7.3vw, 102px)` | `Landing.css`, `h1` |
+| Hero heading scale | `clamp(46px, 6.5vw, 84px)` | `Landing.css`, `h1` |
 | Section heading scale | `clamp(34px, 4.3vw, 56px)` for every section | `SectionHeading.css` |
 | Membership heading scale | `clamp(35px, 4vw, 54px)` | `Join.css`, `.join-panel h2` |
-| Hero heading line height | `.91` | `Landing.css`, `h1` |
+| Hero heading line height | `.95` | `Landing.css`, `h1` |
 | Section heading line height | `.95` to `.98` | `Projects.css`, `.section-heading h2`; `AboutUs.css`, `.about-us h2` |
-| Utility tracking | `.11em`–`.17em` | `Landing.css`, `.eyebrow` and hero bar; page CSS section labels |
+| Utility tracking | `.04em`–`.18em` | `Landing.css`, hero bar and page CSS labels |
 | Weight usage | `400`, `500`, `600`, `700` are imported; display headings use `700`, utility and card headings generally use `400`/`500` | `Landing.css` import, `h1`, and page CSS declarations |
 
 Role tokens are defined on `:root` in `src/pages/Landing/Landing.css` and name the job rather than the value:
 
 | Token | Value | Role |
 | --- | --- | --- |
-| `--t-micro` | `10px` | Uppercase tracked labels, status pills, section tags |
-| `--t-meta` | `11px` | Roles, dates, captions, supporting metadata |
-| `--t-body` | `13px` | Descriptions and running copy |
-| `--t-control` | `13px` | Buttons and navigation |
-| `--t-card` | `15px` | Card and list-item titles |
-| `--t-lede` | `15px` | Hero intro and section summaries |
+| `--t-micro` | `11px` | Uppercase tracked labels and status pills |
+| `--t-meta` | `12px` | Roles, dates, captions, supporting metadata |
+| `--t-body` | `14px` | Descriptions and running copy |
+| `--t-control` | `14px` | Buttons and navigation |
+| `--t-card` | `16px` | Card and list-item titles |
+| `--t-lede` | `16px` | Hero intro and section summaries |
+| `--t-stat` | `28px` | Prominent facts and counts |
 
 Before these, body copy ran at 8–9px and labels at 7px (one at 6px) — roughly half the ordinary web floor, and punishing as light text on a near-black surface. Muted greys were lightened by roughly one step alongside the size increase, since size and contrast compound on dark. Mobile overrides that re-imposed 7–8px were raised to match.
 <!-- /GENERATED:typography -->
@@ -43,11 +44,11 @@ Before these, body copy ran at 8–9px and labels at 7px (one at 6px) — roughl
 | Page background | `#030607` | `Landing.css`, `:root`, `body`, `.page` |
 | Primary text | `#e9edf1`, `#eff2f2`, `#edf1f2` | `Landing.css` and section CSS headings |
 | Muted utility/body text | `#83919a`, `#74838b`, `#697a83`, `#61737c` | `Landing.css`, `AboutUs.css`, `Term.css` |
-| Blue accent | `#267fea`, `#2878ed`, `#2586ee`, `#286bea` | CTA gradients, hero heading, stats, timeline, project metadata |
-| Teal accent | `#19d9ae`, `#1bd6b0`, `#20cbb4`, `#1bd0ae` | CTA gradients, hero heading, ticker, timeline |
+| Blue accent | `#267fea`, `#2878ed`, `#2586ee`, `#286bea` | Stats, timeline, project metadata |
+| Teal accent | `#19d9ae`, `#1bd6b0`, `#20cbb4`, `#1bd0ae` | Solid CTAs, hero heading, curriculum strip, timeline |
 | Green accent | `#36c88e`, `#18a86f` | Wave and team visual treatments |
 | Borders/dividers | `#142832`, `#14242b`, `#0d1c22`, and low-opacity white/blue/teal borders | Cards, lists, sections, navigation, footer |
-| CTA surface | `linear-gradient(110deg,#101d31 0%,#0d2530 50%,#0b2e27 100%)` | `Join.css`, `.join-panel` |
+| CTA surface | `#0b1d25` with `#20cbb4` primary action | `Join.css`, `.join-panel` and `.join-button` |
 
 Corner radius is a single token, `--radius: 7px`, on `:root`. The page previously mixed `5px`, `6px`, `7px` and `8px` across equivalent surfaces. Pill controls keep `999px`; the inspect overlay and focus rings keep their own small radii.
 
@@ -79,7 +80,7 @@ Evidence: `src/pages/Landing/Landing.css` `:root`, and the `padding` declaration
 
 | Component | Purpose | Appearance-relevant surfaces |
 | --- | --- | --- |
-| `Landing` | Composes the single route, navigation, hero, animated stats, next-event line, curriculum ticker, and four anchored regions | `src/pages/Landing/Landing.tsx` and `Landing.css` |
+| `Landing` | Composes the single route, navigation, hero, animated stats, next-event line, animated curriculum ticker, and four anchored regions | `src/pages/Landing/Landing.tsx` and `Landing.css` |
 | `InspectMode` | Opt-in mode that labels each major section with the selector it is built from; `InspectModeProvider` owns the state, `InspectToggle` is the nav control, `InspectOverlay` draws the outline and tag | `src/components/InspectMode/` |
 | `AnimatedStat` | Counts a statistic from zero to its target when visible | `Landing.tsx`; rendered as bordered translucent stat cards |
 | `AboutUs` | Presents offerings as a numbered editorial index and first-year milestones as a continuous progress track | `src/pages/AboutUs/AboutUs.tsx` and `AboutUs.css` |
@@ -103,16 +104,16 @@ Section-level components carry a `data-inspect` attribute holding their real sel
 - The site is a single React route composed by `Landing` in `src/main.tsx`, with four anchored regions: `#home` is the landing frame, `#about` groups About Us, Projects, Team, and Sponsors, `#education` groups Education and Term, and `#join` contains membership routes. Projects also carries its own `#projects` anchor, targeted by the hero's "See our work" action and the footer's Projects link.
 - Reading order within `#about` is claim → proof → people → backing: About Us promises a portfolio, Projects is that portfolio, then the team behind it and the partners funding it.
 - Major sections use a centered `max-width: 1130px` container with responsive horizontal gutters, except the full-width landing frame and ticker.
-- Landing navigation is a flex row; hero copy is left-aligned with an absolutely positioned year label and wave field.
-- The ticker below the hero is a flex row: a static `What we teach` label with a right divider, followed by the scrolling curriculum track. The label is hidden below `700px`.
+- Landing navigation is a flex row; hero copy is left-aligned with the wave field behind it.
+- The curriculum strip below the hero is a flex row: a static `What we teach` label with a right divider, followed by a continuously looping curriculum track. The track pauses on hover/focus and stops under reduced motion. The label is hidden below `700px`.
 - Stats use a three-column grid on desktop and two columns below `700px`; the next-event line spans the grid.
 - About offerings use four full-width editorial rows with numbered titles, descriptions, and activity artifacts; its milestone track uses four horizontal stages. On mobile, rows reflow around a fixed index and the milestone track becomes vertical.
-- Projects use a horizontal snap rail rather than a grid: fixed-width cards on an `overflow-x` track with `scroll-snap-type:x mandatory`, a hairline meter and an `01 / 11` counter beneath. Eleven cards cost one row instead of four. It is deliberately not a carousel — nothing auto-advances, and there are no dots or arrow controls. The partially-cut card at the right edge plus a fade that clears at the end (`[data-end]`) are the scroll affordances; the track is focusable and labelled for keyboard and assistive technology.
+- Projects use a horizontal snap rail rather than a grid: fixed-width cards on an `overflow-x` track with `scroll-snap-type:x mandatory`, a hairline meter and an `01 / 11` counter beneath. Eleven cards cost one row instead of four. It is deliberately not a carousel — nothing auto-advances, and there are no dots or arrow controls. The partially-cut card at the right edge plus the meter and counter are the scroll affordances; the track is focusable and labelled for keyboard and assistive technology.
 - Term uses a date-led featured event panel with time/place metadata, followed by a four-column remainder list; mobile stacks featured metadata and hides list status pills.
 - Team places the co-chair and executive groups side by side in a `2fr / 4fr` grid (`.team-people`) so the row fills the 1130px container; the groups stack below `700px`. Join uses a two-sided flex composition plus three route cards that stack on mobile. Sponsors use a five-column logo grid that becomes two columns on mobile.
 - Footer uses a two-column grid on desktop: brand on the left, navigation groups in the right half; it stacks below `700px`.
-- No rule separates sections. A hairline across the full width — accent or neutral — cut the page into stacked panels that read as separate pages rather than sections of one document; separation is spacing tiers and the ambient washes alone. Rules survive only *inside* a section, where they carry structure: the About offering rows, the About journey and Education process tracks (whose progress fill rides on the rule itself), and the Term event list.
-- A single full-page animated wave field carries the six-color rainbow line language behind the document at low opacity. Regions add no wave layer of their own — only a static ambient wash drawn from the same palette (blue for `#about`, teal for `#education`, green for `#join`). Consecutive regions are separated by a hairline that fades blue → teal, while the fixed `.noise` grain spans the full document.
+- No rule separates sections. Spacing tiers keep the page reading as one document. Rules survive only *inside* a section, where they carry structure: the About offering rows, the About journey and Education process tracks (whose progress fill rides on the rule itself), and the Term event list.
+- A single full-page animated wave field carries the six-color line language behind the document at low opacity. Regions stay on the same plain surface; the fixed `.noise` grain spans the full document.
 <!-- /GENERATED:layout -->
 
 <!-- GENERATED:motion source=/document updated=2026-09-03 -->
@@ -121,8 +122,8 @@ Section-level components carry a `data-inspect` attribute holding their real sel
 | Motion | Trigger | Timing/technique | Evidence |
 | --- | --- | --- | --- |
 | Animated statistics | Intersection with stat card | `requestAnimationFrame`, `1100ms`, cubic easing `1 - (1 - progress) ** 3` | `Landing.tsx`, `AnimatedStat` |
+| Curriculum ticker | Continuous page load loop | CSS keyframes, `23s linear`, transform-based marquee; pauses on hover/focus and is disabled for reduced motion | `Landing.tsx` and `Landing.css`, `.bar-track` |
 | Rainbow wave drift | Continuous page background and regional atmosphere | CSS keyframes, `8s`–`23s`, `ease-in-out`, alternating directions; the full-page field is softer than the hero treatment | `Landing.tsx`, `SiteWaves`; `Landing.css`, `@keyframes drift` and `.wave-*` |
-| Framework ticker | Continuous page load loop | CSS keyframes, `23s linear`, transform-based marquee | `Landing.css`, `@keyframes marquee` |
 | Link hover | Pointer hover | Color change; no duration specified | `Landing.css`, `nav a:hover`, footer link selectors |
 | Page-load entrance | Initial mount | `560ms`, opacity/translateY, staggered by `90ms`/`170ms` | `Landing.tsx` and `Landing.css`, `.page-load` |
 | Section/card reveal | Intersection with section or card | `400ms` opacity cross-fade; content choreography is staged by section | `Landing.tsx` and `Landing.css`, `.reveal-on-scroll` |
@@ -150,8 +151,8 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 <!-- GENERATED:implementation-guidance source=/document updated=2026-09-03 -->
 ## Implementation Guidance
 
-- Reuse `Space Grotesk` for display and compact headings and `DM Mono` for labels, metadata, navigation, status text, and supporting copy.
-- Continue the near-black surface with controlled blue/teal accents, thin dividers, and restrained gradients; avoid introducing an unrelated palette or a parallel token system without a deliberate refactor.
+- Reuse `IBM Plex Sans` for display and compact headings and `DM Mono` for labels, metadata, navigation, status text, and supporting copy.
+- Continue the near-black surface with controlled blue/teal accents, thin dividers, and solid surfaces; avoid introducing an unrelated palette or a parallel token system without a deliberate refactor.
 - Follow the existing page-folder convention: each major page/section has a colocated `.tsx` and `.css` file under `src/pages/<Section>/`; shared UI belongs under `src/components/` and static fallback content under `src/data/`.
 - Prefer semantic `section`, `header`, `nav`, `article`, `footer`, `time`, and heading elements as used by the current implementation.
 - Preserve the existing `700px` mobile breakpoint and `800px` Team breakpoint unless a responsive change is intentional and verified.
@@ -161,7 +162,7 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 - Use the `--t-*` type roles and `--radius` rather than raw px. Nothing on the page should sit below `--t-micro`.
 - `SectionHeading` owns the heading scale for every section; do not give a section its own heading size.
 - Browser-owned surfaces are themed in `Landing.css` and belong to the system: `::selection` (teal wash), a global `:focus-visible` ring, and a thin near-black scrollbar via both `scrollbar-color` and `::-webkit-scrollbar`. Keep new interactive surfaces consistent with them.
-- Keep `//` prefixes for asides that read as code comments (`// Your first year`, `// Join QWEB`). Section kickers are plain mono labels, so the device stays a signal rather than decoration.
+- Keep `//` prefixes for asides that read as code comments (`// Your first year`, `// How a client project runs`). Local section labels are plain mono text, so the device stays a signal rather than decoration.
 - Give new sections a `data-inspect` selector so inspect mode continues to describe the page accurately.
 - Keep section composition varied while preserving one visual system, use deliberate typography hierarchy and readable line lengths, prefer whitespace and dividers over unnecessary shells, and use semantic React elements.
 <!-- /GENERATED:implementation-guidance -->
