@@ -61,17 +61,17 @@ export function AboutUs() {
     };
   }, []);
 
-  return <section ref={aboutRef} className="about-us reveal-on-scroll" id="about" aria-labelledby="about-title">
+  return <section ref={aboutRef} className="about-us reveal-on-scroll" id="about" aria-labelledby="about-title" data-inspect="section.about-us#about">
     <header className="about-us__intro">
       <div className="about-us__heading">
-        <p className="about-us__eyebrow">// What we do</p>
+        <p className="about-us__eyebrow">What we do</p>
         <h2 id="about-title">Four nights a month that<br /><span>turn into a portfolio.</span></h2>
       </div>
       <p className="about-us__summary">Everything we run is hands-on. You leave every session with something on your screen that wasn’t there when you walked in.</p>
     </header>
 
     <div className="about-us__offerings" aria-label="What QWEB offers">
-      {offerings.map((offering) => <article className="about-us__offering" key={offering.title}>
+      {offerings.map((offering) => <article className="about-us__offering" key={offering.title} data-inspect="article.about-us__offering">
         <span className="about-us__number" aria-hidden="true">{offering.number}</span>
         <h3>{offering.title}</h3>
         <p>{offering.description}</p>
@@ -86,7 +86,7 @@ export function AboutUs() {
       </article>)}
     </div>
 
-    <section className="about-us__journey" aria-labelledby="journey-title">
+    <section className="about-us__journey" aria-labelledby="journey-title" data-inspect="section.about-us__journey">
       <header className="about-us__journey-header">
         <p className="about-us__eyebrow" id="journey-title">// Your first year</p>
         <span>Fall → Spring</span>

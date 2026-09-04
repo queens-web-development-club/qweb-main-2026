@@ -54,12 +54,13 @@ No named spacing scale or base unit was found. Repeated implementation patterns 
 Evidence: `src/pages/Landing/Landing.css`, `AboutUs.css`, `Projects.css`, `Term.css`, `Team.css`, and `Footer/SiteFooter.css`.
 <!-- /GENERATED:spacing -->
 
-<!-- GENERATED:components source=/document updated=2026-08-25 -->
+<!-- GENERATED:components source=/document updated=2026-09-02 -->
 ## Components
 
 | Component | Purpose | Appearance-relevant surfaces |
 | --- | --- | --- |
-| `Landing` | Composes the single route, navigation, hero, animated stats, technology ticker, and page sections | `src/pages/Landing/Landing.tsx` and `Landing.css` |
+| `Landing` | Composes the single route, navigation, hero, animated stats, stack ticker, and page sections | `src/pages/Landing/Landing.tsx` and `Landing.css` |
+| `InspectMode` | Opt-in mode that labels each major section with the selector it is built from; `InspectModeProvider` owns the state, `InspectToggle` is the nav control, `InspectOverlay` draws the outline and tag | `src/components/InspectMode/` |
 | `AnimatedStat` | Counts a statistic from zero to its target when visible | `Landing.tsx`; rendered as bordered translucent stat cards |
 | `AboutUs` | Presents offerings as a numbered editorial index and first-year milestones as a continuous progress track | `src/pages/AboutUs/AboutUs.tsx` and `AboutUs.css` |
 | `Projects` | Presents three member-built project treatments | `src/pages/Projects/Projects.tsx` and `Projects.css` |
@@ -67,15 +68,18 @@ Evidence: `src/pages/Landing/Landing.css`, `AboutUs.css`, `Projects.css`, `Term.
 | `Team` / `Person` | Presents co-chairs, executives, and membership CTA | `src/pages/Team/Team.tsx` and `Team.css` |
 | `SiteFooter` | Presents QWEB identity and grouped navigation links | `src/pages/Footer/SiteFooter.tsx` and `SiteFooter.css` |
 
-No shared UI package or component library was found.
+Section-level components carry a `data-inspect` attribute holding their real selector (for example `section.projects-section#projects`). Inspect mode reads it on hover; nothing else depends on it, and the innermost annotated element wins. New sections should set one.
+
+`src/components/` holds cross-cutting UI that is not a page section. Page sections keep the colocated `src/pages/<Section>/` convention.
 <!-- /GENERATED:components -->
 
-<!-- GENERATED:layout source=/document updated=2026-08-25 -->
+<!-- GENERATED:layout source=/document updated=2026-09-02 -->
 ## Layout
 
 - The site is a single React route composed by `Landing` in `src/main.tsx`.
 - Major sections use a centered `max-width: 1130px` container with responsive horizontal gutters, except the full-width landing frame and ticker.
 - Landing navigation is a flex row; hero copy is left-aligned with an absolutely positioned year label and wave field.
+- The ticker below the hero is a flex row: a static `This site runs on` label with a right divider, followed by the scrolling stack track. The label is hidden below `700px`.
 - Stats use a four-column grid on desktop and two columns below `700px`.
 - About offerings use four full-width editorial rows with numbered titles, descriptions, and activity artifacts; its milestone track uses four horizontal stages. On mobile, rows reflow around a fixed index and the milestone track becomes vertical.
 - Projects use a three-column grid, with one visible project card on small screens.
@@ -112,7 +116,7 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 `src/pages/Landing/Landing.tsx` checks `prefers-reduced-motion: reduce` and immediately finishes statistic counting. `src/pages/Landing/Landing.css` sets animation duration to `.01ms`, limits animation iterations, disables smooth scrolling, removes the new page-load/reveal transitions, and leaves all content visible for reduced-motion users. This rule affects the CSS wave and ticker animations as well as motion under the page root.
 <!-- /GENERATED:motion-reduced -->
 
-<!-- GENERATED:implementation-guidance source=/document updated=2026-08-25 -->
+<!-- GENERATED:implementation-guidance source=/document updated=2026-09-02 -->
 ## Implementation Guidance
 
 - Reuse `Space Grotesk` for display and compact headings and `DM Mono` for labels, metadata, navigation, status text, and supporting copy.
@@ -121,6 +125,9 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 - Prefer semantic `section`, `header`, `nav`, `article`, `footer`, `time`, and heading elements as used by the current implementation.
 - Preserve the existing `700px` mobile breakpoint and `800px` Team breakpoint unless a responsive change is intentional and verified.
 - Keep motion transform/opacity-oriented and preserve the existing reduced-motion behavior.
+- Reserve the `↗` glyph for links that leave the site. In-page anchors use an underline or the button surface instead.
+- Keep `//` prefixes for asides that read as code comments (`// Your first year`, `// Join QWEB`). Section kickers are plain mono labels, so the device stays a signal rather than decoration.
+- Give new sections a `data-inspect` selector so inspect mode continues to describe the page accurately.
 - Keep section composition varied while preserving one visual system, use deliberate typography hierarchy and readable line lengths, prefer whitespace and dividers over unnecessary shells, and use semantic React elements.
 <!-- /GENERATED:implementation-guidance -->
 

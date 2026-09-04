@@ -48,6 +48,8 @@ The site reads these tables anonymously using the publishable/anon key. Row-leve
 ```text
 src/
   main.tsx
+  components/
+    InspectMode/
   pages/
     Landing/
     AboutUs/
