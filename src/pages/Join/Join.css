@@ -1,31 +1,31 @@
-.section-kicker { margin:0; color:#6c858d; font:9px 'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
-.join { max-width:1130px; margin:0 auto; padding:0 clamp(22px,7vw,96px) 112px; }
-.join-panel { display:flex; justify-content:space-between; align-items:center; gap:30px; padding:34px; border:1px solid #124047; border-radius:7px; background:linear-gradient(110deg,#101d31 0%,#0d2530 50%,#0b2e27 100%); }
+.section-kicker { margin:0; color:#7a939b; font:var(--t-micro) 'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
+.join { max-width:1130px; margin:0 auto; padding:0 var(--gutter) var(--sp-xl); }
+.join-panel { display:flex; justify-content:space-between; align-items:center; gap:30px; padding:26px; border:1px solid #124047; border-radius:var(--radius); background:linear-gradient(110deg,#101d31 0%,#0d2530 50%,#0b2e27 100%); }
 .join-copy { max-width:600px; }
 .join-panel h2 { margin:10px 0 12px; color:#e8f0f0; font-size:clamp(35px,4vw,54px); line-height:.9; letter-spacing:-.07em; }
-.join-copy > p:last-child { max-width:380px; margin:0; color:#738a91; font:9px/1.5 'DM Mono',monospace; }
-.join-actions { display:flex; flex-direction:column; align-items:stretch; gap:9px; min-width:170px; }
-.join-actions a { color:#94aaaf; font:8px 'DM Mono',monospace; text-align:center; }
-.join-button,.discord-button { border-radius:999px; padding:10px 16px; }
+.join-copy > p:last-child { max-width:430px; margin:0; color:#8b9ba3; font:var(--t-body)/1.7 'DM Mono',monospace; }
+.join-actions { display:flex; flex-direction:column; align-items:stretch; gap:10px; min-width:196px; }
+.join-actions a { color:#a6bcc1; font:var(--t-control) 'DM Mono',monospace; text-align:center; }
+.join-button,.discord-button { border-radius:999px; padding:12px 18px; }
 .join-button { background:linear-gradient(100deg,#287fec,#1bd9ad); color:#031014!important; font-weight:700; }
 .discord-button { border:1px solid rgba(255,255,255,.12); }
 .join-actions a span { margin-left:4px; color:inherit; }
-.join-actions small { margin-top:7px; color:#51717b; font:7px 'DM Mono',monospace; letter-spacing:.14em; text-align:center; text-transform:uppercase; }
+.join-actions small { margin-top:8px; color:#6b858f; font:var(--t-micro) 'DM Mono',monospace; letter-spacing:.14em; text-align:center; text-transform:uppercase; }
 
 .join-routes { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:9px; }
-.join-route { min-width:0; padding:24px 22px 26px; border:1px solid #142832; border-radius:7px; background:#050d11; }
-.join-route h3 { margin:0 0 14px; color:#dce8e9; font:500 11px 'Space Grotesk',sans-serif; }
+.join-route { min-width:0; padding:18px 20px 20px; border:1px solid #142832; border-radius:var(--radius); background:#050d11; }
+.join-route h3 { margin:0 0 11px; color:#e2eded; font:500 var(--t-card) 'Space Grotesk',sans-serif; }
 /* Unfinished content reads as unfinished — never as a live control. */
-.join-route__pending { margin:0; color:#61737c; font:9px/1.7 'DM Mono',monospace; }
-.join-contacts { list-style:none; margin:0; padding:0; display:grid; gap:14px; }
-.join-contacts a { display:inline-block; color:#9fb3b8; font:9px 'DM Mono',monospace; }
+.join-route__pending { margin:0; color:#7d919a; font:var(--t-body)/1.7 'DM Mono',monospace; }
+.join-contacts { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.join-contacts a { display:inline-block; color:#a6bcc1; font:var(--t-body) 'DM Mono',monospace; }
 .join-contacts a:hover { color:#20cbb4; }
 .join-contacts a span { margin-left:4px; color:#2586ee; }
-.join-contacts__later { display:inline-block; color:#4c5f68; font:9px 'DM Mono',monospace; }
-.join-contacts small { display:block; margin-top:4px; color:#5b6d76; font:8px/1.6 'DM Mono',monospace; }
+.join-contacts__later { display:inline-block; color:#6b858f; font:var(--t-body) 'DM Mono',monospace; }
+.join-contacts small { display:block; margin-top:5px; color:#7d919a; font:var(--t-meta)/1.7 'DM Mono',monospace; }
 
 @media (max-width:700px) {
-  .join { padding:0 22px 82px; }
+  .join { padding:0 22px 56px; }
   .join-panel { display:block; padding:25px 20px; }
   .join-actions { margin-top:24px; }
   .join-routes { grid-template-columns:1fr; }

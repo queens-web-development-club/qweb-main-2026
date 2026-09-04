@@ -76,6 +76,19 @@ function AnimatedStat({ value, prefix = '', suffix = '', label }: { value: numbe
   return <article ref={statRef}><strong>{prefix}{displayValue}<span>{suffix}</span></strong><small>{label}</small></article>;
 }
 
+/**
+ * The hero's wave motif at a fraction of its strength, so the same light keeps
+ * moving down the page instead of stopping at the fold. Two lines per region
+ * rather than the hero's six, and the colours are picked to match that region's
+ * ambient wash. Decorative, so it is hidden from assistive tech; the global
+ * reduced-motion rule stills the drift.
+ */
+function RegionWaves({ lines }: { lines: string[] }) {
+  return <div className="region-waves" aria-hidden="true">
+    {lines.map((line) => <div className={`wave ${line}`} key={line}><div className="wave-line" /></div>)}
+  </div>;
+}
+
 export function Landing() {
   useEffect(() => {
     const page = document.querySelector<HTMLElement>('.page');
@@ -110,7 +123,7 @@ export function Landing() {
     <section className="landing-page" id="home" aria-label="QWEB landing page">
       <header className="nav page-load" data-inspect="header.nav">
         <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src="/assets/qweb-text-white.png" alt="QWEB" /></a>
-        <nav><a href="#about">About</a><a href="#education">Education &amp; Projects</a><a href="#join">Join</a></nav>
+        <nav><a href="#about">About</a><a href="#education">Education</a><a href="#join">Join</a></nav>
         <InspectToggle />
         <a className="nav-cta" href="#join">Join QWEB</a>
       </header>
@@ -120,7 +133,7 @@ export function Landing() {
           <p className="eyebrow">Student-run <i>·</i> Queen's University <i>·</i> Kingston, ON</p>
           <h1>Queen's Web<br /><span>Development</span> Club</h1>
           <p className="intro">We teach students to build for the web, from your first line of HTML to a production deploy. Whether you are a team that ships or someone figuring it out, there is a place for you here.</p>
-          <div className="actions"><a className="primary" href="#join">Join for 2026–27</a><a className="secondary" href="#education">See our work</a></div>
+          <div className="actions"><a className="primary" href="#join">Join for 2026–27</a><a className="secondary" href="#projects">See our work</a></div>
         </div>
         <p className="year">2026–2027</p>
         <div className="wave-field" aria-hidden="true"><div className="wave wave-a"><div className="wave-line" /></div><div className="wave wave-b"><div className="wave-line" /></div><div className="wave wave-c"><div className="wave-line" /></div><div className="wave wave-d"><div className="wave-line" /></div><div className="wave wave-e"><div className="wave-line" /></div><div className="wave wave-f"><div className="wave-line" /></div></div>
@@ -130,9 +143,12 @@ export function Landing() {
       <section className="hero-bar" aria-label="What the club teaches" data-inspect="section.hero-bar"><p className="bar-label">What we teach</p><div className="bar-viewport"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{taught.map((entry) => <span key={entry}><b>✦</b><em>{entry}</em><b>✦</b></span>)}</div>)}</div></div></section>
     </section>
 
-    <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Team /><Sponsors /></section>
-    <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /><Projects /></section>
-    <section className="region" id="join" data-inspect="section.region#join"><Join /></section>
+    {/* Projects sits directly under About Us: that section claims the club turns four
+        nights a month into a portfolio, and this is the portfolio. Claim, then proof,
+        then the people, then who backs them. */}
+    <section className="region" id="about" data-inspect="section.region#about"><RegionWaves lines={['wave-a', 'wave-c']} /><AboutUs /><Projects /><Team /><Sponsors /></section>
+    <section className="region" id="education" data-inspect="section.region#education"><RegionWaves lines={['wave-b', 'wave-d']} /><Education /><Term /></section>
+    <section className="region" id="join" data-inspect="section.region#join"><RegionWaves lines={['wave-f', 'wave-e']} /><Join /></section>
     <SiteFooter />
   </main></InspectModeProvider>;
 }

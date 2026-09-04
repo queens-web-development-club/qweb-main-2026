@@ -1,8 +1,19 @@
-.projects-section{max-width:1130px;margin:0 auto;padding:104px clamp(22px,7vw,96px) 112px;border-top:1px solid rgba(255,255,255,.045)}
-.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.project-card{display:block;border:1px solid #142832;border-radius:7px;overflow:hidden;background:#050d11}
+.projects-section{max-width:1130px;margin:0 auto;padding:var(--sp-lg) var(--gutter) var(--sp-lg)}
+
+/* Eleven projects stacked in a 3-column grid cost four rows and ~1,100px. On a rail
+   they cost one row. Deliberately not a carousel: nothing auto-advances, there are
+   no dots and no arrows — you scroll it, and the meter says how far along you are. */
+.project-rail-wrap{position:relative}
+.project-rail{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-left:0;padding:2px 0 4px;scrollbar-width:none}
+.project-rail::-webkit-scrollbar{display:none}
+.project-rail:focus-visible{outline:2px solid #20cbb4;outline-offset:6px;border-radius:8px}
+/* The partially-cut card at the right edge is the affordance; fade it out until you reach the end. */
+.project-rail-wrap::after{content:'';position:absolute;top:0;bottom:0;right:-1px;width:74px;pointer-events:none;background:linear-gradient(90deg,transparent,#030607);opacity:1;transition:opacity 260ms ease-out}
+.project-rail-wrap[data-end]::after{opacity:0}
+
+.project-card{flex:0 0 clamp(248px,25vw,322px);scroll-snap-align:start;display:block;border:1px solid #142832;border-radius:var(--radius);overflow:hidden;background:#050d11}
 a.project-card:hover{border-color:rgba(32,203,180,.45)}
-.project-art{height:190px;position:relative;display:flex;align-items:flex-end;padding:14px;background:#07131a}
+.project-art{height:172px;position:relative;display:flex;align-items:flex-end;padding:14px;background:#07131a}
 /* Screenshots sit slightly back so the page keeps its near-black surface; a live one lifts on hover. */
 .project-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:.86;transition:opacity 300ms ease-out}
 a.project-card:hover .project-art img{opacity:1}
@@ -11,10 +22,28 @@ a.project-card:hover .project-art img{opacity:1}
 .project-art__empty--teal{background:linear-gradient(135deg,#0c1a25,#0a9b8c 65%,#1bd5b1)}
 .project-art__empty--green{background:linear-gradient(135deg,#071624,#086f54 50%,#155be0)}
 .project-art:before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(2,8,11,.75))}
-.project-index{position:relative;color:rgba(236,248,249,.8);font:9px 'DM Mono',monospace}
-.project-meta{display:flex;justify-content:space-between;gap:12px;padding:15px 14px 16px}
-.project-meta h3{margin:0 0 5px;color:#dce8e9;font:500 11px 'Space Grotesk',sans-serif}
-.project-meta p{margin:0;color:#637982;font:8px/1.5 'DM Mono',monospace}
-.project-visit{flex:none;color:#2786e9;font:9px 'DM Mono',monospace}
+.project-index{position:relative;color:rgba(236,248,249,.85);font:var(--t-micro) 'DM Mono',monospace}
+.project-meta{display:flex;justify-content:space-between;gap:12px;padding:15px 15px 16px}
+.project-meta h3{margin:0 0 6px;color:#e2eded;font:500 var(--t-card) 'Space Grotesk',sans-serif}
+.project-meta p{margin:0;color:#7d919a;font:var(--t-meta)/1.65 'DM Mono',monospace}
+.project-visit{flex:none;color:#2786e9;font:var(--t-meta) 'DM Mono',monospace}
 a.project-card:hover .project-visit{color:#20cbb4}
-@media(max-width:700px){.projects-section{padding:76px 22px 82px}.project-grid{grid-template-columns:1fr}.project-art{height:175px}}
+
+/* Same hairline-track device the About journey uses, so the rail reads as part of
+   the system rather than a widget bolted on. */
+.project-rail__foot{display:flex;align-items:center;gap:18px;margin-top:18px}
+.project-meter{flex:1;height:2px;background:#132630;border-radius:999px;overflow:hidden}
+.project-meter span{display:block;height:100%;background:linear-gradient(90deg,#287fea,#20cbb4);transform-origin:left;transition:transform 180ms ease-out}
+.project-count{flex:none;margin:0;color:#8ba0a8;font:500 var(--t-meta) 'DM Mono',monospace;letter-spacing:.14em}
+.project-count i{color:#33505c;font-style:normal;padding:0 2px}
+
+@media(max-width:700px){
+  .projects-section{padding:48px 22px 48px}
+  .project-card{flex-basis:min(78vw,290px)}
+  .project-art{height:164px}
+  .project-rail-wrap::after{width:44px}
+}
+@media (prefers-reduced-motion:reduce){
+  .project-meter span,.project-rail-wrap::after{transition:none}
+  .project-rail{scroll-behavior:auto}
+}
