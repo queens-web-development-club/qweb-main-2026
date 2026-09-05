@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { AboutUs } from '../AboutUs/AboutUs';
 import { Projects } from '../Projects/Projects';
 import { Term } from '../Term/Term';
-import { NextEvent } from '../Term/NextEvent';
 import { Education, curriculum } from '../Education/Education';
 import { Team } from '../Team/Team';
 import { Join } from '../Join/Join';
@@ -130,7 +129,7 @@ export function Landing() {
           <div className="actions"><a className="primary" href="#join">Join the club</a><a className="secondary" href="#projects">See our work</a></div>
         </div>
         <CodeSculpture />
-        <section className="stats page-load page-load--delayed-more" id="stats" aria-label="QWEB statistics" data-inspect="section.stats#stats">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}<NextEvent /></section>
+        <section className="stats page-load page-load--delayed-more" id="stats" aria-label="QWEB statistics" data-inspect="section.stats#stats">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}</section>
       </section>
 
       <section className="hero-bar" aria-label="What the club teaches" data-inspect="section.hero-bar"><p className="bar-label">What we teach</p><div className="bar-viewport"><div className="bar-track">{Array.from({ length: 4 }, (_, groupIndex) => <div className="bar-group" key={groupIndex} aria-hidden={groupIndex > 0}>{taught.map((entry, index) => <span key={entry}><b className="bar-mark" aria-hidden="true" /><em>{entry}</em><small>{String(index + 1).padStart(2, '0')}</small></span>)}</div>)}</div></div></section>

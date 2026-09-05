@@ -32,7 +32,8 @@ nav { display:flex; gap:27px; margin-left:auto; margin-right:34px; font:var(--t-
 .nav-cta,.primary { border-radius:999px; background:#20cbb4; color:#031014; font-size:var(--t-control); font-weight:700; padding:11px 18px; transition:background-color 180ms ease-out,color 180ms ease-out; }
 .nav-cta:hover,.primary:hover { background:#9cebdc; color:#031014; }
 .hero { flex:1; min-height:0; padding:62px clamp(22px,7vw,96px) 0; position:relative; isolation:isolate; display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); align-items:center; column-gap:36px; }.hero-copy { position:relative; z-index:2; max-width:760px; }
-h1 { font-size:clamp(46px,6.5vw,84px); line-height:.95; letter-spacing:-.035em; margin:0 0 26px; font-weight:700; color:#eff2f2; } h1 span { color:#20cbb4; }
+h1 { font-size:clamp(46px,6.5vw,84px); line-height:.95; letter-spacing:-.035em; margin:0 0 26px; font-weight:700; color:#eff2f2; } h1 span { background:linear-gradient(98deg,#2878ed 16%,#1bd6b0 78%); color:transparent; background-clip:text; -webkit-background-clip:text; }
+@media (forced-colors:active) { h1 span { background:none; color:CanvasText; } }
 .intro { max-width:540px; color:#8c9aa3; font:var(--t-lede)/1.7 'DM Mono',monospace; }.actions { display:flex; gap:18px; align-items:center; margin-top:25px; }.primary { padding:12px 19px; }.secondary { color:#b8c6cc; font:var(--t-control) 'DM Mono',monospace; border-bottom:1px solid rgba(34,203,169,.4); padding-bottom:2px; }.secondary:hover { color:#e4f0f3; border-bottom-color:#22cba9; }
 .wave-field { position:absolute; z-index:-1; inset:205px 0 0; overflow:hidden; }.wave { position:absolute; left:-5%; width:110%; height:180px; transform-origin:50% 100%; opacity:.65; }.wave-line { position:absolute; inset:0; border-top:1px solid; border-radius:50% 50% 0 0; }.wave-a { top:25px; color:#1976ef; transform:rotate(4deg) scaleY(.5); animation:drift 9s ease-in-out infinite alternate; }.wave-b { top:42px;color:#17d8bd;transform:rotate(-5deg) scaleY(.72);animation:drift 12s ease-in-out infinite alternate-reverse }.wave-c { top:70px;color:#2167c9;transform:rotate(2deg) scaleY(.55);animation:drift 11s ease-in-out infinite alternate }.wave-d { top:94px;color:#1cbfbb;transform:rotate(-3deg) scaleY(.82);animation:drift 8s ease-in-out infinite alternate-reverse}.wave-e { top:120px;color:#5e63d2;transform:rotate(5deg) scaleY(.5);animation:drift 13s ease-in-out infinite alternate}.wave-f { top:143px;color:#36c88e;transform:rotate(-4deg) scaleY(.7);animation:drift 10s ease-in-out infinite alternate-reverse}.wave-line::after { content:''; position:absolute; top:20px; left:0; right:0; border-top:1px solid currentColor; opacity:.35; transform:scaleY(1.4); }
 @keyframes drift { to { transform:translateX(4%) rotate(-4deg) scaleY(.8); } }
@@ -68,15 +69,6 @@ footer { color:#4e5e66; display:flex; justify-content:space-between; padding:18p
   .motion-ready .page-load,.motion-ready .page-load--delayed,.motion-ready .page-load--delayed-more { animation:none; }
 }
 
-/* One line under the stats: the next thing happening, linking into the schedule. */
-.next-event { grid-column:1/-1; display:flex; align-items:baseline; gap:12px; padding:11px 15px; border-top:1px solid #142832; border-bottom:1px solid #142832; color:#c8d8dc; font:var(--t-meta) 'DM Mono',monospace; }
-.next-event:hover { border-color:rgba(32,203,180,.45); }
-.next-event__label { flex:none; color:#20cbb4; letter-spacing:.14em; text-transform:uppercase; font-size:var(--t-micro); }
-.next-event strong { font-weight:500; }
-.next-event time { color:#2586ee; }
-.next-event__where { min-width:0; margin-left:auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#5d7480; font-size:var(--t-micro); }
-@media (max-width:700px) { .next-event { flex-wrap:wrap; gap:7px; font-size:var(--t-meta); }.next-event__where { display:none; } }
-
 /* Regions share the same plain surface. Their internal spacing and rules carry
    the structure, while the single wave field remains the visual thread. */
 .region { position:relative; isolation:isolate; }
@@ -100,3 +92,6 @@ html { scrollbar-color:#1b3a44 transparent; scrollbar-width:thin; }
   .hero { grid-template-columns:minmax(0,1fr); }
   .hero .stats { margin-top:8px; padding-inline:0; }
 }
+
+/* A shared wash connects the heading and sculpture on the open hero surface. */
+.hero::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(ellipse at 74% 42%,#1bd6b012,transparent 52%),radial-gradient(ellipse at 40% 35%,#2878ed0c,transparent 55%); }
