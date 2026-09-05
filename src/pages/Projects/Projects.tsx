@@ -13,7 +13,7 @@ export function Projects() {
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
-    let settleTimer: ReturnType<typeof setTimeout> | undefined;
+    const restoreSnapping = () => rail.classList.remove('project-rail--wheeling');
     const onWheel = (event: WheelEvent) => {
       // Preserve zoom gestures and native horizontal trackpad scrolling.
       if (event.ctrlKey || event.shiftKey || Math.abs(event.deltaX) >= Math.abs(event.deltaY)) return;
@@ -22,17 +22,18 @@ export function Projects() {
       const max = rail.scrollWidth - rail.clientWidth;
       if (max <= 0 || (delta < 0 && rail.scrollLeft <= 1) || (delta > 0 && rail.scrollLeft >= max - 1)) return;
       event.preventDefault();
-      // Let small wheel deltas accumulate before restoring card snapping.
+      // Keep wheel positions stable even when input pauses between small deltas.
       rail.classList.add('project-rail--wheeling');
       rail.scrollLeft = Math.max(0, Math.min(max, rail.scrollLeft + delta));
-      clearTimeout(settleTimer);
-      settleTimer = setTimeout(() => rail.classList.remove('project-rail--wheeling'), 180);
     };
     rail.addEventListener('wheel', onWheel, { passive: false });
+    rail.addEventListener('pointerdown', restoreSnapping);
+    rail.addEventListener('keydown', restoreSnapping);
     return () => {
       rail.removeEventListener('wheel', onWheel);
-      clearTimeout(settleTimer);
-      rail.classList.remove('project-rail--wheeling');
+      rail.removeEventListener('pointerdown', restoreSnapping);
+      rail.removeEventListener('keydown', restoreSnapping);
+      restoreSnapping();
     };
   }, [projects.length]);
 
