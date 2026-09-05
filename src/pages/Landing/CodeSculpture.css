@@ -1,0 +1,56 @@
+.code-sculpture { --cube-size:42px; --spread:46px; position:relative; min-width:0; align-self:center; color:#20cbb4; }
+.code-sculpture__eyebrow { display:flex; align-items:center; gap:9px; color:#9ab1bb; font:var(--t-micro) 'DM Mono',monospace; text-transform:uppercase; letter-spacing:.12em; }
+.code-sculpture__eyebrow > span:first-child { width:6px; height:6px; background:#20cbb4; box-shadow:0 0 12px #20cbb480; }
+.code-sculpture__edition { margin-left:auto; color:#758e9a; }
+.code-sculpture__stage { position:relative; height:370px; perspective:850px; isolation:isolate; }
+.code-sculpture__halo { position:absolute; inset:10% -5%; background:radial-gradient(ellipse, #18c9b413, transparent 65%); pointer-events:none; }
+.code-sculpture__grid { position:absolute; inset:65% 0 -10%; background-image:linear-gradient(#1d657333 1px, transparent 1px),linear-gradient(90deg,#1d657333 1px,transparent 1px); background-size:28px 28px; transform:rotateX(65deg); mask-image:radial-gradient(ellipse,#000,transparent 68%); }
+.code-sculpture__tilt,.code-sculpture__rotation { position:absolute; left:50%; top:50%; transform-style:preserve-3d; }
+.code-sculpture__tilt { transform:rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)); transition:transform 450ms ease-out; }
+.code-sculpture__rotation { animation:sculpture-turn 28s linear infinite; transform:rotateX(-24deg) rotateY(35deg) rotateZ(-8deg); }
+.code-sculpture__cube { position:absolute; width:var(--cube-size); height:var(--cube-size); margin:-21px; transform-style:preserve-3d; transform:translate3d(calc(var(--x) * var(--spread)),calc(var(--y) * var(--spread)),calc(var(--z) * var(--spread))); transition:transform 1000ms cubic-bezier(.22,.8,.2,1); transition-delay:var(--delay); }
+.code-sculpture[data-expanded="true"] { --spread:79px; }
+.code-sculpture__face { position:absolute; inset:0; display:grid; place-items:center; border:1px solid #38e5cf80; background:linear-gradient(145deg,#143d4370,#07141cdf); backface-visibility:hidden; box-shadow:inset 0 0 14px #20cbb410; }
+.code-sculpture__face span { font:16px 'DM Mono',monospace; color:#91f7e6; }
+.code-sculpture__face--front { transform:translateZ(21px); }
+.code-sculpture__face--back { transform:rotateY(180deg) translateZ(21px); }
+.code-sculpture__face--right { transform:rotateY(90deg) translateZ(21px); background:#0f343ebf; border-color:#328eda90; }
+.code-sculpture__face--left { transform:rotateY(-90deg) translateZ(21px); background:#091c27db; border-color:#328eda90; }
+.code-sculpture__face--top { transform:rotateX(90deg) translateZ(21px); background:#23786c70; }
+.code-sculpture__face--bottom { transform:rotateX(-90deg) translateZ(21px); }
+.code-sculpture__cube--core .code-sculpture__face { background:#20cbb4; border-color:#a2ffed; box-shadow:0 0 24px #20cbb460; }
+.code-sculpture__cube--core .code-sculpture__face span { color:#031014; font-weight:500; }
+.code-sculpture__orbit { position:absolute; width:320px; height:320px; margin:-160px; border:1px solid #20cbb43d; border-radius:50%; transform-style:preserve-3d; }
+.code-sculpture__orbit--a { transform:rotateX(72deg) rotateY(-16deg); animation:sculpture-orbit-a 19s linear infinite; }
+.code-sculpture__orbit--b { width:350px; height:350px; margin:-175px; border-color:#287fea45; transform:rotateX(24deg) rotateY(68deg); animation:sculpture-orbit-b 24s linear infinite reverse; }
+.code-sculpture__orbit--c { width:290px; height:290px; margin:-145px; border-style:dashed; border-color:#72b9c026; transform:rotateX(-50deg) rotateY(30deg); }
+.code-sculpture__orbit i { position:absolute; top:50%; left:-3px; width:5px; height:5px; border-radius:50%; background:#b2ffeb; box-shadow:0 0 15px #20cbb4; }
+.code-sculpture__orbit--b i { background:#7ebaff; box-shadow:0 0 15px #287fea; }
+.code-sculpture__coordinate { position:absolute; left:0; font:var(--t-micro) 'DM Mono',monospace; color:#718e9c; letter-spacing:.1em; pointer-events:none; }
+.code-sculpture__coordinate--top { top:22px; }
+.code-sculpture__coordinate--bottom { bottom:12px; }
+.code-sculpture__footer { position:relative; display:flex; gap:12px; align-items:center; justify-content:space-between; border-top:1px solid #193139; padding-top:15px; }
+.code-sculpture__caption { display:flex; flex-direction:column; gap:7px; }
+.code-sculpture__caption strong { color:#dce9ec; font:500 var(--t-meta) 'DM Mono',monospace; }
+.code-sculpture__caption > span { color:#8aa0ab; font:var(--t-micro)/1.5 'DM Mono',monospace; }
+.code-sculpture__controls { display:flex; flex-shrink:0; gap:6px; }
+.code-sculpture__controls button { min-height:40px; padding:8px 11px; border:1px solid #25434b; border-radius:var(--radius); background:#081418; color:#c5e3e1; font:var(--t-meta) 'DM Mono',monospace; cursor:pointer; }
+.code-sculpture__controls button:hover { border-color:#20cbb4; background:#0c282b; }
+.code-sculpture__controls button[aria-pressed="true"] { color:#65ead2; border-color:#20cbb4; }
+.code-sculpture__controls button:disabled { cursor:default; opacity:.5; }
+.code-sculpture[data-still="true"] .code-sculpture__rotation,.code-sculpture[data-still="true"] .code-sculpture__orbit { animation-play-state:paused; }
+@keyframes sculpture-turn { to { transform:rotateX(336deg) rotateY(395deg) rotateZ(-8deg); } }
+@keyframes sculpture-orbit-a { to { transform:rotateX(72deg) rotateY(-16deg) rotateZ(360deg); } }
+@keyframes sculpture-orbit-b { to { transform:rotateX(24deg) rotateY(68deg) rotateZ(360deg); } }
+@media (max-width:1100px) and (min-width:701px) { .code-sculpture__tilt { scale:.8; } .code-sculpture__caption > span { max-width:130px; } .code-sculpture__footer { flex-wrap:wrap; } }
+@media (max-width:700px) {
+  .code-sculpture { width:100%; max-width:440px; margin:34px auto 10px; }
+  .code-sculpture__stage { height:340px; perspective:1000px; }
+  .code-sculpture__tilt { scale:.85; }
+  .code-sculpture__footer { flex-wrap:wrap; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .code-sculpture__rotation,.code-sculpture__orbit { animation:none !important; }
+  .code-sculpture__tilt { transform:none; transition:none; }
+  .code-sculpture__cube { transition:none; }
+}

@@ -124,6 +124,10 @@ Projects and sponsor marks now load exclusively from Supabase, ordered by `displ
 <!-- GENERATED:motion source=/document updated=2026-09-03 -->
 ## Motion
 
+September 2026 3D hero: `Landing/CodeSculpture.tsx` and its colocated CSS replace the hero-only wave field with a CSS perspective sculpture. Twenty-seven 42px cubes form a glass-like teal/blue lattice around a solid teal core, with three orbital rings. The lattice rotates over 28 seconds; two rings orbit over 19 and 24 seconds. Pointer movement tilts the scene up to 10 degrees vertically and 13 degrees horizontally, with a 450ms ease-out response. Touch retains native scrolling. The Explode/Assemble button changes cube spacing from 46px to 79px over 1000ms with a short distance-based stagger. A separate Pause/Play button stops continuous rotation and pointer tracking. Continuous animations also pause outside the viewport and in hidden tabs. Reduced motion removes rotation, pointer tilt, and transition effects, while keeping instant assembly controls available; Play is disabled in this mode.
+
+The hero now uses a `1.25fr / 1fr` grid with a 36px gap; statistics occupy a full-width row in normal flow so they cannot overlap the content on short screens. Below 700px, the sculpture follows the copy in a single column. Its stage is 370px high on desktop and 340px on mobile, with the 3D object scaled to .8 between 701px and 1100px and .85 on mobile. The sculpture uses existing DM Mono type roles, blue/teal colors, and radius tokens. Decorative geometry is hidden from assistive technology; the native controls expose their pressed states and retain the global focus ring. The full-page background waves remain intact.
+
 Vertical wheel scrolling over the project rail moves through projects horizontally. Card snapping stays disabled after wheel input so pauses between slow wheel movements do not shift the cards. A pointer press or keyboard input restores snapping for direct interaction. At either end, outward scrolling resumes normal page scrolling; horizontal trackpad input, keyboard navigation, and zoom gestures retain their native behavior.
 
 | Motion | Trigger | Timing/technique | Evidence |

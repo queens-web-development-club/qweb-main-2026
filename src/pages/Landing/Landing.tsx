@@ -10,6 +10,7 @@ import { Sponsors } from '../Sponsors/Sponsors';
 import { SiteFooter } from '../Footer/SiteFooter';
 import { InspectModeProvider, InspectToggle } from '../../components/InspectMode';
 import './Landing.css';
+import { CodeSculpture } from './CodeSculpture';
 
 // The strip lists what the club teaches. It reads from the curriculum the
 // Education section renders, so the two can never drift apart.
@@ -128,7 +129,7 @@ export function Landing() {
           <p className="intro">We teach students to build for the web, from your first line of HTML to a production deploy. Whether you are a team that ships or someone figuring it out, there is a place for you here.</p>
           <div className="actions"><a className="primary" href="#join">Join the club</a><a className="secondary" href="#projects">See our work</a></div>
         </div>
-        <div className="wave-field" aria-hidden="true"><div className="wave wave-a"><div className="wave-line" /></div><div className="wave wave-b"><div className="wave-line" /></div><div className="wave wave-c"><div className="wave-line" /></div><div className="wave wave-d"><div className="wave-line" /></div><div className="wave wave-e"><div className="wave-line" /></div><div className="wave wave-f"><div className="wave-line" /></div></div>
+        <CodeSculpture />
         <section className="stats page-load page-load--delayed-more" id="stats" aria-label="QWEB statistics" data-inspect="section.stats#stats">{stats.map((stat) => <AnimatedStat key={stat.label} {...stat} />)}<NextEvent /></section>
       </section>
 
