@@ -10,17 +10,43 @@ export function Projects() {
   const [progress, setProgress] = useState(0);
   const [current, setCurrent] = useState(1);
 
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const restoreSnapping = () => rail.classList.remove('project-rail--wheeling');
+    const onWheel = (event: WheelEvent) => {
+      // Preserve zoom gestures and native horizontal trackpad scrolling.
+      if (event.ctrlKey || event.shiftKey || Math.abs(event.deltaX) >= Math.abs(event.deltaY)) return;
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rail.clientWidth : 1;
+      const delta = event.deltaY * unit;
+      const max = rail.scrollWidth - rail.clientWidth;
+      if (max <= 0 || (delta < 0 && rail.scrollLeft <= 1) || (delta > 0 && rail.scrollLeft >= max - 1)) return;
+      event.preventDefault();
+      // Keep wheel positions stable even when input pauses between small deltas.
+      rail.classList.add('project-rail--wheeling');
+      rail.scrollLeft = Math.max(0, Math.min(max, rail.scrollLeft + delta));
+    };
+    rail.addEventListener('wheel', onWheel, { passive: false });
+    rail.addEventListener('pointerdown', restoreSnapping);
+    rail.addEventListener('keydown', restoreSnapping);
+    return () => {
+      rail.removeEventListener('wheel', onWheel);
+      rail.removeEventListener('pointerdown', restoreSnapping);
+      rail.removeEventListener('keydown', restoreSnapping);
+      restoreSnapping();
+    };
+  }, [projects.length]);
+
   // The meter and the counter are the only scroll affordances: no dots, no arrows.
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
     const update = () => {
       const max = rail.scrollWidth - rail.clientWidth;
-      const ratio = max > 8 ? Math.min(1, rail.scrollLeft / max) : 0;
+      const ratio = max > 1 ? Math.max(0, Math.min(1, rail.scrollLeft / max)) : 1;
       setProgress(ratio);
-      const card = rail.querySelector<HTMLElement>('.project-card');
-      const step = card ? card.offsetWidth + 14 : 1;
-      setCurrent(Math.min(projects.length, Math.round(rail.scrollLeft / step) + 1));
+      // Several cards fit in the viewport, so card-width offsets never reach the total.
+      setCurrent(Math.round(ratio * (projects.length - 1)) + 1);
     };
     update();
     rail.addEventListener('scroll', update, { passive: true });
@@ -42,7 +68,7 @@ export function Projects() {
         ref={railRef}
         tabIndex={0}
         role="group"
-        aria-label={`${projects.length} client projects. Scroll sideways, or use the arrow keys.`}
+        aria-label={`${projects.length} client projects. Scroll over the cards, scroll sideways, or use the arrow keys.`}
         data-inspect="div.project-rail"
       >
         {projects.map((project, index) => {
