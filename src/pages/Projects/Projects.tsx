@@ -1,21 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { getProjects } from '../../lib/content';
+import { getProjects, type ClubProject } from '../../lib/content';
 import { SectionHeading } from '../../components/SectionHeading';
-import { fallbackProjects } from '../../data/projects';
+import { useContentList } from '../../lib/useContentList';
 import './Projects.css';
 
 export function Projects() {
-  const [projects, setProjects] = useState(fallbackProjects);
+  const { items: projects, isLoading, hasError } = useContentList<ClubProject>(getProjects);
   const railRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [current, setCurrent] = useState(1);
-
-  useEffect(() => {
-    getProjects().then(({ data, error }) => {
-      if (error) console.error('Could not load club projects from Supabase:', error);
-      if (data?.length) setProjects(data);
-    });
-  }, []);
 
   // The meter and the counter are the only scroll affordances: no dots, no arrows.
   useEffect(() => {
@@ -37,8 +30,12 @@ export function Projects() {
 
   const pad = (n: number) => String(n).padStart(2, '0');
 
-  return <section className="projects-section reveal-on-scroll" id="projects" aria-labelledby="projects-title" data-inspect="section.projects-section#projects">
+  return <section className="projects-section reveal-on-scroll" id="projects" aria-labelledby="projects-title" aria-busy={isLoading} data-inspect="section.projects-section#projects">
     <SectionHeading id="projects-title" title="Live in the wild." />
+    {isLoading && <p className="projects-feedback" role="status">Loading projects...</p>}
+    {!isLoading && hasError && <p className="projects-feedback" role="alert">Projects are unavailable right now. Please try again later.</p>}
+    {!isLoading && !hasError && projects.length === 0 && <p className="projects-feedback">No projects have been added yet.</p>}
+    {projects.length > 0 && <>
     <div className="project-rail-wrap">
       <div
         className="project-rail"
@@ -70,5 +67,6 @@ export function Projects() {
       <div className="project-meter" aria-hidden="true"><span style={{ transform: `scaleX(${Math.max(0.06, progress)})` }} /></div>
       <p className="project-count" aria-hidden="true">{pad(current)} <i>/</i> {pad(projects.length)}</p>
     </div>
+    </>}
   </section>;
 }

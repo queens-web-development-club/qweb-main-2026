@@ -39,11 +39,12 @@ npm run preview
 
 1. Create a Supabase project and copy `.env.example` to `.env.local`.
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local`.
-3. Add rows to `club_projects` (`name`, `photo`, `description`, `link`), `team_members` (`name`, `photo`, `role`, `year`, `program`, `responsibility`, `fun_fact`), and `term_events` (`event_name`, `description`, `event_date`, `event_time`, `event_location`). Photo values should be public image URLs. `role` accepts `Co-Chair`, `Development`, `Outreach`, `Design`, or `Education`. Use an ISO date such as `2026-09-12` for `event_date`.
+3. Apply the SQL files in `supabase/migrations/` in filename order using your Supabase migration workflow before deploying the frontend. The September 5 migrations seed eleven legacy projects (skipping existing names, case-insensitively) and create and seed five sponsors. Existing project content is preserved; existing rows receive the default display order of 1000.
+4. Manage `club_projects` (`name`, `photo`, `description`, `link`, `display_order`), `sponsors` (`name`, `logo`, `link`, `display_order`), `team_members` (`name`, `photo`, `role`, `year`, `program`, `responsibility`, `fun_fact`), and `term_events` (`event_name`, `description`, `event_date`, `event_time`, `event_location`) in the Supabase dashboard. Images can use public image URLs or existing root-relative asset paths such as `/sponsors/COMPSA.png`. Sponsor links must be HTTP(S) URLs. `role` accepts `Co-Chair`, `Development`, `Outreach`, `Design`, or `Education`. Use an ISO date such as `2026-09-12` for `event_date`.
 
-Apply the migrations in `supabase/migrations/` before using the newer `club_projects.link` and `team_members.year`, `program`, `responsibility`, and `fun_fact` fields. If Supabase is unavailable, the site renders its committed fallback content; configured empty event data renders an honest empty state.
+Projects and sponsors sort by `display_order` ascending, then UUID for stable ties. Set `display_order` in the dashboard to reorder entries. Both sections use database content exclusively: loading, unavailable, and empty results have explicit messages. Deleting all rows leaves an empty section; no old entries reappear. Seed data lives only in migrations, and image files remain in `public/projects/` and `public/sponsors/`.
 
-The site reads these tables anonymously using the publishable/anon key. Row-level security allows public reads and blocks client-side inserts, updates, and deletes. Until the environment variables and rows are present, the committed fallback content remains visible for projects and team, while the events section explains when no schedule is available.
+The site reads these tables anonymously using the publishable/anon key. Row-level security allows public reads and blocks client-side inserts, updates, and deletes. Manage content through the dashboard or a trusted server, never with a service-role key in the frontend. The team retains its role-only fallback, while events explain when no schedule is available. Sponsor reach statistics are historical club figures, independent of the sponsor and project listings.
 
 ## Project structure
 

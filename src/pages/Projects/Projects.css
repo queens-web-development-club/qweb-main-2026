@@ -1,4 +1,5 @@
 .projects-section{max-width:1130px;margin:0 auto;padding:var(--sp-lg) var(--gutter) var(--sp-lg)}
+.projects-feedback{margin:20px 0;color:#93a6af;font:var(--t-body)/1.7 'DM Mono',monospace}
 
 /* Eleven projects stacked in a 3-column grid cost four rows and ~1,100px. On a rail
    they cost one row. Deliberately not a carousel: nothing auto-advances, there are
