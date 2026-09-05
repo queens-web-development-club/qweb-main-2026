@@ -7,6 +7,7 @@
 .project-rail-wrap{position:relative}
 .project-rail{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-left:12px;padding:2px 12px 4px;scrollbar-width:none}
 .project-rail::-webkit-scrollbar{display:none}
+.project-rail--wheeling{scroll-snap-type:none}
 .project-rail:focus-visible{outline:2px solid #20cbb4;outline-offset:6px;border-radius:var(--radius)}
 
 .project-card{flex:0 0 clamp(248px,25vw,322px);scroll-snap-align:start;display:block;border:1px solid #142832;border-radius:var(--radius);overflow:hidden;background:#050d11}

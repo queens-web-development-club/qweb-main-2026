@@ -124,6 +124,8 @@ Projects and sponsor marks now load exclusively from Supabase, ordered by `displ
 <!-- GENERATED:motion source=/document updated=2026-09-03 -->
 ## Motion
 
+Vertical wheel scrolling over the project rail moves through projects horizontally. Card snapping pauses during wheel input and resumes after 180ms without input. At either end, outward scrolling resumes normal page scrolling; horizontal trackpad input, keyboard navigation, and zoom gestures retain their native behavior.
+
 | Motion | Trigger | Timing/technique | Evidence |
 | --- | --- | --- | --- |
 | Animated statistics | Intersection with stat card | `requestAnimationFrame`, `1100ms`, cubic easing `1 - (1 - progress) ** 3` | `Landing.tsx`, `AnimatedStat` |

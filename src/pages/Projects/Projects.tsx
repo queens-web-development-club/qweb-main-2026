@@ -10,6 +10,32 @@ export function Projects() {
   const [progress, setProgress] = useState(0);
   const [current, setCurrent] = useState(1);
 
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    let settleTimer: ReturnType<typeof setTimeout> | undefined;
+    const onWheel = (event: WheelEvent) => {
+      // Preserve zoom gestures and native horizontal trackpad scrolling.
+      if (event.ctrlKey || event.shiftKey || Math.abs(event.deltaX) >= Math.abs(event.deltaY)) return;
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rail.clientWidth : 1;
+      const delta = event.deltaY * unit;
+      const max = rail.scrollWidth - rail.clientWidth;
+      if (max <= 0 || (delta < 0 && rail.scrollLeft <= 1) || (delta > 0 && rail.scrollLeft >= max - 1)) return;
+      event.preventDefault();
+      // Let small wheel deltas accumulate before restoring card snapping.
+      rail.classList.add('project-rail--wheeling');
+      rail.scrollLeft = Math.max(0, Math.min(max, rail.scrollLeft + delta));
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => rail.classList.remove('project-rail--wheeling'), 180);
+    };
+    rail.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      rail.removeEventListener('wheel', onWheel);
+      clearTimeout(settleTimer);
+      rail.classList.remove('project-rail--wheeling');
+    };
+  }, [projects.length]);
+
   // The meter and the counter are the only scroll affordances: no dots, no arrows.
   useEffect(() => {
     const rail = railRef.current;
@@ -42,7 +68,7 @@ export function Projects() {
         ref={railRef}
         tabIndex={0}
         role="group"
-        aria-label={`${projects.length} client projects. Scroll sideways, or use the arrow keys.`}
+        aria-label={`${projects.length} client projects. Scroll over the cards, scroll sideways, or use the arrow keys.`}
         data-inspect="div.project-rail"
       >
         {projects.map((project, index) => {
