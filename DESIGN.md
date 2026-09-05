@@ -78,7 +78,7 @@ Evidence: `src/pages/Landing/Landing.css` `:root`, and the `padding` declaration
 <!-- GENERATED:components source=/document updated=2026-09-03 -->
 ## Components
 
-September 2026 polish: Team entries without a supplied photo render as compact text entries with a top rule, with no empty portrait tile. Mobile people grids use two columns and supplied portraits use a 4:5 ratio. Join uses an open, ruled invitation with rectangular actions using `--radius`, followed by unboxed contact columns (stacked with dividers below 700px). Sponsor statistics use three unboxed columns at both desktop and mobile widths, with `--t-stat` values. These refinements supersede the earlier card descriptions below; typography and the underlying palette are unchanged.
+September 2026 polish: Team entries without a supplied photo use `/assets/Unknown_Member.jpg` in the same portrait frame as supplied photos. Mobile people grids use two columns and all portraits use a 4:5 ratio. Join uses an open, ruled invitation with rectangular actions using `--radius`, followed by unboxed contact columns (stacked with dividers below 700px). Sponsor statistics use three unboxed columns at both desktop and mobile widths, with `--t-stat` values. These refinements supersede the earlier card descriptions below; typography and the underlying palette are unchanged.
 
 | Component | Purpose | Appearance-relevant surfaces |
 | --- | --- | --- |
