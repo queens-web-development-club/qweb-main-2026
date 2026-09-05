@@ -1,9 +1,26 @@
 .education { max-width:1130px; margin:0 auto; padding:var(--sp-xl) var(--gutter) 0; }
 
-/* The curriculum reads as a progression, not a tag cloud: each step leads to the next. */
-.education__curriculum { list-style:none; display:grid; grid-template-columns:repeat(5,1fr); gap:9px; margin:0; padding:0; }
-.education__curriculum li { min-width:0; display:flex; align-items:baseline; gap:9px; padding:20px 16px; border:1px solid #142832; border-radius:var(--radius); background:#050d11; color:#e2eded; font:500 var(--t-card) 'IBM Plex Sans',sans-serif; }
-.education__curriculum li span { color:#2586ee; font:var(--t-micro) 'DM Mono',monospace; }
+/* A curriculum index beside a worked example: type and rules carry the structure. */
+.education__workbench { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:48px; align-items:start; }
+.education__hint { margin:0 0 14px; color:#91a6af; font:var(--t-meta)/1.5 'DM Mono',monospace; }
+.education__curriculum { list-style:none; margin:0; padding:0; border-top:1px solid #29434a; }
+.education__curriculum li { border-bottom:1px solid #203039; }
+.education__curriculum button { width:100%; display:flex; align-items:center; gap:16px; padding:16px 0; border:0; background:transparent; color:#a4b4bc; text-align:left; cursor:pointer; }
+.education__number { align-self:flex-start; margin-top:7px; color:#91a6af; font:var(--t-micro)/1.5 'DM Mono',monospace; }
+.education__skill-name { flex:1; font:500 clamp(24px,2.5vw,32px)/1.1 'IBM Plex Sans',sans-serif; letter-spacing:-.035em; }
+.education__skill-name small { display:block; margin-top:7px; color:#91a6af; font:var(--t-meta)/1.5 'DM Mono',monospace; letter-spacing:0; }
+.education__selection { color:#20cbb4; opacity:0; font:24px 'DM Mono',monospace; }
+.education__curriculum button[aria-pressed="true"] { color:#20cbb4; }
+.education__curriculum button[aria-pressed="true"] .education__selection { opacity:1; }
+.education__curriculum button:hover { color:#edf1f2; }
+.education__curriculum button:focus-visible { outline:2px solid #20cbb4; outline-offset:5px; }
+.education__example { min-width:0; padding-top:32px; }
+.education__example-meta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; padding-bottom:18px; border-bottom:1px solid #29434a; color:#91a6af; font:var(--t-micro)/1.5 'DM Mono',monospace; }
+.education__example-meta > span:first-child { color:#20cbb4; }
+.education__lesson h3 { margin:24px 0 10px; color:#edf1f2; font:500 clamp(24px,2.6vw,32px)/1.15 'IBM Plex Sans',sans-serif; letter-spacing:-.025em; }
+.education__lesson > p { min-height:72px; max-width:48ch; margin:0; color:#9aabb2; font:var(--t-body)/1.7 'DM Mono',monospace; }
+.education__lesson pre { margin:24px 0 0; padding:20px 0 0; border-top:1px solid #203039; color:#b8d5d2; font:var(--t-meta)/1.9 'DM Mono',monospace; white-space:pre-wrap; overflow-wrap:anywhere; tab-size:2; }
+.education__lesson code { font:inherit; }
 
 .education__process { margin-top:56px; }
 .education__process-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; }
@@ -17,29 +34,24 @@
 
 @media (max-width:700px) {
   .education { padding:76px 22px 0; }
-  .education__curriculum { grid-template-columns:repeat(2,1fr); }
-  .education__curriculum li { padding:15px 13px; font-size:13px; }
+  .education__workbench { grid-template-columns:1fr; gap:28px; }
+  .education__curriculum button { padding:13px 0; }
+  .education__skill-name { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:4px 12px; font-size:24px; }
+  .education__skill-name small { margin-top:0; }
+  .education__example { padding-top:0; min-height:380px; }
+  .education__lesson > p { min-height:0; }
+  .education__process-header { align-items:flex-start; gap:16px; }
+  .education__process-header > span { flex-shrink:0; letter-spacing:.04em; }
   .education__steps { grid-template-columns:1fr; gap:12px; padding-top:20px; }
   .education__steps li { padding:0 0 0 16px; border-left:1px solid #14242b; }
   .education__steps li:not(:first-child) { padding-left:16px; }
 }
 
 @media (prefers-reduced-motion:no-preference) {
-  .motion-ready .education__curriculum li {
-    opacity:0;
-    transform:translateY(12px);
-    transition:opacity 320ms ease-out,transform 480ms cubic-bezier(.16,1,.3,1);
-  }
-  .motion-ready .education.is-visible .education__curriculum li,
-  .motion-ready .education:focus-within .education__curriculum li {
-    opacity:1;
-    transform:none;
-  }
-  .motion-ready .education.is-visible .education__curriculum li:nth-child(1) { transition-delay:90ms; }
-  .motion-ready .education.is-visible .education__curriculum li:nth-child(2) { transition-delay:140ms; }
-  .motion-ready .education.is-visible .education__curriculum li:nth-child(3) { transition-delay:190ms; }
-  .motion-ready .education.is-visible .education__curriculum li:nth-child(4) { transition-delay:240ms; }
-  .motion-ready .education.is-visible .education__curriculum li:nth-child(5) { transition-delay:290ms; }
+  .education__curriculum button { transition:color 160ms ease-out; }
+  .education__selection { transition:opacity 160ms ease-out; }
+  .education__lesson { animation:education-example-in 180ms ease-out; }
+  @keyframes education-example-in { from { opacity:.35; } to { opacity:1; } }
 
   .motion-ready .education__steps::before {
     transform:scaleX(0);
