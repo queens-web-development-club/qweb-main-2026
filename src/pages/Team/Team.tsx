@@ -21,7 +21,7 @@ function Person({ person }: { person: DisplayMember }) {
   const study = [person.year, person.program].filter(Boolean).join(' · ');
 
   return <article className={`person person--${person.tone}`} data-inspect="article.person">
-    <div className="person-art">{person.photo && <img src={person.photo} alt="" loading="lazy" />}</div>
+    {person.photo && <div className="person-art"><img src={person.photo} alt="" loading="lazy" /></div>}
     <h3>{person.name}</h3>
     <p className="person-role">{person.role}{study && <span> · {study}</span>}</p>
     {person.responsibility && <p className="person-responsibility">{person.responsibility}</p>}

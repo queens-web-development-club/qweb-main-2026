@@ -1,9 +1,9 @@
 .sponsors { max-width:1130px; margin:0 auto; padding:var(--sp-md) var(--gutter) 0; }
 
-.sponsors__reach { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin:0 0 22px; }
-.sponsors__reach div { min-width:0; padding:18px 20px; border:1px solid #142832; border-radius:var(--radius); background:rgba(0,0,0,.4); }
-.sponsors__reach dt { color:#6b8390; font:var(--t-micro) 'DM Mono',monospace; letter-spacing:.09em; text-transform:uppercase; }
-.sponsors__reach dd { margin:8px 0 0; color:#e3ecee; font:500 26px 'DM Mono',monospace; }
+.sponsors__reach { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin:0 0 28px; }
+.sponsors__reach div { min-width:0; padding:18px 0 0; border-top:1px solid #23343c; }
+.sponsors__reach dt { color:#93a6af; font:var(--t-micro)/1.6 'DM Mono',monospace; letter-spacing:.06em; text-transform:uppercase; }
+.sponsors__reach dd { margin:8px 0 0; color:#e3ecee; font:500 var(--t-stat) 'DM Mono',monospace; }
 
 /* Several partner marks are black on transparent, so each sits on a light plate
    rather than vanishing into the near-black surface. */
@@ -19,7 +19,7 @@
 
 @media (max-width:700px) {
   .sponsors { padding:48px 22px 0; }
-  .sponsors__reach { grid-template-columns:1fr; }
+  .sponsors__reach { gap:12px; }
   .sponsors__logos { grid-template-columns:repeat(2,1fr); }
   .sponsors__logos a { height:78px; }
 }
