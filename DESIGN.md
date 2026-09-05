@@ -96,6 +96,8 @@ Evidence: `src/pages/Landing/Landing.css` `:root`, and the `padding` declaration
 Section-level components carry a `data-inspect` attribute holding their real selector (for example `section.projects-section`). Region wrappers own the shareable anchors such as `#about` and `#education`; inspect mode reads the nearest annotation on hover, and nothing else depends on it. New sections should set one.
 
 `src/components/` holds cross-cutting UI that is not a page section. Page sections keep the colocated `src/pages/<Section>/` convention.
+
+Projects and sponsor marks now load exclusively from Supabase, ordered by `display_order` with UUID tie-breaking. Loading, error, and empty messages use `--t-body`, a `1.7` line height, and `#93a6af`. Empty projects omit the rail and counter; empty sponsors omit the logo grid. The seeded database preserves the original eleven projects and five sponsors without bundling fallback records into the frontend.
 <!-- /GENERATED:components -->
 
 <!-- GENERATED:layout source=/document updated=2026-09-03 -->

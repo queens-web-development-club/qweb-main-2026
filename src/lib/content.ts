@@ -20,6 +20,13 @@ export type TeamMember = {
   fun_fact: string | null;
 };
 
+export type Sponsor = {
+  id: string;
+  name: string;
+  logo: string;
+  link: string;
+};
+
 export type TermEvent = {
   id: string;
   event_name: string;
@@ -31,7 +38,14 @@ export type TermEvent = {
 
 export async function getProjects() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('club_projects').select('id, name, photo, description, link').order('created_at', { ascending: false });
+  return supabase.from('club_projects').select('id, name, photo, description, link')
+    .order('display_order', { ascending: true }).order('id', { ascending: true });
+}
+
+export async function getSponsors() {
+  if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
+  return supabase.from('sponsors').select('id, name, logo, link')
+    .order('display_order', { ascending: true }).order('id', { ascending: true });
 }
 
 export async function getTeamMembers() {
