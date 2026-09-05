@@ -1,6 +1,11 @@
 -- Keep database-managed projects, adding only legacy entries not already present.
 alter table public.club_projects
-  add column display_order integer not null default 1000;
+  add column if not exists display_order integer not null default 1000;
+
+-- Keep this seed safe to run on databases that have the base table but have not
+-- applied the separate link-column migration yet.
+alter table public.club_projects
+  add column if not exists link text;
 
 insert into public.club_projects (name, photo, description, link, display_order)
 select seed.name, seed.photo, seed.description, seed.link, seed.display_order

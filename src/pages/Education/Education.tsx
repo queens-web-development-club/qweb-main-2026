@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { SectionHeading } from '../../components/SectionHeading';
 import './Education.css';
 
@@ -52,6 +52,25 @@ const lessons = [
 export function Education() {
   const [selected, setSelected] = useState(0);
   const lesson = lessons[selected];
+  const processRef = useRef<HTMLDivElement>(null);
+  const [processVisible, setProcessVisible] = useState(false);
+
+  useEffect(() => {
+    const element = processRef.current;
+    if (!element) return;
+    if (!('IntersectionObserver' in window)) {
+      setProcessVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setProcessVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.5 });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return <section className="education reveal-on-scroll" aria-labelledby="education-title" data-inspect="section.education">
     <SectionHeading id="education-title" title="What you’ll actually learn." summary="Want more skills to put on your resume? We cover these — and more — in the curriculum." />
@@ -79,12 +98,12 @@ export function Education() {
       </div>
     </div>
 
-    <div className="education__process" data-inspect="div.education__process">
+    <div ref={processRef} className={`education__process${processVisible ? ' is-running' : ''}`} data-inspect="div.education__process">
       <header className="education__process-header">
         <p className="education__process-label">// How a client project runs</p>
         <span>Brief → handover</span>
       </header>
-      <ol className="education__steps">{process.map((step) => <li key={step}>{step}</li>)}</ol>
+      <ol className="education__steps">{process.map((step, index) => <li key={step} style={{ '--step-index': index } as CSSProperties}>{step}</li>)}</ol>
     </div>
   </section>;
 }
