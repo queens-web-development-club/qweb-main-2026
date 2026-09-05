@@ -132,6 +132,7 @@ Projects and sponsor marks now load exclusively from Supabase, ordered by `displ
 | Section/card reveal | Intersection with section or card | `400ms` opacity cross-fade; content choreography is staged by section | `Landing.tsx` and `Landing.css`, `.reveal-on-scroll` |
 | Scroll content choreography | Section enters the viewport | `300ms`–`520ms` opacity/transform transitions, with `50ms`–`360ms` stagger caps | Local section styles for About, Education, Projects, Term, Team, Sponsors, and Join |
 | About journey progress | About section intersection | `1100ms`, transform scale along the desktop horizontal or mobile vertical track | `AboutUs.css`, `.about-us__milestones::before` |
+| Client project timeline | Half of the process block enters the viewport, once | `4800ms` linear horizontal track fill; five labels highlight teal over `180ms`, staggered by `960ms` to match each fifth of the bar. Reduced motion shows the full bar and highlighted labels immediately | `Education.tsx` and `Education.css`, `.education__process` |
 | About offering focus | Scroll position while About is in view | `620ms` transform on the offering nearest the viewport center, plus a lit `#071014` surface; all rows stay fully legible | `AboutUs.tsx` and `AboutUs.css`, `.about-us__offering` |
 | Curriculum example change | Explicit button selection | `180ms` opacity entrance; selection colors and arrow opacity transition over `160ms`. All are limited to `prefers-reduced-motion: no-preference`; selection never moves focus or auto-advances | `Education.tsx` and `Education.css` |
 
