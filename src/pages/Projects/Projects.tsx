@@ -42,11 +42,10 @@ export function Projects() {
     if (!rail) return;
     const update = () => {
       const max = rail.scrollWidth - rail.clientWidth;
-      const ratio = max > 8 ? Math.min(1, rail.scrollLeft / max) : 0;
+      const ratio = max > 1 ? Math.max(0, Math.min(1, rail.scrollLeft / max)) : 1;
       setProgress(ratio);
-      const card = rail.querySelector<HTMLElement>('.project-card');
-      const step = card ? card.offsetWidth + 14 : 1;
-      setCurrent(Math.min(projects.length, Math.round(rail.scrollLeft / step) + 1));
+      // Several cards fit in the viewport, so card-width offsets never reach the total.
+      setCurrent(Math.round(ratio * (projects.length - 1)) + 1);
     };
     update();
     rail.addEventListener('scroll', update, { passive: true });
