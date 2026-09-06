@@ -1,4 +1,4 @@
-import { type CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import './CodeSculpture.css';
 
 type Point = readonly [number, number];
@@ -10,7 +10,9 @@ const symbols: { name: string; x: number; width: number; points: Point[] }[] = [
 ];
 
 export function CodeSculpture() {
-  return <aside className="code-sculpture" aria-label="3D code icon: opening bracket, slash, closing bracket" data-inspect="aside.code-sculpture">
+  const [expanded, setExpanded] = useState(false);
+
+  return <aside className="code-sculpture" aria-label="3D code icon: opening bracket, slash, closing bracket" data-inspect="aside.code-sculpture" data-expanded={expanded}>
     <div className="code-sculpture__stage" aria-hidden="true">
       <div className="code-sculpture__scene">
         <div className="code-sculpture__orbit code-sculpture__orbit--a" />
@@ -33,6 +35,11 @@ export function CodeSculpture() {
           </div>)}
         </div>
       </div>
+    </div>
+    <div className="code-sculpture__controls">
+      <button type="button" aria-pressed={expanded} onClick={() => setExpanded((value) => !value)}>
+        {expanded ? '− Assemble' : '+ Explode'}
+      </button>
     </div>
   </aside>;
 }
