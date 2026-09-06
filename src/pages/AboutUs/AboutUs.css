@@ -97,10 +97,14 @@
   .motion-ready .about-us.is-visible .about-us__journey { transition-delay:380ms; }
 }
 
-/* Each milestone owns its connector, so the sequence starts at the timeline. */
-.about-us__milestones li::before { content:''; position:absolute; top:-27px; left:0; width:100%; height:2px; background:var(--about-teal); transform-origin:left; }
+/* Adjacent color stops make one blue-to-teal gradient across the timeline. */
+.about-us__milestones li { --journey-from:#287fea; --journey-to:#2598d8; --journey-direction:90deg; }
+.about-us__milestones li:nth-child(2) { --journey-from:#2598d8; --journey-to:#23b2c6; }
+.about-us__milestones li:nth-child(3) { --journey-from:#23b2c6; --journey-to:#20cbb4; }
+.about-us__milestones li:nth-child(4) { --journey-from:#20cbb4; --journey-to:#20cbb4; }
+.about-us__milestones li::before { content:''; position:absolute; top:-27px; left:0; width:100%; height:2px; background:linear-gradient(var(--journey-direction),var(--journey-from),var(--journey-to)); transform-origin:left; }
 .about-us__milestones li:last-child::before { width:19px; }
-.about-us__marker { z-index:1; background:var(--about-teal); }
+.about-us__milestones li .about-us__marker { z-index:1; background:var(--journey-from); }
 @media (prefers-reduced-motion:no-preference) {
   .journey-ready li { --journey-delay:0ms; }
   .journey-ready li:nth-child(2) { --journey-delay:800ms; }
@@ -108,13 +112,14 @@
   .journey-ready li:nth-child(4) { --journey-delay:2400ms; }
   .journey-ready li::before { transform:scaleX(0); transition:transform 800ms linear var(--journey-delay); }
   .journey-ready li.is-reached::before { transform:scaleX(1); }
-  .journey-ready .about-us__marker { background:#18303a; color:#a6bac2; transition:background-color 240ms ease var(--journey-delay),color 240ms ease var(--journey-delay),box-shadow 240ms ease var(--journey-delay); }
-  .journey-ready li.is-reached .about-us__marker { background:var(--about-teal); color:#031014; box-shadow:0 0 16px #20cbb433; }
+  .journey-ready .about-us__milestones li .about-us__marker { background:#18303a; color:#a6bac2; transition:background-color 240ms ease var(--journey-delay),color 240ms ease var(--journey-delay),box-shadow 240ms ease var(--journey-delay); }
+  .journey-ready .about-us__milestones li.is-reached .about-us__marker { background:var(--journey-from); color:#031014; box-shadow:0 0 16px color-mix(in srgb,var(--journey-from) 20%,transparent); }
   .journey-ready li > p,.journey-ready li > h3 { transform:translateY(6px); transition:transform 400ms ease-out var(--journey-delay),color 400ms ease-out var(--journey-delay); }
   .journey-ready li.is-reached > p,.journey-ready li.is-reached > h3 { transform:none; }
-  .journey-ready li.is-reached > p { color:var(--about-teal); }
+  .journey-ready li.is-reached > p { color:var(--journey-from); }
 }
 @media (max-width:700px) {
+  .about-us__milestones li { --journey-direction:180deg; }
   .about-us__milestones li::before { top:0; left:-28px; width:2px; height:100%; transform-origin:top; }
   .about-us__milestones li:last-child::before { width:2px; height:19px; }
 }
