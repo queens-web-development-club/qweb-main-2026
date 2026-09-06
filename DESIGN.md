@@ -39,6 +39,8 @@ Before these, body copy ran at 8–9px and labels at 7px (one at 6px) — roughl
 <!-- GENERATED:color source=/document updated=2026-09-03 -->
 ## Color
 
+The hero word ?Development? restores its original `linear-gradient(98deg,#2878ed 16%,#1bd6b0 78%)` clipped to text, with a system text-color fallback in forced-colors mode. A static, low-opacity blue/teal radial wash spans the hero behind the copy and sculpture.
+
 | Use | Value | Defined/used in |
 | --- | --- | --- |
 | Page background | `#030607` | `Landing.css`, `:root`, `body`, `.page` |
@@ -82,7 +84,7 @@ September 2026 polish: Team entries without a supplied photo use `/assets/Unknow
 
 | Component | Purpose | Appearance-relevant surfaces |
 | --- | --- | --- |
-| `Landing` | Composes the single route, navigation, hero, animated stats, next-event line, animated curriculum ticker, and four anchored regions | `src/pages/Landing/Landing.tsx` and `Landing.css` |
+| `Landing` | Composes the single route, navigation, hero, stationary 3D code icon, animated stats, animated curriculum ticker, and four anchored regions | `src/pages/Landing/Landing.tsx` and `Landing.css` |
 | `InspectMode` | Opt-in mode that labels each major section with the selector it is built from; `InspectModeProvider` owns the state, `InspectToggle` is the nav control, `InspectOverlay` draws the outline and tag | `src/components/InspectMode/` |
 | `AnimatedStat` | Counts a statistic from zero to its target when visible | `Landing.tsx`; rendered as bordered translucent stat cards |
 | `AboutUs` | Presents offerings as a numbered editorial index and first-year milestones as a continuous progress track | `src/pages/AboutUs/AboutUs.tsx` and `AboutUs.css` |
@@ -108,9 +110,9 @@ Projects and sponsor marks now load exclusively from Supabase, ordered by `displ
 - The site is a single React route composed by `Landing` in `src/main.tsx`, with four anchored regions: `#home` is the landing frame, `#about` groups About Us, Projects, Team, and Sponsors, `#education` groups Education and Term, and `#join` contains membership routes. Projects also carries its own `#projects` anchor, targeted by the hero's "See our work" action and the footer's Projects link.
 - Reading order within `#about` is claim → proof → people → backing: About Us promises a portfolio, Projects is that portfolio, then the team behind it and the partners funding it.
 - Major sections use a centered `max-width: 1130px` container with responsive horizontal gutters, except the full-width landing frame and ticker.
-- Landing navigation is a flex row; hero copy is left-aligned with the wave field behind it.
+- Landing navigation is a flex row; hero copy is left-aligned beside the unframed 3D sculpture, with a shared blue/teal radial wash behind both.
 - The curriculum strip below the hero is a flex row: a static `What we teach` label with a right divider, followed by a continuously looping curriculum track. The track pauses on hover/focus and stops under reduced motion. The label is hidden below `700px`.
-- Stats use a three-column grid on desktop and two columns below `700px`; the next-event line spans the grid.
+- Stats use a three-column grid on desktop and two columns below `700px`; the landing-page next-event line has been removed.
 - About offerings use four full-width editorial rows with numbered titles, descriptions, and activity artifacts; its milestone track uses four horizontal stages. On mobile, rows reflow around a fixed index and the milestone track becomes vertical.
 - Education pairs an open, ruled curriculum index with one code example in a `.85fr / 1.15fr` grid with a `48px` gap. The five native buttons retain the curriculum order and use `aria-pressed`, a teal selected label, and an arrow to identify selection. Each example includes a filename, a short explanation, and wrapping code. At `700px`, the example moves below the compact index with a `28px` gap. Skill names use `clamp(24px,2.5vw,32px)` (24px on mobile), while supporting text and code reuse the existing type tokens. The original section heading, summary, and client-project process remain intact.
 - Projects use a horizontal snap rail rather than a grid: fixed-width cards on an `overflow-x` track with `scroll-snap-type:x mandatory`, a hairline meter and an `01 / 11` counter beneath. Eleven cards cost one row instead of four. It is deliberately not a carousel — nothing auto-advances, and there are no dots or arrow controls. The partially-cut card at the right edge plus the meter and counter are the scroll affordances; the track is focusable and labelled for keyboard and assistive technology.
@@ -123,6 +125,10 @@ Projects and sponsor marks now load exclusively from Supabase, ordered by `displ
 
 <!-- GENERATED:motion source=/document updated=2026-09-03 -->
 ## Motion
+
+September 2026 3D hero: `Landing/CodeSculpture.tsx` and its colocated CSS render a stationary, extruded `< />` icon. Each bracket and the slash use a single continuous SVG polygon for the front and back surfaces, joined by CSS side faces with 28px depth. This avoids visible rectangular bar seams at the bracket elbows. Dark translucent teal/blue fills and thin luminous outlines restore the original cube's glass-like finish. The mark has a fixed -12-degree X / -18-degree Y perspective, with two static orbital outlines. Its zero-size scene is explicitly centered at 50% / 50% inside a positioned, clipped stage. The mark and rings remain stationary except when the native Explode/Assemble button is activated. Explode moves the brackets 24px outward with opposing 8px vertical and 20px depth offsets, and brings the slash 64px forward. Transform transitions take 900ms and reverse on Assemble; reduced motion changes the positions instantly. There is no automatic rotation, pointer tilt, or animation loop.
+
+The hero now uses a `1.25fr / 1fr` grid with a 36px gap; statistics occupy a full-width row in normal flow so they cannot overlap the content on short screens. Below 700px, the sculpture follows the copy in a single column. Its stage is 420px high on desktop and 340px on mobile, with the 3D object scaled to 1.15 on wide screens, .9 between 701px and 1100px, and .85 on mobile (.72 at widths up to 400px). The sculpture is unframed: no standalone headings, captions, floor grid, or divider; a centered Explode/Assemble button sits beneath the icon, exposes its pressed state, and retains the global keyboard focus ring. The sculpture uses existing DM Mono type roles, blue/teal colors, and radius tokens. Decorative geometry is hidden from assistive technology; the enclosing aside supplies a descriptive label. The full-page background waves remain intact.
 
 Vertical wheel scrolling over the project rail moves through projects horizontally. Card snapping stays disabled after wheel input so pauses between slow wheel movements do not shift the cards. A pointer press or keyboard input restores snapping for direct interaction. At either end, outward scrolling resumes normal page scrolling; horizontal trackpad input, keyboard navigation, and zoom gestures retain their native behavior.
 
