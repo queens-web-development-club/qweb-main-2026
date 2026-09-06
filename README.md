@@ -46,6 +46,12 @@ Projects and sponsors sort by `display_order` ascending, then UUID for stable ti
 
 The site reads these tables anonymously using the publishable/anon key. Row-level security allows public reads and blocks client-side inserts, updates, and deletes. Manage content through the dashboard or a trusted server, never with a service-role key in the frontend. The team retains its role-only fallback, while events explain when no schedule is available. Sponsor reach statistics are historical club figures, independent of the sponsor and project listings.
 
+### Console troubleshooting
+
+- A team request returning HTTP 400 with code `42703` and `column team_members.year does not exist` means the optional profile migration has not been applied. Team loading accepts the existing table columns and treats missing profile details as null, so the roster can still load. Apply `supabase/migrations/20260902000005_add_person_details_to_team_members.sql` through your migration workflow before editing those details. The team table is public content: the request selects all existing columns, then returns only the card fields to the component; keep private data in a separate protected table.
+- `Error parsing shader source` with `RGX2`/`RGX3` and `GpuShader filters are not supported when GPU compositing is disabled` points to browser image enhancement, not a QWEB shader. In Opera GX, disable RGX image/video enhancement and reload to confirm. [Opera documents RGX here](https://www.opera.com/gx/features/rgx). QWEB's hero uses CSS and SVG, with no GPU shader source.
+- `contentscript.js` listener and `ObjectMultiplex` warnings likely originate from an injected browser extension. Recheck with extensions disabled; inspect the script's full URL in DevTools to identify its owner. The React DevTools suggestion and QWEB source banner are informational.
+
 ## Project structure
 
 ```text

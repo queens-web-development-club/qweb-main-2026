@@ -50,7 +50,22 @@ export async function getSponsors() {
 
 export async function getTeamMembers() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('team_members').select('id, name, photo, role, year, program, responsibility, fun_fact').order('created_at', { ascending: true });
+  // Older databases do not have the optional profile columns yet. Selecting
+  // existing columns avoids rejecting the whole roster with Postgres 42703.
+  const result = await supabase.from('team_members').select('*').order('created_at', { ascending: true });
+  return {
+    ...result,
+    data: result.data?.map((member): TeamMember => ({
+      id: member.id,
+      name: member.name,
+      photo: member.photo ?? null,
+      role: member.role,
+      year: member.year ?? null,
+      program: member.program ?? null,
+      responsibility: member.responsibility ?? null,
+      fun_fact: member.fun_fact ?? null,
+    })) ?? null,
+  };
 }
 
 export async function getTermEvents() {
