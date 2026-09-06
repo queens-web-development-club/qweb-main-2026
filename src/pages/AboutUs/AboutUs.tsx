@@ -25,6 +25,36 @@ function ArtifactGraphic({ type }: { type: string }) {
 
 export function AboutUs() {
   const aboutRef = useRef<HTMLElement>(null);
+  const journeyRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const journey = journeyRef.current;
+    if (!journey || !('IntersectionObserver' in window)) return;
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const items = Array.from(journey.querySelectorAll('li'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-reached');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.35 });
+    const finish = () => {
+      if (!preference.matches) return;
+      items.forEach((item) => item.classList.add('is-reached'));
+      observer.disconnect();
+    };
+    journey.classList.add('journey-ready');
+    items.forEach((item) => observer.observe(item));
+    finish();
+    preference.addEventListener('change', finish);
+    return () => {
+      observer.disconnect();
+      preference.removeEventListener('change', finish);
+      journey.classList.remove('journey-ready');
+    };
+  }, []);
 
   useEffect(() => {
     const section = aboutRef.current;
@@ -83,7 +113,7 @@ export function AboutUs() {
       </article>)}
     </div>
 
-    <section className="about-us__journey" aria-labelledby="journey-title" data-inspect="section.about-us__journey">
+    <section ref={journeyRef} className="about-us__journey" aria-labelledby="journey-title" data-inspect="section.about-us__journey">
       <header className="about-us__journey-header">
         <p className="about-us__eyebrow" id="journey-title">// Your first year</p>
         <span>Fall → Spring</span>
