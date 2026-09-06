@@ -46,13 +46,11 @@ export const SPONSOR_LOGO_BUCKET = 'sponsor-logos';
 
 /**
  * Sponsor rows store a bucket object name, which only the storage client can
- * turn into a URL. Root-relative and absolute values are passed through
- * untouched, so the site still renders against a database that has not had the
- * bucket migration applied yet.
+ * turn into a URL. A database constraint keeps the column to a bare name, so
+ * every stored logo resolves against the bucket.
  */
 function sponsorLogoUrl(logo: unknown) {
   if (typeof logo !== 'string' || logo === '') return null;
-  if (logo.startsWith('/') || /^https?:\/\//i.test(logo)) return null;
   return supabase?.storage.from(SPONSOR_LOGO_BUCKET).getPublicUrl(logo).data.publicUrl ?? null;
 }
 

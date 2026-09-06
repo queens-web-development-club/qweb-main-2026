@@ -89,13 +89,11 @@ describe('sponsor logos stored in the bucket', () => {
     expect(mocks.storageFrom).toHaveBeenCalledWith('sponsor-logos');
   });
 
-  it.each([
-    ['a legacy public path served before the bucket migration runs', '/sponsors/COMPSA.png'],
-    ['a logo already hosted at an absolute URL', 'https://cdn.example.com/COMPSA.png'],
-  ])('leaves %s unchanged', async (_case, logo) => {
-    mockSponsors([{ id: 'compsa', name: 'COMPSA', logo, link: 'https://compsa.ca' }]);
+  it('leaves a row carrying no logo untouched', async () => {
+    const sponsor = { id: 'compsa', name: 'COMPSA', link: 'https://compsa.ca' };
+    mockSponsors([sponsor]);
     const result = await getSponsors();
-    expect(result.data?.[0]).toMatchObject({ logo });
+    expect(result.data).toEqual([sponsor]);
     expect(mocks.storageFrom).not.toHaveBeenCalled();
   });
 });
