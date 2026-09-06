@@ -3,8 +3,6 @@ import { createContext, useContext } from 'react';
 export type InspectModeValue = {
   /** Whether the markup labels are currently showing. */
   isInspecting: boolean;
-  /** False on coarse-pointer devices, where there is no hover to inspect with. */
-  isSupported: boolean;
   toggle: () => void;
 };
 
