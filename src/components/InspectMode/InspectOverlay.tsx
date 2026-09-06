@@ -33,12 +33,14 @@ export function InspectOverlay() {
     const onPointerLeave = () => { element = null; setTarget(null); };
 
     document.addEventListener('pointermove', onPointerMove, { passive: true });
+    document.addEventListener('pointerdown', onPointerMove, { passive: true });
     document.addEventListener('pointerleave', onPointerLeave);
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
 
     return () => {
       document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerdown', onPointerMove);
       document.removeEventListener('pointerleave', onPointerLeave);
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);

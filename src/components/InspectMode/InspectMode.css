@@ -8,4 +8,4 @@ body[data-inspect='on'] { cursor:crosshair; }
 .inspect-outline { position:absolute; top:0; left:0; border:1px solid rgba(32,203,180,.7); border-radius:4px; background:rgba(32,203,180,.045); will-change:transform; }
 .inspect-tag { position:absolute; left:-1px; bottom:100%; margin-bottom:5px; padding:3px 8px; border-radius:3px; background:#08231f; color:#63e6c6; font:10px 'DM Mono',monospace; letter-spacing:.04em; white-space:nowrap; }
 .inspect-tag--below { top:100%; bottom:auto; margin:5px 0 0; }
-@media (max-width:700px) { .inspect-toggle { display:none; } }
+@media (max-width:700px) { .inspect-toggle { margin-left:auto; margin-right:10px; padding:6px 8px; } }

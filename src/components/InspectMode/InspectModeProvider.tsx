@@ -7,15 +7,11 @@ import './InspectMode.css';
  * Inspect mode lets the site show its own markup: with it on, hovering a
  * section labels it with the selector it is really built from.
  *
- * It is a pointer-only flourish. It never changes layout, it is off by
- * default, and nothing about it reaches the accessibility tree — so when it is
- * off, the page behaves exactly as it would without it.
+ * Hovering or tapping selects a section. The decorative overlay never changes
+ * layout and stays out of the accessibility tree. Inspect mode is off by default.
  */
 export function InspectModeProvider({ children }: { children: ReactNode }) {
-  const [isSupported, setIsSupported] = useState(false);
   const [isInspecting, setIsInspecting] = useState(false);
-
-  useEffect(() => setIsSupported(window.matchMedia('(pointer: fine)').matches), []);
 
   const toggle = useCallback(() => setIsInspecting((wasInspecting) => !wasInspecting), []);
 
@@ -30,7 +26,7 @@ export function InspectModeProvider({ children }: { children: ReactNode }) {
     };
   }, [isInspecting]);
 
-  const value = useMemo(() => ({ isInspecting, isSupported, toggle }), [isInspecting, isSupported, toggle]);
+  const value = useMemo(() => ({ isInspecting, toggle }), [isInspecting, toggle]);
 
   return <InspectModeContext.Provider value={value}>
     {children}

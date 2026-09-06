@@ -99,6 +99,8 @@ September 2026 polish: Team entries without a supplied photo use `/assets/Unknow
 
 Section-level components carry a `data-inspect` attribute holding their real selector (for example `section.projects-section`). Region wrappers own the shareable anchors such as `#about` and `#education`; inspect mode reads the nearest annotation on hover, and nothing else depends on it. New sections should set one.
 
+The navbar Inspect button is visible at every viewport width and on all pointer types. Below 700px it uses an automatic left margin, a 10px right gap, and 6px by 8px padding to fit beside Join QWEB. Inspect mode selects annotations on pointer movement or a tap; Escape or the toggle exits. The overlay remains decorative and does not intercept input.
+
 `src/components/` holds cross-cutting UI that is not a page section. Page sections keep the colocated `src/pages/<Section>/` convention.
 
 Projects and sponsor marks now load exclusively from Supabase, ordered by `display_order` with UUID tie-breaking. Loading, error, and empty messages use `--t-body`, a `1.7` line height, and `#93a6af`. Empty projects omit the rail and counter; empty sponsors omit the logo grid. The seeded database preserves the original eleven projects and five sponsors without bundling fallback records into the frontend.
