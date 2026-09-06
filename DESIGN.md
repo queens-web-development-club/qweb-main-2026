@@ -170,7 +170,7 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 
 - Reuse `IBM Plex Sans` for display and compact headings and `DM Mono` for labels, metadata, navigation, status text, and supporting copy.
 - Continue the near-black surface with controlled blue/teal accents, thin dividers, and solid surfaces; avoid introducing an unrelated palette or a parallel token system without a deliberate refactor.
-- Follow the existing page-folder convention: each major page/section has a colocated `.tsx` and `.css` file under `src/pages/<Section>/`; shared UI belongs under `src/components/` and static fallback content under `src/data/`.
+- Follow the existing page-folder convention: each major page/section has a colocated `.tsx` and `.css` file under `src/pages/<Section>/`; shared UI belongs under `src/components/`. Content comes from the database; the site ships no fallback copy of it, so an unavailable or empty table renders its own explicit message.
 - Prefer semantic `section`, `header`, `nav`, `article`, `footer`, `time`, and heading elements as used by the current implementation.
 - Preserve the existing `700px` mobile breakpoint and `800px` Team breakpoint unless a responsive change is intentional and verified.
 - Keep motion transform/opacity-oriented and preserve the existing reduced-motion behavior.

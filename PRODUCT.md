@@ -37,7 +37,7 @@ The product serves a university club context, where students discover the club, 
 
 - Existing page implementations live under `src/pages/` and cover the club's landing, about, education, projects, term, team, join, sponsors, and footer surfaces.
 - Existing brand and project assets live under `public/assets/` and `public/projects/`. Sponsor logos live in the `sponsor-logos` Supabase storage bucket rather than in the repository.
-- The repository's content and fallback data are the source for what the site can truthfully present.
+- The database is the source for projects, sponsors, team, and the term schedule; the repository holds no second copy to fall back on.
 
 ## Product Principles
 
