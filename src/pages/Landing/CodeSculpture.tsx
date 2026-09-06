@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import './CodeSculpture.css';
 
-const cubes = Array.from({ length: 27 }, (_, index) => ({
-  x: index % 3 - 1,
-  y: Math.floor(index / 3) % 3 - 1,
-  z: Math.floor(index / 9) - 1,
-}));
+// Five solid extruded strokes form the site's < /> mark.
+const symbols = [
+  { name: 'open', strokes: [{ x: -96, y: -25, length: 80, angle: -45 }, { x: -96, y: 25, length: 80, angle: 45 }] },
+  { name: 'slash', strokes: [{ x: 0, y: 0, length: 132, angle: -70 }] },
+  { name: 'close', strokes: [{ x: 96, y: -25, length: 80, angle: 45 }, { x: 96, y: 25, length: 80, angle: -45 }] },
+];
 const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
 
 export function CodeSculpture() {
@@ -43,7 +44,7 @@ export function CodeSculpture() {
     stage.current?.style.setProperty('--tilt-y', '0deg');
   };
 
-  return <aside ref={root} className="code-sculpture" aria-label="Interactive 3D code sculpture"
+  return <aside ref={root} className="code-sculpture" aria-label="Interactive 3D code icon: opening bracket, slash, closing bracket"
     data-inspect="aside.code-sculpture" data-expanded={expanded} data-still={paused || reduced || !visible}>
     <div ref={stage} className="code-sculpture__stage" aria-hidden="true"
       onPointerMove={(event) => {
@@ -57,11 +58,10 @@ export function CodeSculpture() {
         <div className="code-sculpture__orbit code-sculpture__orbit--b"><i /></div>
         <div className="code-sculpture__orbit code-sculpture__orbit--c"><i /></div>
         <div className="code-sculpture__rotation">
-          {cubes.map(({ x, y, z }, index) => <div key={index}
-            className={`code-sculpture__cube${x === 0 && y === 0 && z === 0 ? ' code-sculpture__cube--core' : ''}`}
-            style={{ '--x': x, '--y': y, '--z': z, '--delay': `${(Math.abs(x) + Math.abs(y) + Math.abs(z)) * 35}ms` } as CSSProperties}>
-            {faces.map((face) => <div key={face} className={`code-sculpture__face code-sculpture__face--${face}`}>
-              {face === 'front' && <span>{index === 13 ? '</>' : index % 4 === 0 ? '+' : '·'}</span>}
+          {symbols.map(({ name, strokes }) => <div key={name} className={`code-sculpture__symbol code-sculpture__symbol--${name}`}>
+            {strokes.map(({ x, y, length, angle }, index) => <div key={index} className="code-sculpture__stroke"
+              style={{ '--x': `${x}px`, '--y': `${y}px`, '--length': `${length}px`, '--angle': `${angle}deg` } as CSSProperties}>
+              {faces.map((face) => <div key={face} className={`code-sculpture__face code-sculpture__face--${face}`} />)}
             </div>)}
           </div>)}
         </div>
