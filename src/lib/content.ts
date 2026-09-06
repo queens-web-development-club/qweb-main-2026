@@ -42,10 +42,31 @@ export async function getProjects() {
     .order('display_order', { ascending: true }).order('id', { ascending: true });
 }
 
+export const SPONSOR_LOGO_BUCKET = 'sponsor-logos';
+
+/**
+ * Sponsor rows store a bucket object name, which only the storage client can
+ * turn into a URL. Root-relative and absolute values are passed through
+ * untouched, so the site still renders against a database that has not had the
+ * bucket migration applied yet.
+ */
+function sponsorLogoUrl(logo: unknown) {
+  if (typeof logo !== 'string' || logo === '') return null;
+  if (logo.startsWith('/') || /^https?:\/\//i.test(logo)) return null;
+  return supabase?.storage.from(SPONSOR_LOGO_BUCKET).getPublicUrl(logo).data.publicUrl ?? null;
+}
+
 export async function getSponsors() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('sponsors').select('id, name, logo, link')
+  const result = await supabase.from('sponsors').select('id, name, logo, link')
     .order('display_order', { ascending: true }).order('id', { ascending: true });
+  return {
+    ...result,
+    data: result.data?.map((sponsor) => {
+      const logo = sponsorLogoUrl(sponsor.logo);
+      return logo ? { ...sponsor, logo } : sponsor;
+    }) ?? null,
+  };
 }
 
 export async function getTeamMembers() {

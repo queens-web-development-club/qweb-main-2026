@@ -1,14 +1,23 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const mocks = vi.hoisted(() => ({ from: vi.fn(), configured: true }));
+const mocks = vi.hoisted(() => ({ from: vi.fn(), storageFrom: vi.fn(), configured: true }));
 vi.mock('./supabase', () => ({
-  get supabase() { return mocks.configured ? { from: mocks.from } : null; },
+  get supabase() {
+    return mocks.configured ? { from: mocks.from, storage: { from: mocks.storageFrom } } : null;
+  },
 }));
 import { getProjects, getSponsors, getTeamMembers } from './content';
 
 beforeEach(() => {
   mocks.configured = true;
   mocks.from.mockReset();
+  mocks.storageFrom.mockReset();
+  // Model storage returning the project's public object URL for a bucket path.
+  mocks.storageFrom.mockImplementation((bucket: string) => ({
+    getPublicUrl: (path: string) => ({
+      data: { publicUrl: `https://project.supabase.co/storage/v1/object/public/${bucket}/${path}` },
+    }),
+  }));
 });
 
 describe('team content across profile schema versions', () => {
@@ -58,6 +67,36 @@ describe('team content across profile schema versions', () => {
     expect(result.data).toBeNull();
     expect(result.error).toBeInstanceOf(Error);
     expect(mocks.from).not.toHaveBeenCalled();
+  });
+});
+
+describe('sponsor logos stored in the bucket', () => {
+  function mockSponsors(rows: unknown[]) {
+    const tieOrder = vi.fn().mockResolvedValue({ data: rows, error: null });
+    const order = vi.fn().mockReturnValue({ order: tieOrder });
+    mocks.from.mockReturnValue({ select: vi.fn().mockReturnValue({ order }) });
+  }
+
+  it('resolves a bucket object name to its public URL', async () => {
+    mockSponsors([{ id: 'compsa', name: 'COMPSA', logo: 'COMPSA.png', link: 'https://compsa.ca' }]);
+    const result = await getSponsors();
+    expect(result.data).toEqual([{
+      id: 'compsa',
+      name: 'COMPSA',
+      logo: 'https://project.supabase.co/storage/v1/object/public/sponsor-logos/COMPSA.png',
+      link: 'https://compsa.ca',
+    }]);
+    expect(mocks.storageFrom).toHaveBeenCalledWith('sponsor-logos');
+  });
+
+  it.each([
+    ['a legacy public path served before the bucket migration runs', '/sponsors/COMPSA.png'],
+    ['a logo already hosted at an absolute URL', 'https://cdn.example.com/COMPSA.png'],
+  ])('leaves %s unchanged', async (_case, logo) => {
+    mockSponsors([{ id: 'compsa', name: 'COMPSA', logo, link: 'https://compsa.ca' }]);
+    const result = await getSponsors();
+    expect(result.data?.[0]).toMatchObject({ logo });
+    expect(mocks.storageFrom).not.toHaveBeenCalled();
   });
 });
 
