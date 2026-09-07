@@ -55,6 +55,21 @@ export async function getProjects() {
 }
 
 export const SPONSOR_LOGO_BUCKET = 'sponsor-logos';
+export const TEAM_PHOTO_BUCKET = 'team-photos';
+
+/**
+ * A bare object name resolves against a bucket; anything else is a path or a
+ * URL and is validated as one. Storing the name rather than the full URL keeps
+ * the project reference out of every row, so moving the Supabase project does
+ * not rewrite the table.
+ */
+function bucketImage(value: unknown, bucket: string) {
+  if (typeof value !== 'string') return null;
+  const name = value.trim();
+  if (name === '') return null;
+  if (name.includes('/') || name.includes(':')) return safeImage(name);
+  return supabase?.storage.from(bucket).getPublicUrl(name).data.publicUrl ?? null;
+}
 
 /**
  * Sponsor rows store a bucket object name, which only the storage client can
@@ -90,7 +105,7 @@ export async function getTeamMembers() {
     data: result.data?.map((member): TeamMember => ({
       id: member.id,
       name: member.name,
-      photo: safeImage(member.photo),
+      photo: bucketImage(member.photo, TEAM_PHOTO_BUCKET),
       role: member.role,
       year: member.year ?? null,
       program: member.program ?? null,
