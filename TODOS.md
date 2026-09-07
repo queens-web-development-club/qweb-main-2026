@@ -113,6 +113,17 @@ Accessibility items checked in code and found clean: every `<img>` has `alt`, no
 Checks after this pass: 92 tests passing, typecheck clean, build clean, `npm audit` reports 0 vulnerabilities, committed-credential check clean across 97 tracked files.
 
 
+### Read-only production exposure check (2026-09-07)
+
+Run against the production endpoint with the anon key, reads only — no inserts, updates, deletes or uploads, and nothing on a live table that could change it. This advances the read half of gate 3; the write half still needs the staging authorization matrix.
+
+- **Only the four intended tables are reachable.** `club_projects`, `sponsors`, `team_members`, `term_events` return 200. `applications`, `members`, `contacts`, `users`, `profiles`, `submissions`, `emails`, `signups`, `admin` and `clients` all return 404 — not exposed to the anon role.
+- **`select=*` reaches two columns beyond what the site requests**, and both are benign: `created_at` and `display_order`. No private field is reachable through a direct API call.
+- **Storage.** `sponsor-logos` is listable anonymously and holds exactly the five approved sponsor logos. No other bucket is visible to the anon role.
+- **`team_members` returns zero rows**, so the site renders the role-only structure with no names or photos. That is a content gap, not a permissions finding.
+
+Not tested, and still required: that an anonymous caller cannot insert, update, delete, upsert, invoke privileged functions, or write to storage. Those are write probes and belong on an isolated staging project with the production permission configuration, per the gate above.
+
 ## 6. Final go/no-go record
 
 - [ ] Club content lead approves the exact public records, assets, links, and claims.
