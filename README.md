@@ -63,6 +63,33 @@ First-time setup:
 2. **Settings → Secrets and variables → Actions**, add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Both are public by design — Vite writes them into the browser bundle, and the site cannot read content without them. They live in Actions secrets for convenience, not for confidentiality; security comes from row-level security, not from hiding the anon key. `npm run check:env` refuses to build if a service-role or secret key is put there by mistake.
 3. Push to `main` and watch the Actions run. The published URL appears on the workflow's `deploy` job.
 
+### Moving qweb.dev onto Pages
+
+`public/CNAME` holds `qweb.dev`, so the workflow builds with `--base=/` and GitHub serves the site at the apex domain, redirecting `www` to it.
+
+**The order matters.** Merging the CNAME file before DNS is ready builds the site at `/` while it is still served from `/qweb-main-2026/`, and every asset 404s until the domain resolves. Do it in this order:
+
+1. **In the old Vercel project, remove `qweb.dev` and `www.qweb.dev`.** DNS for the domain is served by `ns1.vercel-dns.com` / `ns2.vercel-dns.com`, so the records live in the Vercel dashboard even after the project stops serving the site. Leaving the domain attached there means two services both claim it.
+2. **Set these records in Vercel's DNS for `qweb.dev`.** Replace the existing `A` records on the apex:
+
+   | Type | Name | Value |
+   | --- | --- | --- |
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | AAAA | `@` | `2606:50c0:8000::153` |
+   | AAAA | `@` | `2606:50c0:8001::153` |
+   | AAAA | `@` | `2606:50c0:8002::153` |
+   | AAAA | `@` | `2606:50c0:8003::153` |
+   | CNAME | `www` | `queens-web-development-club.github.io` |
+
+3. **Wait for propagation.** `dig +short A qweb.dev` should return the four GitHub addresses and nothing else.
+4. **Merge this branch.** The workflow rebuilds with `--base=/` and publishes the `CNAME` file, which sets the custom domain in GitHub Pages.
+5. **Settings → Pages**, confirm the custom domain shows `qweb.dev` with a green check, then tick **Enforce HTTPS** once the certificate is issued. That can take up to an hour; the site is served over plain HTTP until it is, so do not announce the link before this step.
+
+To undo: delete `public/CNAME`, push, and the site returns to `https://queens-web-development-club.github.io/qweb-main-2026/`.
+
 Without a custom domain the site is served from `https://<org>.github.io/<repo>/`, so the workflow builds with `--base=/<repo>/`. Everything root-relative — the logo, portraits, and the `/projects/...` paths stored in the database — is resolved against that base by `assetUrl` in `src/lib/urls.ts`. To move the club's domain onto Pages, add a `public/CNAME` file containing the hostname and point the DNS at GitHub; the workflow sees the file and builds with `--base=/` instead. Nothing else changes.
 
 `dist/index.html` is copied to `dist/404.html`, so an unknown path gets a real 404 status from GitHub *and* renders the club's own not-found screen rather than GitHub's.
