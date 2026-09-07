@@ -55,13 +55,33 @@ The site reads these tables anonymously using the publishable/anon key. Row-leve
 
 ## Deployment
 
-The site deploys to Vercel from `vercel.json`, which builds with `npm run typecheck && npm test && npm run build` and publishes `dist/`. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as project environment variables in the Vercel dashboard; a build without them ships a site that cannot load any content.
+The site deploys to GitHub Pages from `.github/workflows/deploy.yml` on every push to `main`. The workflow runs `npm ci`, the typecheck, the tests, the committed-credential check, `npm audit`, and the frontend environment check before it builds, so a deploy cannot ship what would not pass review.
 
-GitHub Pages is not a fit here. It serves static files with no way to set response headers, so the Content-Security-Policy, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy` gates in `TODOS.md` cannot be closed on it at all. Vercel also gives a preview deployment per pull request, which the checklist asks for, and it is the host the workshops teach.
+First-time setup:
 
-`vercel.json` sets those headers. The policy is written for what this site actually loads — its own bundle, Google Fonts stylesheets and font files, HTTPS images, `data:` SVGs in CSS, and Supabase requests — so verify the live response headers and the browser console after the first deploy rather than assuming it fits a later change. `img-src` currently allows any HTTPS host, matching what `src/lib/urls.ts` accepts; tighten both together once the club has approved a list of image hosts.
+1. **Settings → Pages → Source: GitHub Actions.**
+2. **Settings → Secrets and variables → Actions**, add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Both are public by design — Vite writes them into the browser bundle, and the site cannot read content without them. They live in Actions secrets for convenience, not for confidentiality; security comes from row-level security, not from hiding the anon key. `npm run check:env` refuses to build if a service-role or secret key is put there by mistake.
+3. Push to `main` and watch the Actions run. The published URL appears on the workflow's `deploy` job.
 
-There is deliberately no catch-all rewrite. An unknown path returns a real 404 from the host instead of a 200 carrying the React `NotFound` screen, which is what the checklist asks for; the tradeoff is that `NotFound` renders only during local development.
+Without a custom domain the site is served from `https://<org>.github.io/<repo>/`, so the workflow builds with `--base=/<repo>/`. Everything root-relative — the logo, portraits, and the `/projects/...` paths stored in the database — is resolved against that base by `assetUrl` in `src/lib/urls.ts`. To move the club's domain onto Pages, add a `public/CNAME` file containing the hostname and point the DNS at GitHub; the workflow sees the file and builds with `--base=/` instead. Nothing else changes.
+
+`dist/index.html` is copied to `dist/404.html`, so an unknown path gets a real 404 status from GitHub *and* renders the club's own not-found screen rather than GitHub's.
+
+### What GitHub Pages cannot do
+
+Pages serves static files and cannot send response headers. The Content-Security-Policy therefore travels in a `<meta http-equiv>` tag in `index.html`, which browsers honour for everything except `frame-ancestors`. These protections are **not available on Pages at any effort**, and the gate in `TODOS.md` stays open for as long as the site is hosted there:
+
+| Protection | Status on Pages |
+| --- | --- |
+| Content-Security-Policy | Set, via `<meta>` in `index.html` |
+| `frame-ancestors` (clickjacking) | **Not possible** — header-only, ignored in `<meta>` |
+| `Strict-Transport-Security` | **Not possible** — Pages sets its own and it cannot be changed |
+| `X-Content-Type-Options: nosniff` | **Not possible** |
+| `Referrer-Policy`, `Permissions-Policy` | **Not possible** |
+
+If the club later wants those closed, put a CDN that can set headers in front of Pages, or host somewhere that can. `vercel.json` is kept in the repository for that second case: it is inert unless a Vercel project points at this repo, and it sets every header in the table above.
+
+The CSP is written for what this site actually loads — its own bundle, Google Fonts stylesheets and font files, HTTPS images, `data:` SVGs in CSS, and Supabase requests. Check the browser console on the first deploy rather than assuming it still fits after a change. `img-src` allows any HTTPS host, matching what `src/lib/urls.ts` accepts; tighten both together once the club has approved a list of image hosts.
 
 ## Project structure
 
@@ -85,6 +105,8 @@ public/
   assets/
   projects/
 scripts/
+.github/
+  workflows/
 vercel.json
 supabase/
   migrations/
@@ -99,7 +121,7 @@ Each page section owns its TSX and CSS file. `DESIGN.md` documents the currently
 
 1. Read `AGENTS.md` and `DESIGN.md` before changing the interface.
 2. Create a focused branch and keep changes scoped to one improvement.
-3. Run `npm run typecheck`, `npm test`, and `npm run build` before opening a pull request.
+3. Run `npm run typecheck`, `npm test`, `npm run check:secrets`, and `npm run build` before opening a pull request. CI runs all of them again on `main`.
 4. Open a pull request with screenshots or a concise visual description for UI changes.
 5. A project maintainer must review and approve the pull request before merge. **Do not merge your own PR or merge any PR that has not been reviewed.**
 

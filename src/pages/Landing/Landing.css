@@ -59,6 +59,11 @@ footer { color:#4e5e66; display:flex; justify-content:space-between; padding:18p
 .bar-toggle:hover { color:#d5e2e4; }
 .bar-toggle:focus-visible { outline:2px solid #20cbb4; outline-offset:-4px; }
 .bar-toggle[aria-pressed="true"] { color:#20cbb4; }
+/* Offscreen until focused, then a real target a keyboard visitor can see. */
+.skip-link { position:absolute; left:12px; top:-100px; z-index:99; padding:12px 18px; border:1px solid #20cbb4; background:#061015; color:#20cbb4; font:500 var(--t-meta) 'DM Mono',monospace; text-decoration:none; transition:top 120ms ease-out; }
+.skip-link:focus { top:12px; }
+.hero:focus { outline:none; }
+.hero:focus-visible { outline:2px solid #20cbb4; outline-offset:-6px; }
 .visually-hidden { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
 @keyframes marquee { to { transform:translateX(-50%); } }
 

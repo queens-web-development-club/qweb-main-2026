@@ -1,0 +1,86 @@
+# Builds the site and publishes it to GitHub Pages.
+#
+# Pages serves static files only. It cannot send response headers, so the
+# Content-Security-Policy travels in a meta tag in index.html and the
+# header-only protections (HSTS, nosniff, Referrer-Policy, Permissions-Policy,
+# frame-ancestors) cannot be set here at all. That gap is recorded in TODOS.md.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# The build job needs nothing but the source; only the deploy job may publish.
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      # A deploy must not ship what would not pass review.
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run check:secrets
+      - name: Triage dependency advisories
+        run: npm audit --audit-level=high
+
+      # A project Pages site is served from /<repo>/; a custom domain is served
+      # from the root. public/CNAME is what decides which, so the build follows it.
+      - id: base
+        run: |
+          if [ -f public/CNAME ]; then
+            echo "path=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=/${GITHUB_REPOSITORY#*/}/" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Vite publishes every VITE_* value to every visitor, so the values are
+      # checked before they are baked into a bundle rather than after.
+      - run: npm run check:env
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - run: npm run build -- --base="${{ steps.base.outputs.path }}"
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      # Pages serves 404.html with a real 404 status, so the club's own
+      # not-found screen renders without the status lying about it.
+      - run: |
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

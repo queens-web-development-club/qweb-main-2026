@@ -19,7 +19,7 @@ Keep credentials, personal data, incident details, database exports, and sensiti
 | Database-controlled links and images are parsed in `src/lib/urls.ts` at the loader boundary (2026-09-07): links must be absolute `https://`, images that or root-relative, and anything else becomes null. | The scheme-injection gap is closed in code. Approving which destinations and image hosts the club actually permits, and adding matching database constraints, is still a content decision. |
 | `public/` contains project screenshots, sponsor logos, portraits, and SVGs. | All shipped files are public even when no page links to them. Review rights, visible information, and metadata. |
 | Google Fonts is imported in Landing and NotFound CSS. Join uses email and Discord links; no application form, checkout, or account UI was found. | Third-party requests and hosting logs still need a privacy inventory. Do not describe this as a site that handles no personal information. |
-| No privacy notice/link was found in the page components. No tracked `.github` workflow or deployment/security-header configuration was found. | Add the appropriate notice and establish verifiable release controls. Provider-side settings may exist, but were not inspected. |
+| Still no privacy notice or link in the page components. A `.github/workflows/deploy.yml` now publishes to GitHub Pages behind the typecheck, tests, a committed-credential check, `npm audit`, and a frontend environment check (2026-09-07). | The privacy notice is still required and is the club's to write. Release controls now exist and are verifiable in CI; branch protection and required reviews are GitHub settings and remain unset. |
 | `package.json` now pins React, React DOM, Vite, and the React plugin to reviewed caret ranges, and `tsconfig.json` plus `npm run typecheck` give a strict TypeScript check over all 33 source files (2026-09-07). | Dependency scanning at release time and triage of any advisory still belong to the release gate. |
 | The curriculum ticker now carries a `.bar-toggle` pause/play button in `src/pages/Landing/CurriculumTicker.tsx` (2026-09-07), operable by keyboard and touch, with hover and focus kept as conveniences. | WCAG 2.2.2 has an operable mechanism. The rest of the manual accessibility audit — keyboard order, contrast, zoom, reflow, screen-reader names — is still outstanding. |
 
@@ -95,7 +95,34 @@ These landed on `feat/sponsor-logos-bucket`. They are progress inside the gates 
 
 Checks at the time of writing: 75 tests passing, `npm run typecheck` clean, `npm run build` clean.
 
-Still unaddressed in code, and blocking: no response security headers or CSP are configured, because the repository records no hosting provider. Whoever owns the deployment must set them there and verify the actual response headers.
+### Second pass, same day: GitHub Pages
+
+The club chose GitHub Pages over Vercel. That is a real constraint, not a preference: **Pages serves static files and cannot send response headers.**
+
+- **Content-Security-Policy** is set, in a `<meta http-equiv>` tag in `index.html`, derived from what the built bundle actually loads.
+- **`frame-ancestors`, HSTS, `X-Content-Type-Options`, `Referrer-Policy` and `Permissions-Policy` cannot be set on Pages at any effort.** A `<meta>` CSP ignores `frame-ancestors`, and the rest are header-only. This gate cannot be closed while the site is hosted on Pages. Closing it means putting a CDN that can set headers in front of Pages, or hosting elsewhere; `vercel.json` is kept in the repository for that case and sets all of them.
+- **Path handling.** A project Pages site is served from `/<repo>/`, so `main.tsx` compared the path against `/` and would have shown the not-found screen at the club's own homepage. `isLandingPath` fixes that, and `assetUrl` resolves every root-relative asset — including the `/projects/...` paths stored in the database — against the deployment base.
+- **Real 404s.** `dist/index.html` is copied to `404.html`, so an unknown path returns a genuine 404 status *and* renders the club's own screen.
+- **Frontend environment check.** `npm run check:env` decodes the Supabase key and refuses to build if it is a service-role or secret key, or if any other `VITE_*` name looks like a credential. Verified against planted service-role, `sb_secret_`, and stray-variable cases.
+- **Committed-credential check.** `npm run check:secrets` decodes JWTs found in tracked files rather than grepping for the word, so prose about service-role keys does not trip it. Verified against a planted key. This is a preventive control, **not** the full history-and-artifact secret audit the gate above still requires.
+- **Dependency triage and a pinned runtime.** `npm audit --audit-level=high` runs in CI; `engines` records Node 22+.
+- **Skip link.** The navigation had no bypass mechanism (WCAG 2.4.1). Added, focusable, targeting a hero that takes focus.
+
+Accessibility items checked in code and found clean: every `<img>` has `alt`, no control lacks an accessible name, no positive `tabindex`, no `aria-hidden` on anything focusable, `lang` set, viewport does not block zoom, six `:focus-visible` rules and no bare `outline:none`. Contrast, screen-reader order, 200% zoom, and 320px reflow still need the manual audit.
+
+Checks after this pass: 92 tests passing, typecheck clean, build clean, `npm audit` reports 0 vulnerabilities, committed-credential check clean across 97 tracked files.
+
+
+### Read-only production exposure check (2026-09-07)
+
+Run against the production endpoint with the anon key, reads only — no inserts, updates, deletes or uploads, and nothing on a live table that could change it. This advances the read half of gate 3; the write half still needs the staging authorization matrix.
+
+- **Only the four intended tables are reachable.** `club_projects`, `sponsors`, `team_members`, `term_events` return 200. `applications`, `members`, `contacts`, `users`, `profiles`, `submissions`, `emails`, `signups`, `admin` and `clients` all return 404 — not exposed to the anon role.
+- **`select=*` reaches two columns beyond what the site requests**, and both are benign: `created_at` and `display_order`. No private field is reachable through a direct API call.
+- **Storage.** `sponsor-logos` is listable anonymously and holds exactly the five approved sponsor logos. No other bucket is visible to the anon role.
+- **`team_members` returns zero rows**, so the site renders the role-only structure with no names or photos. That is a content gap, not a permissions finding.
+
+Not tested, and still required: that an anonymous caller cannot insert, update, delete, upsert, invoke privileged functions, or write to storage. Those are write probes and belong on an isolated staging project with the production permission configuration, per the gate above.
 
 ## 6. Final go/no-go record
 
