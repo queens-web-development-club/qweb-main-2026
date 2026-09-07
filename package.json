@@ -8,16 +8,20 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "upload:sponsor-logos": "node scripts/upload-sponsor-logos.mjs"
+    "upload:sponsor-logos": "node scripts/upload-sponsor-logos.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.4",
-    "@vitejs/plugin-react": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "vite": "latest"
+    "@vitejs/plugin-react": "^6.1.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "vite": "^8.2.2"
   },
   "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.11"
   }
 }

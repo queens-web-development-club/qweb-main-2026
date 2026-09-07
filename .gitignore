@@ -1,6 +1,23 @@
 node_modules/
 dist/
 .DS_Store
-.env.local
-.env
+
+# Every environment variant, not just the two we happened to have. The sanitized
+# example is the one file that belongs in the repository.
+.env*
+!.env.example
+
+# Credentials and database material never belong in a public repository.
+*.pem
+*.key
+*.p12
+*.sql.gz
+*.dump
+dump.sql
+backup*.sql
+supabase/.temp/
+
+# Local assistant and tooling output.
 .impeccable/
+.claude/
+.codex/
