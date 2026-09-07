@@ -159,3 +159,39 @@ describe('database-controlled URLs never reach the DOM unchecked', () => {
     expect(result.data?.[0]).toMatchObject({ photo: null });
   });
 });
+
+describe('team portraits stored in the bucket', () => {
+  function mockRoster(rows: unknown[]) {
+    const order = vi.fn().mockResolvedValue({ data: rows, error: null });
+    mocks.from.mockReturnValue({ select: vi.fn().mockReturnValue({ order }) });
+  }
+
+  it('resolves a bare object name against the team bucket', async () => {
+    mockRoster([{ id: 'z', name: 'Zac', role: 'Co-Chair', photo: 'Zac.jpeg' }]);
+    const result = await getTeamMembers();
+    expect(result.data?.[0].photo).toBe(
+      'https://project.supabase.co/storage/v1/object/public/team-photos/Zac.jpeg',
+    );
+    expect(mocks.storageFrom).toHaveBeenCalledWith('team-photos');
+  });
+
+  it('still accepts an asset path shipped with the site', async () => {
+    mockRoster([{ id: 'a', name: 'A', role: 'Design', photo: '/assets/Unknown_Member.jpg' }]);
+    expect((await getTeamMembers()).data?.[0].photo).toBe('/assets/Unknown_Member.jpg');
+  });
+
+  it('still accepts a full https URL, so existing rows keep working', async () => {
+    mockRoster([{ id: 'b', name: 'B', role: 'Design', photo: 'https://example.com/b.jpg' }]);
+    expect((await getTeamMembers()).data?.[0].photo).toBe('https://example.com/b.jpg');
+  });
+
+  it('leaves a missing portrait null', async () => {
+    mockRoster([{ id: 'c', name: 'C', role: 'Design', photo: null }]);
+    expect((await getTeamMembers()).data?.[0].photo).toBeNull();
+  });
+
+  it('refuses a hostile value rather than resolving it', async () => {
+    mockRoster([{ id: 'd', name: 'D', role: 'Design', photo: 'javascript:alert(1)' }]);
+    expect((await getTeamMembers()).data?.[0].photo).toBeNull();
+  });
+});

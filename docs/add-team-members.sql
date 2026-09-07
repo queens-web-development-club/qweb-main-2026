@@ -7,28 +7,30 @@
 -- Only people who have agreed to their name and photo being published and
 -- search-indexed belong here. Consent is per person and it is a launch gate.
 --
+-- photo is the object's file name inside the team-photos bucket, such as
+-- 'Zac.jpeg'. The frontend resolves it to the bucket's public URL, so the
+-- project reference never appears in a row. An asset path like
+-- '/assets/Unknown_Member.jpg' or a full https URL also still works.
+--
 -- Alex and Che have no portrait in the bucket yet, so their photo stays null
 -- and the card falls back to the placeholder rather than showing a broken
 -- image. Fill them in with the UPDATE at the bottom once the files are up.
+--
+-- Six people: two co-chairs, then outreach, finance, development, education.
 
 insert into public.team_members (name, role, photo)
 values
-  ('Zac',     'Co-Chair',    'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Zac.jpeg'),
-  ('Farhaan', 'Co-Chair',    'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Farhaan.jpeg'),
-  ('Griffin', 'Outreach',    'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Griffin.jpeg'),
-  ('Aun',     'Finance',     'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Aun.jpeg'),
-  ('Alex',    'Development', null);
-
--- Che is not inserted: his role was cut off mid-message and is still unknown.
--- Add him with his real title — the role column now accepts any short text and
--- shows it on the card exactly as typed.
---
---   insert into public.team_members (name, role, photo) values ('Che', 'Education', null);
+  ('Zac',     'Co-Chair',    'Zac.jpeg'),
+  ('Farhaan', 'Co-Chair',    'Farhaan.jpeg'),
+  ('Griffin', 'Outreach',    'Griffin.jpeg'),
+  ('Aun',     'Finance',     'Aun.jpeg'),
+  ('Alex',    'Development', null),
+  ('Che',     'Education',   null);
 
 -- Once a missing portrait is uploaded to the team-photos bucket:
 --
 --   update public.team_members
---     set photo = 'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Alex.jpeg'
+--     set photo = 'Alex.jpeg'
 --   where name = 'Alex';
 
 -- Check what landed:
