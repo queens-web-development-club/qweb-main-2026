@@ -3,10 +3,11 @@ import { SectionHeading } from '../../components/SectionHeading';
 import './Education.css';
 
 /**
- * What the club teaches, in the order it teaches it. Exported because the hero
- * ticker lists the same curriculum — the two must never drift apart.
+ * What the club teaches, in the order it teaches it. Tracks the Fall 2026
+ * syllabus, which ends on Next.js rather than a Node server. Exported because
+ * the hero ticker lists the same curriculum — the two must never drift apart.
  */
-export const curriculum = ['HTML', 'CSS', 'JavaScript', 'Node.js', 'React'];
+export const curriculum = ['HTML', 'CSS', 'JavaScript', 'React', 'Next.js'];
 
 /** How a client project runs, start to finish. */
 const process = ['Consult', 'Design', 'Develop', 'Test', 'Deploy'];
@@ -34,18 +35,18 @@ const lessons = [
     code: 'const button = document.querySelector("button");\n\nbutton.addEventListener("click", () => {\n  button.textContent = "Count me in!";\n  button.disabled = true;\n});',
   },
   {
-    role: 'Work behind the scenes',
-    title: 'Go beyond the browser.',
-    description: 'Run JavaScript on a server to handle requests and send data back to your website.',
-    file: 'server.js',
-    code: 'import { createServer } from "node:http";\n\ncreateServer((request, response) => {\n  response.setHeader("Content-Type", "application/json");\n  response.end(JSON.stringify({ club: "QWEB" }));\n}).listen(3000);',
-  },
-  {
     role: 'Bring it together',
     title: 'Build in reusable pieces.',
     description: 'Combine structure, styling, and interaction in components you can use across an entire site.',
     file: 'JoinButton.jsx',
     code: 'import { useState } from "react";\n\nexport function JoinButton() {\n  const [joined, setJoined] = useState(false);\n  return (\n    <button onClick={() => setJoined(true)}>\n      {joined ? "Count me in!" : "Join QWEB"}\n    </button>\n  );\n}',
+  },
+  {
+    role: 'Put it online',
+    title: 'Ship a real site.',
+    description: 'A framework handles routing, pages, and deployment, so your project goes live on a link you own.',
+    file: 'app/page.tsx',
+    code: 'import { JoinButton } from "./JoinButton";\n\nexport default function Home() {\n  return (\n    <main>\n      <h1>Build with QWEB.</h1>\n      <JoinButton />\n    </main>\n  );\n}',
   },
 ];
 

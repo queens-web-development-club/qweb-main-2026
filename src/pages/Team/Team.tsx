@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { getTeamMembers, type TeamMember } from '../../lib/content';
+import { useContentList } from '../../lib/useContentList';
 import { splitTeam } from '../../lib/team';
 import { SectionHeading } from '../../components/SectionHeading';
 import './Team.css';
@@ -30,13 +30,15 @@ function Person({ person }: { person: DisplayMember }) {
 }
 
 export function Team() {
-  const [members, setMembers] = useState(fallbackMembers);
-  useEffect(() => {
-    getTeamMembers().then(({ data, error }) => {
-      if (error) console.error('Could not load team members from Supabase:', error);
-      if (data?.length) setMembers(data.map((member, index) => ({ ...member, tone: fallbackMembers[index]?.tone ?? 'blue' })));
-    });
-  }, []);
+  // The shared loader owns cancellation and rejection handling, so an unmounted
+  // section never sets state and a thrown request is not an unhandled one. An
+  // empty or unavailable roster keeps the role-only structure rather than an
+  // error banner, and nothing about the failure is logged: a Supabase error can
+  // carry request details, and the roster is public content either way.
+  const { items } = useContentList<TeamMember>(getTeamMembers);
+  const members = items.length
+    ? items.map((member, index) => ({ ...member, tone: fallbackMembers[index]?.tone ?? 'blue' }))
+    : fallbackMembers;
   const { chairs, executives } = splitTeam(members);
   return <section className="team-section reveal-on-scroll" aria-labelledby="team-title" data-inspect="section.team-section">
     <SectionHeading id="team-title" title="Made by students." summary="The people behind the builds, the workshops, and the group chat that keeps it moving." />

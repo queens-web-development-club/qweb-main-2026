@@ -1,14 +1,23 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const mocks = vi.hoisted(() => ({ from: vi.fn(), configured: true }));
+const mocks = vi.hoisted(() => ({ from: vi.fn(), storageFrom: vi.fn(), configured: true }));
 vi.mock('./supabase', () => ({
-  get supabase() { return mocks.configured ? { from: mocks.from } : null; },
+  get supabase() {
+    return mocks.configured ? { from: mocks.from, storage: { from: mocks.storageFrom } } : null;
+  },
 }));
 import { getProjects, getSponsors, getTeamMembers } from './content';
 
 beforeEach(() => {
   mocks.configured = true;
   mocks.from.mockReset();
+  mocks.storageFrom.mockReset();
+  // Model storage returning the project's public object URL for a bucket path.
+  mocks.storageFrom.mockImplementation((bucket: string) => ({
+    getPublicUrl: (path: string) => ({
+      data: { publicUrl: `https://project.supabase.co/storage/v1/object/public/${bucket}/${path}` },
+    }),
+  }));
 });
 
 describe('team content across profile schema versions', () => {
@@ -61,6 +70,34 @@ describe('team content across profile schema versions', () => {
   });
 });
 
+describe('sponsor logos stored in the bucket', () => {
+  function mockSponsors(rows: unknown[]) {
+    const tieOrder = vi.fn().mockResolvedValue({ data: rows, error: null });
+    const order = vi.fn().mockReturnValue({ order: tieOrder });
+    mocks.from.mockReturnValue({ select: vi.fn().mockReturnValue({ order }) });
+  }
+
+  it('resolves a bucket object name to its public URL', async () => {
+    mockSponsors([{ id: 'compsa', name: 'COMPSA', logo: 'COMPSA.png', link: 'https://compsa.ca' }]);
+    const result = await getSponsors();
+    expect(result.data).toEqual([{
+      id: 'compsa',
+      name: 'COMPSA',
+      logo: 'https://project.supabase.co/storage/v1/object/public/sponsor-logos/COMPSA.png',
+      link: 'https://compsa.ca',
+    }]);
+    expect(mocks.storageFrom).toHaveBeenCalledWith('sponsor-logos');
+  });
+
+  it('leaves a row carrying no logo untouched', async () => {
+    const sponsor = { id: 'compsa', name: 'COMPSA', link: 'https://compsa.ca' };
+    mockSponsors([sponsor]);
+    const result = await getSponsors();
+    expect(result.data).toEqual([sponsor]);
+    expect(mocks.storageFrom).not.toHaveBeenCalled();
+  });
+});
+
 describe.each([
   ['projects', getProjects, 'club_projects', 'id, name, photo, description, link'],
   ['sponsors', getSponsors, 'sponsors', 'id, name, logo, link'],
@@ -76,7 +113,7 @@ describe.each([
   it.each([
     { data: [], error: null },
     { data: null, error: { message: 'Permission denied' } },
-    { data: [{ id: 'database-record', name: 'New database content' }], error: null },
+    { data: [{ id: 'database-record', name: 'New database content', photo: null, logo: null, link: null }], error: null },
   ])('preserves the database result and requests stable display ordering: %j', async (result) => {
     const tieOrder = vi.fn().mockResolvedValue(result);
     const order = vi.fn().mockReturnValue({ order: tieOrder });
@@ -88,5 +125,37 @@ describe.each([
     expect(select).toHaveBeenCalledWith(fields);
     expect(order).toHaveBeenCalledWith('display_order', { ascending: true });
     expect(tieOrder).toHaveBeenCalledWith('id', { ascending: true });
+  });
+});
+
+describe('database-controlled URLs never reach the DOM unchecked', () => {
+  function mockList(rows: unknown[]) {
+    const tieOrder = vi.fn().mockResolvedValue({ data: rows, error: null });
+    mocks.from.mockReturnValue({ select: vi.fn().mockReturnValue({ order: vi.fn().mockReturnValue({ order: tieOrder }) }) });
+  }
+
+  it('drops a hostile project link and image while keeping the rest of the card', async () => {
+    mockList([{ id: 'p', name: 'Project', description: 'Work', link: 'javascript:alert(1)', photo: 'data:image/svg+xml,<svg/>' }]);
+    const result = await getProjects();
+    expect(result.data).toEqual([{ id: 'p', name: 'Project', description: 'Work', link: null, photo: null }]);
+  });
+
+  it('keeps a valid project link and same-origin screenshot', async () => {
+    mockList([{ id: 'p', name: 'Project', description: 'Work', link: 'https://qflip.ca/', photo: '/projects/qflip.jpg' }]);
+    const result = await getProjects();
+    expect(result.data?.[0]).toMatchObject({ link: 'https://qflip.ca/', photo: '/projects/qflip.jpg' });
+  });
+
+  it('drops a hostile sponsor link', async () => {
+    mockList([{ id: 's', name: 'Sponsor', logo: 'COMPSA.png', link: '//evil.example.com' }]);
+    const result = await getSponsors();
+    expect(result.data?.[0]).toMatchObject({ link: null });
+  });
+
+  it('drops a hostile team portrait', async () => {
+    const order = vi.fn().mockResolvedValue({ data: [{ id: 'm', name: 'Member', role: 'Design', photo: 'javascript:alert(1)' }], error: null });
+    mocks.from.mockReturnValue({ select: vi.fn().mockReturnValue({ order }) });
+    const result = await getTeamMembers();
+    expect(result.data?.[0]).toMatchObject({ photo: null });
   });
 });

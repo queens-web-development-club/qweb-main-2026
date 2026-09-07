@@ -20,9 +20,15 @@ export function Sponsors() {
     {!isLoading && hasError && <p className="sponsors-feedback" role="alert">Sponsors are unavailable right now. Please try again later.</p>}
     {!isLoading && !hasError && sponsors.length === 0 && <p className="sponsors-feedback">No sponsors have been added yet.</p>}
     {sponsors.length > 0 && <ul className="sponsors__logos">
-      {sponsors.map((sponsor) => <li key={sponsor.id}>
-        <a href={sponsor.link} target="_blank" rel="noreferrer" data-inspect="a.sponsors__logo"><img src={sponsor.logo} alt={sponsor.name} loading="lazy" /></a>
-      </li>)}
+      {sponsors.map((sponsor) => {
+        const logo = <img src={sponsor.logo} alt={sponsor.name} loading="lazy" />;
+        // A sponsor whose link failed validation still gets its logo shown.
+        return <li key={sponsor.id}>
+          {sponsor.link
+            ? <a href={sponsor.link} target="_blank" rel="noreferrer" data-inspect="a.sponsors__logo">{logo}</a>
+            : logo}
+        </li>;
+      })}
     </ul>}
 
     <a className="sponsors__cta" href="mailto:qweb@queensu.ca">Sponsor QWEB<span aria-hidden="true">↗</span></a>
