@@ -41,7 +41,7 @@ npm run preview
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local`.
 3. Apply the SQL files in `supabase/migrations/` in filename order using your Supabase migration workflow before deploying the frontend. The September 5 migrations seed eleven legacy projects (skipping existing names, case-insensitively) and create and seed five sponsors. The September 6 migrations move sponsor logos into storage and seed the ten-session Fall 2026 workshop schedule into `term_events`, skipping event names already present so a date the club has moved is never overwritten. Existing project content is preserved; existing rows receive the default display order of 1000.
 4. Upload the sponsor logos into the `sponsor-logos` bucket. The dashboard's storage uploader is the usual route; for a batch, `SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run upload:sponsor-logos -- --dir <directory>` uploads every image in a directory, and `--dry-run` lists them first. The service-role key is server-only: keep it out of the repository, out of `.env.local`, and never give it a `VITE_` prefix.
-5. Manage `club_projects` (`name`, `photo`, `description`, `link`, `display_order`), `sponsors` (`name`, `logo`, `link`, `display_order`), `team_members` (`name`, `photo`, `role`, `year`, `program`, `responsibility`, `fun_fact`), and `term_events` (`event_name`, `description`, `event_date`, `event_time`, `event_location`) in the Supabase dashboard. Project and team images can use public image URLs or existing root-relative asset paths such as `/projects/qflip.jpg`. A sponsor's `logo` is the object's file name inside the `sponsor-logos` bucket, such as `COMPSA.png`; a database constraint rejects slashes, schemes, and anything else, and the frontend resolves the name to the bucket's public URL. Sponsor links must be HTTP(S) URLs. `role` accepts `Co-Chair`, `Development`, `Outreach`, `Design`, or `Education`. Use an ISO date such as `2026-09-12` for `event_date`.
+5. Manage `club_projects` (`name`, `photo`, `description`, `link`, `display_order`), `sponsors` (`name`, `logo`, `link`, `display_order`), `team_members` (`name`, `photo`, `role`, `year`, `program`, `responsibility`, `fun_fact`), and `term_events` (`event_name`, `description`, `event_date`, `event_time`, `event_location`) in the Supabase dashboard. Project and team images can use public image URLs or existing root-relative asset paths such as `/projects/qflip.jpg`. A sponsor's `logo` is the object's file name inside the `sponsor-logos` bucket, such as `COMPSA.png`; a database constraint rejects slashes, schemes, and anything else, and the frontend resolves the name to the bucket's public URL. Sponsor links must be HTTPS URLs. Every database-controlled link and image is parsed in `src/lib/urls.ts` before it reaches the page: a link must be an absolute `https://` URL, and an image must be that or a root-relative path such as `/projects/qflip.jpg`. Anything else — `http://`, `javascript:`, `data:`, a protocol-relative `//host`, or a malformed value — is dropped, so a card renders without its link or picture rather than with a hostile one. If a link you saved does not appear on the site, check that it starts with `https://`. `role` accepts `Co-Chair`, `Development`, `Outreach`, `Design`, or `Education`. Use an ISO date such as `2026-09-12` for `event_date`.
 
 Projects and sponsors sort by `display_order` ascending, then UUID for stable ties. Set `display_order` in the dashboard to reorder entries. Both sections use database content exclusively: loading, unavailable, and empty results have explicit messages. Deleting all rows leaves an empty section; no old entries reappear. Seed data lives only in migrations. Project images remain in `public/projects/`. Sponsor logos live in the `sponsor-logos` storage bucket and are no longer shipped with the site, so the bucket's own backups are what protect them; the originals moved on 2026-09-06 remain in Git history.
 
@@ -75,6 +75,9 @@ public/
   assets/
   projects/
 scripts/
+supabase/
+  migrations/
+tsconfig.json
 DESIGN.md
 AGENTS.md
 ```
@@ -85,7 +88,7 @@ Each page section owns its TSX and CSS file. `DESIGN.md` documents the currently
 
 1. Read `AGENTS.md` and `DESIGN.md` before changing the interface.
 2. Create a focused branch and keep changes scoped to one improvement.
-3. Run `npm test` and `npm run build` before opening a pull request.
+3. Run `npm run typecheck`, `npm test`, and `npm run build` before opening a pull request.
 4. Open a pull request with screenshots or a concise visual description for UI changes.
 5. A project maintainer must review and approve the pull request before merge. **Do not merge your own PR or merge any PR that has not been reviewed.**
 

@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { safeImage, safeLink } from './urls';
 
 export type ClubProject = {
   id: string;
@@ -24,7 +25,8 @@ export type Sponsor = {
   id: string;
   name: string;
   logo: string;
-  link: string;
+  /** Null when the stored destination failed validation; the logo still shows. */
+  link: string | null;
 };
 
 export type TermEvent = {
@@ -38,8 +40,17 @@ export type TermEvent = {
 
 export async function getProjects() {
   if (!supabase) return { data: null, error: new Error('Supabase is not configured') };
-  return supabase.from('club_projects').select('id, name, photo, description, link')
+  const result = await supabase.from('club_projects').select('id, name, photo, description, link')
     .order('display_order', { ascending: true }).order('id', { ascending: true });
+  return {
+    ...result,
+    // Validate at the loader, not in each card, so no component can forget.
+    data: result.data?.map((project) => ({
+      ...project,
+      photo: safeImage(project.photo),
+      link: safeLink(project.link),
+    })) ?? null,
+  };
 }
 
 export const SPONSOR_LOGO_BUCKET = 'sponsor-logos';
@@ -61,8 +72,9 @@ export async function getSponsors() {
   return {
     ...result,
     data: result.data?.map((sponsor) => {
-      const logo = sponsorLogoUrl(sponsor.logo);
-      return logo ? { ...sponsor, logo } : sponsor;
+      const logo = safeImage(sponsorLogoUrl(sponsor.logo));
+      const link = safeLink(sponsor.link);
+      return logo ? { ...sponsor, logo, link } : { ...sponsor, link };
     }) ?? null,
   };
 }
@@ -77,7 +89,7 @@ export async function getTeamMembers() {
     data: result.data?.map((member): TeamMember => ({
       id: member.id,
       name: member.name,
-      photo: member.photo ?? null,
+      photo: safeImage(member.photo),
       role: member.role,
       year: member.year ?? null,
       program: member.program ?? null,
