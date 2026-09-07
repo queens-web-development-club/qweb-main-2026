@@ -41,7 +41,7 @@ npm run preview
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local`.
 3. Apply the SQL files in `supabase/migrations/` in filename order using your Supabase migration workflow before deploying the frontend. The September 5 migrations seed eleven legacy projects (skipping existing names, case-insensitively) and create and seed five sponsors. The September 6 migrations move sponsor logos into storage and seed the ten-session Fall 2026 workshop schedule into `term_events`, skipping event names already present so a date the club has moved is never overwritten. Existing project content is preserved; existing rows receive the default display order of 1000.
 4. Upload the sponsor logos into the `sponsor-logos` bucket. The dashboard's storage uploader is the usual route; for a batch, `SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run upload:sponsor-logos -- --dir <directory>` uploads every image in a directory, and `--dry-run` lists them first. The service-role key is server-only: keep it out of the repository, out of `.env.local`, and never give it a `VITE_` prefix.
-5. Manage `club_projects` (`name`, `photo`, `description`, `link`, `display_order`), `sponsors` (`name`, `logo`, `link`, `display_order`), `team_members` (`name`, `photo`, `role`, `year`, `program`, `responsibility`, `fun_fact`), and `term_events` (`event_name`, `description`, `event_date`, `event_time`, `event_location`) in the Supabase dashboard. Project and team images can use public image URLs or existing root-relative asset paths such as `/projects/qflip.jpg`. A sponsor's `logo` is the object's file name inside the `sponsor-logos` bucket, such as `COMPSA.png`; a database constraint rejects slashes, schemes, and anything else, and the frontend resolves the name to the bucket's public URL. Sponsor links must be HTTPS URLs. Every database-controlled link and image is parsed in `src/lib/urls.ts` before it reaches the page: a link must be an absolute `https://` URL, and an image must be that or a root-relative path such as `/projects/qflip.jpg`. Anything else — `http://`, `javascript:`, `data:`, a protocol-relative `//host`, or a malformed value — is dropped, so a card renders without its link or picture rather than with a hostile one. If a link you saved does not appear on the site, check that it starts with `https://`. `role` accepts `Co-Chair`, `Development`, `Outreach`, `Design`, or `Education`. Use an ISO date such as `2026-09-12` for `event_date`.
+5. Manage `club_projects` (`name`, `photo`, `description`, `link`, `display_order`), `sponsors` (`name`, `logo`, `link`, `display_order`), `team_members` (`name`, `photo`, `role`, `year`, `program`, `responsibility`, `fun_fact`), and `term_events` (`event_name`, `description`, `event_date`, `event_time`, `event_location`) in the Supabase dashboard. Project and team images can use public image URLs or existing root-relative asset paths such as `/projects/qflip.jpg`. A sponsor's `logo` is the object's file name inside the `sponsor-logos` bucket, such as `COMPSA.png`; a database constraint rejects slashes, schemes, and anything else, and the frontend resolves the name to the bucket's public URL. Sponsor links must be HTTPS URLs. Every database-controlled link and image is parsed in `src/lib/urls.ts` before it reaches the page: a link must be an absolute `https://` URL, and an image must be that or a root-relative path such as `/projects/qflip.jpg`. Anything else — `http://`, `javascript:`, `data:`, a protocol-relative `//host`, or a malformed value — is dropped, so a card renders without its link or picture rather than with a hostile one. If a link you saved does not appear on the site, check that it starts with `https://`. `role` is free text up to 40 characters, so the club can add a position without a migration. Only `Co-Chair` carries meaning: those cards group at the top under "Co-chairs" and everyone else appears under "Executives". The match ignores case and surrounding spaces, so `co-chair` still groups correctly. Use an ISO date such as `2026-09-12` for `event_date`.
 
 Projects and sponsors sort by `display_order` ascending, then UUID for stable ties. Set `display_order` in the dashboard to reorder entries. Both sections use database content exclusively: loading, unavailable, and empty results have explicit messages. Deleting all rows leaves an empty section; no old entries reappear. Seed data lives only in migrations. Project images remain in `public/projects/`. Sponsor logos live in the `sponsor-logos` storage bucket and are no longer shipped with the site, so the bucket's own backups are what protect them; the originals moved on 2026-09-06 remain in Git history.
 
@@ -62,6 +62,33 @@ First-time setup:
 1. **Settings → Pages → Source: GitHub Actions.**
 2. **Settings → Secrets and variables → Actions**, add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Both are public by design — Vite writes them into the browser bundle, and the site cannot read content without them. They live in Actions secrets for convenience, not for confidentiality; security comes from row-level security, not from hiding the anon key. `npm run check:env` refuses to build if a service-role or secret key is put there by mistake.
 3. Push to `main` and watch the Actions run. The published URL appears on the workflow's `deploy` job.
+
+### Moving qweb.dev onto Pages
+
+`public/CNAME` holds `qweb.dev`, so the workflow builds with `--base=/` and GitHub serves the site at the apex domain, redirecting `www` to it.
+
+**The order matters.** Merging the CNAME file before DNS is ready builds the site at `/` while it is still served from `/qweb-main-2026/`, and every asset 404s until the domain resolves. Do it in this order:
+
+1. **In the old Vercel project, remove `qweb.dev` and `www.qweb.dev`.** DNS for the domain is served by `ns1.vercel-dns.com` / `ns2.vercel-dns.com`, so the records live in the Vercel dashboard even after the project stops serving the site. Leaving the domain attached there means two services both claim it.
+2. **Set these records in Vercel's DNS for `qweb.dev`.** Replace the existing `A` records on the apex:
+
+   | Type | Name | Value |
+   | --- | --- | --- |
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | AAAA | `@` | `2606:50c0:8000::153` |
+   | AAAA | `@` | `2606:50c0:8001::153` |
+   | AAAA | `@` | `2606:50c0:8002::153` |
+   | AAAA | `@` | `2606:50c0:8003::153` |
+   | CNAME | `www` | `queens-web-development-club.github.io` |
+
+3. **Wait for propagation.** `dig +short A qweb.dev` should return the four GitHub addresses and nothing else.
+4. **Merge this branch.** The workflow rebuilds with `--base=/` and publishes the `CNAME` file, which sets the custom domain in GitHub Pages.
+5. **Settings → Pages**, confirm the custom domain shows `qweb.dev` with a green check, then tick **Enforce HTTPS** once the certificate is issued. That can take up to an hour; the site is served over plain HTTP until it is, so do not announce the link before this step.
+
+To undo: delete `public/CNAME`, push, and the site returns to `https://queens-web-development-club.github.io/qweb-main-2026/`.
 
 Without a custom domain the site is served from `https://<org>.github.io/<repo>/`, so the workflow builds with `--base=/<repo>/`. Everything root-relative — the logo, portraits, and the `/projects/...` paths stored in the database — is resolved against that base by `assetUrl` in `src/lib/urls.ts`. To move the club's domain onto Pages, add a `public/CNAME` file containing the hostname and point the DNS at GitHub; the workflow sees the file and builds with `--base=/` instead. Nothing else changes.
 

@@ -23,4 +23,18 @@ describe('splitTeam', () => {
   it('handles an empty roster', () => {
     expect(splitTeam([])).toEqual({ chairs: [], executives: [] });
   });
+
+  // Roles are free text so the club can add a position without a migration.
+  // That makes casing and stray whitespace the one thing that could silently
+  // drop a chair into the executives grid.
+  it.each([['co-chair'], ['CO-CHAIR'], ['  Co-Chair  '], ['Co-chair']])(
+    'still recognises %j as a co-chair', (role) => {
+      expect(splitTeam([{ id: 'x', role }]).chairs.map((m) => m.id)).toEqual(['x']);
+    });
+
+  it('puts a position the club invented this year in the executives group', () => {
+    const { chairs, executives } = splitTeam([{ id: 'a', role: 'Finance' }, { id: 'b', role: 'Sponsorship' }]);
+    expect(chairs).toEqual([]);
+    expect(executives.map((m) => m.id)).toEqual(['a', 'b']);
+  });
 });

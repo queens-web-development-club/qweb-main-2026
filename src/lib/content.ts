@@ -13,7 +13,8 @@ export type TeamMember = {
   id: string;
   name: string;
   photo: string | null;
-  role: 'Co-Chair' | 'Development' | 'Outreach' | 'Design' | 'Education';
+  /** Free text; only "Co-Chair" is special, and it groups the card at the top. */
+  role: string;
   /** Every detail below is optional — a card renders without any of them. */
   year: string | null;
   program: string | null;
