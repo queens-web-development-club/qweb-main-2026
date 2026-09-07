@@ -21,12 +21,14 @@ function jwtRole(value) {
   }
 }
 
-if (!url) failures.push('VITE_SUPABASE_URL is not set; the build would ship a site that loads no content.');
+const WHERE = 'Set it under Settings -> Secrets and variables -> Actions, on the "Secrets" or "Variables" tab at REPOSITORY scope. An environment-scoped value is not visible to the build job.';
+
+if (!url) failures.push(`VITE_SUPABASE_URL is not set; the build would ship a site that loads no content. ${WHERE}`);
 else if (!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url)) {
   failures.push(`VITE_SUPABASE_URL is not an https Supabase project URL: ${url}`);
 }
 
-if (!key) failures.push('VITE_SUPABASE_ANON_KEY is not set; the build would ship a site that loads no content.');
+if (!key) failures.push(`VITE_SUPABASE_ANON_KEY is not set; the build would ship a site that loads no content. ${WHERE}`);
 else {
   const role = jwtRole(key);
   if (role === 'service_role') failures.push('VITE_SUPABASE_ANON_KEY holds a SERVICE ROLE key. It would be published in the browser bundle and grants full database access. Rotate it now.');

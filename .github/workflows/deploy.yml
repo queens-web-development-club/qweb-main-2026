@@ -53,13 +53,17 @@ jobs:
       # checked before they are baked into a bundle rather than after.
       - run: npm run check:env
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          # Both values are public by design — Vite writes them into the bundle
+          # every visitor downloads. Accepting a repository variable as well as
+          # a secret means neither placement is wrong, and check:env still
+          # refuses anything that is not an anon or publishable key.
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || vars.VITE_SUPABASE_ANON_KEY }}
 
       - run: npm run build -- --base="${{ steps.base.outputs.path }}"
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || vars.VITE_SUPABASE_ANON_KEY }}
 
       # Pages serves 404.html with a real 404 status, so the club's own
       # not-found screen renders without the status lying about it.

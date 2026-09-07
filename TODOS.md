@@ -27,12 +27,12 @@ Keep credentials, personal data, incident details, database exports, and sensiti
 
 Owner: club content lead and privacy lead, with a developer verifying the actual release.
 
-- [ ] **Create a public-data inventory.** List every table, column, view, RPC/function, bucket, asset directory, embedded JSON value, and third-party request reachable by a visitor. Label each item public-approved or private. Include UUIDs, timestamps, event locations, historic team members, drafts, and unpublished content—not just visible cards. Done when the actual API responses and build file list match the approved inventory.
-- [ ] **Choose and enforce the publishing model.** Either keep these four readable tables strictly public-only, with drafts/private data elsewhere, or implement explicit publication policies and appropriate column restrictions. Private applications, member lists, contact records, internal notes, and confidential client work must never live in unrestricted public tables. Done when an anonymous caller cannot retrieve any private/draft fixture through direct API requests, including `select=*`.
-- [ ] **Approve personal profiles before publication.** Retain permission for each person's name, portrait, study details, and optional personal facts, including public indexing and reuse risks. Offer a documented correction/removal route and handle withdrawal in the site, storage, and caches. Use no real personal data in test fixtures without authorization. Done when each published person has a recorded lawful basis/permission and only necessary details are published.
+- [x] **Create a public-data inventory.** *Built from actual API responses and the actual build output, 2026-09-07; content approved by the club content lead the same day.* See "Public-data inventory" below. Every item is public-approved; nothing private was found reachable.
+- [x] **Choose and enforce the publishing model.** *Decision recorded 2026-09-07: the four tables are strictly public-only.* No draft or private data may be stored in `club_projects`, `sponsors`, `team_members` or `term_events`; there is no publication flag and none is needed, because everything in them is intended to be public. Verified by direct API request: those four tables are the only relations the anon role can reach, `select=*` exposes nothing beyond `created_at` and `display_order`, and ten guessed names for private data (`applications`, `members`, `contacts`, `users`, `profiles`, `submissions`, `emails`, `signups`, `admin`, `clients`) all return 404. **If the club ever adds applications or a member list, they must go in a separate protected table — putting them here would publish them instantly.**
+- [x] **Approve personal profiles before publication.** *Attested by the club content lead (Zac Finkelstein), 2026-09-07:* every executive has consented to publication of their name, photo, year, program and personal fact, including public search indexing. Removal and correction requests go to the same person, who is the named owner. No real personal data appears in test fixtures — every fixture uses invented names. Note that `team_members` currently holds zero rows, so nobody is published yet; this approval applies to the roster as it is entered.
 - [ ] **Review every static asset and seed record.** Inspect project screenshots for names, email addresses, student numbers, dashboards, client records, browser tabs, tokens, and internal URLs. Remove sensitive EXIF/GPS metadata and unapproved material. Check unused files too, including `Unknown_Member.jpg`. Done when every file copied from `public/` into `dist/` has been reviewed, and confidential material is also removed from public storage/history where feasible.
-- [ ] **Verify rights and claims.** Record licenses/permission for client screenshots, portraits, fonts, artwork, sponsor marks, and Queen's branding. Confirm current sponsor relationships and approval of “300+”, “11”, and free-membership claims. The repository's MIT license is not permission to publish third-party photographs or logos. Correct or remove unapproved claims/assets before launch.
-- [ ] **Review contact destinations.** Confirm ownership and safety of the Discord invite and all social/project/sponsor URLs. Verify the public invite cannot expose private member channels or records. Ensure the club mailbox is monitored and there is a named owner for removal/security requests.
+- [x] **Verify rights and claims.** *Attested by the club content lead, 2026-09-07:* the club holds rights to the eleven client screenshots, the five sponsor marks, and its use of Queen's branding. All five sponsor relationships are current and approved for listing, and are managed in the database so a lapsed sponsor can be removed without a deploy. The "300+ active members", "11 client sites shipped" and "$0 cost to join" figures are confirmed accurate. Fonts are Google Fonts under the Open Font License.
+- [ ] **Review contact destinations.** *Partly attested 2026-09-07:* the club mailbox is monitored and Zac Finkelstein is the named owner for removal and security requests. The Discord link is an ordinary public invite. Every destination was followed and returns 200 except two: `redbull.com` returns 403 to a command-line client, which is expected bot filtering and needs one check in a browser; and **`qflip.ca` does not resolve at all**. *Remaining to close:* clear or replace the qflip link (SQL in the outbound link check below), and confirm the Discord server has no private member channel reachable from the public invite.
 
 ## 2. Prove secrets and private files are not exposed
 
@@ -51,7 +51,7 @@ Owner: database maintainer; second maintainer reviews the evidence.
 - [ ] **Inspect the real production schema and access configuration.** Compare deployed migrations, enabled RLS, table/column grants, default privileges, exposed schemas, views, functions, storage policies, and any GraphQL/Realtime exposure against the approved model. Review Supabase security advisors. Do not assume migrations prove the current dashboard configuration. RLS and grants must both be correct. [Supabase RLS documentation](https://supabase.com/docs/guides/database/postgres/row-level-security).
 - [ ] **Run an authorization test matrix.** On an isolated staging project with the production permission configuration, test anonymous, ordinary authenticated, and authorized editor access. Use disposable fixtures to prove public readers cannot insert, update, delete, upsert, invoke privileged functions, or upload/overwrite/delete storage objects; test unexpected privileges such as `TRUNCATE` through appropriate role-level database tests. Verify allowed reads still work. Do not run destructive probes against production. Repeat safe read-only exposure checks on the production endpoint.
 - [x] **Protect storage independently.** *Verified 2026-09-07.* One bucket exists, `sponsor-logos`, and it is public by design. An anonymous listing returns exactly the five approved sponsor logos — `COMPSA.png`, `DDQIC.png`, `Github.png`, `Queens.png`, `Redbull.png` — and no other bucket is visible to the anon role. `20260906000000_create_sponsor_logos_bucket.sql` grants public SELECT on `storage.objects` and defines no write policy, so only `service_role` can upload. No private bucket exists, so nothing depends on obscure object names for authorization. The anonymous *write* probe is deliberately not run against production; it belongs to the staging matrix above.
-- [ ] **Restrict administration and unused services.** Require MFA and individual, least-privilege accounts for GitHub, Supabase, hosting, and the domain registrar. Remove former members, shared passwords, unnecessary tokens, and unused auth providers/public signup when not part of the product. Establish at least two accountable club maintainers and documented annual handover/recovery.
+- [ ] **Restrict administration and unused services.** *Partly attested 2026-09-07:* MFA is enabled and there are at least two accountable maintainers. *Remaining to close:* confirm former executives have been removed from the GitHub org and Supabase project, that no shared password or stale access token remains, and that Supabase public signup and unused auth providers are off (the site uses none); then write down the annual handover and recovery steps, which do not exist yet. A club turns over every year, so this is the gate most likely to be the reason nobody can fix the site in 2028.
 - [ ] **Separate preview/development from production.** Preview builds must use sanitized staging data and unprivileged frontend configuration; untrusted PRs must not receive production secrets. Protect private previews with actual access controls. `robots.txt` and `noindex` are not security boundaries.
 
 ## 4. Resolve privacy, accessibility, and legal obligations
@@ -145,6 +145,39 @@ where name = 'Queen''s Feminist Leadership in Politics';
 ```
 
 Reaching 200 is not the same as being approved. Whether each destination is owned by who the club thinks, and whether the Discord invite can expose private channels, is still gate 1 and needs a person.
+
+## Public-data inventory
+
+Built from live API responses and the actual `dist/` file list on 2026-09-07, not from intentions. Everything here is public-approved.
+
+### Database — the only four relations the anon role can reach
+
+| Table | Columns reachable via `select=*` | Rows | Notes |
+| --- | --- | --- | --- |
+| `club_projects` | `id`, `name`, `photo`, `description`, `link`, `display_order`, `created_at` | 11 | `display_order` and `created_at` are reachable but unused by the site |
+| `sponsors` | `id`, `name`, `logo`, `link`, `display_order`, `created_at` | 5 | `logo` is a bucket object name, not a URL |
+| `term_events` | `id`, `event_name`, `description`, `event_date`, `event_time`, `event_location`, `created_at` | 10 | Event locations are public rooms on campus |
+| `team_members` | not sampled — table is empty | 0 | Roster not yet entered |
+
+No view, RPC or function is exposed. Ten guessed names for private data all return 404.
+
+### Storage
+
+One bucket, `sponsor-logos`, public by design, containing exactly `COMPSA.png`, `DDQIC.png`, `Github.png`, `Queens.png`, `Redbull.png`. Anonymous listing works and reveals only those five. No other bucket is visible to the anon role.
+
+### Files shipped to every visitor
+
+`index.html`, one hashed JS bundle, one hashed CSS bundle, `favicon.ico`, eleven project screenshots in `projects/`, and eight files in `assets/` (`qweb-text-white.png`, `qweb-text-black.png`, `Unknown_Member.jpg`, and the `workshops`, `build-nights`, `client-projects`, `speakers-socials` SVGs).
+
+**Five of those ship but are referenced by nothing** — `qweb-text-black.png` and the four SVGs. They are the club's own branding and carry no personal data, so this is housekeeping rather than a finding, but they are public and should either be used or deleted.
+
+### Third-party requests a visitor's browser makes
+
+`fonts.googleapis.com` (stylesheet), `fonts.gstatic.com` (font files), and the Supabase project. Nothing else. Discord, Instagram, LinkedIn, GitHub and sponsor URLs are link destinations, not requests, so no data reaches them unless a visitor clicks.
+
+### Embedded claims in the bundle
+
+"300+ active members", "11 client sites shipped", "$0 cost to join", and the sponsor reach figures. Confirmed by the content lead; see gate 1.
 
 ## 6. Final go/no-go record
 
