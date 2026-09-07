@@ -5,9 +5,10 @@
 -- it is per person, not per club. Leave any column null rather than guessing:
 -- a card renders correctly with nothing but a name and a role.
 --
--- role must be exactly one of: 'Co-Chair', 'Development', 'Outreach', 'Design', 'Education'
---   (the 2024 site's titles like "Development Director" are not valid values —
---    map them to the closest of the five, the card shows the role you pick)
+-- role is free text up to 40 characters and shows on the card exactly as typed,
+--   so 'Finance', 'Sponsorship' or 'VP Operations' are all fine. Only 'Co-Chair'
+--   is special: those cards group at the top. Casing and stray spaces do not
+--   matter for that match.
 --
 -- photo must be null, a path under public/ such as '/assets/Unknown_Member.jpg',
 --   or an https:// URL. A database constraint rejects anything else, and a null
