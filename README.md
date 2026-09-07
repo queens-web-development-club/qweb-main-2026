@@ -65,7 +65,7 @@ First-time setup:
 
 ### Moving qweb.dev onto Pages
 
-`public/CNAME` holds `qweb.dev`, so the workflow builds with `--base=/` and GitHub serves the site at the apex domain, redirecting `www` to it.
+Adding a `public/CNAME` file containing `qweb.dev` makes the workflow build with `--base=/` so GitHub can serve the site at the apex domain, redirecting `www` to it. That file is **not** in the repository yet, on purpose — it belongs in the same change as the DNS cutover.
 
 **The order matters.** Merging the CNAME file before DNS is ready builds the site at `/` while it is still served from `/qweb-main-2026/`, and every asset 404s until the domain resolves. Do it in this order:
 
