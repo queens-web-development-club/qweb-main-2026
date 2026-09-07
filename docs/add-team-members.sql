@@ -1,38 +1,43 @@
--- Fill in the 2026-27 executive team, then paste into the Supabase SQL Editor.
+-- The 2026-27 executive team. Paste into the Supabase SQL Editor.
 --
--- Only add someone who has agreed to their name, photo, year, program and fun
--- fact being published and search-indexed. That consent is a launch gate, and
--- it is per person, not per club. Leave any column null rather than guessing:
--- a card renders correctly with nothing but a name and a role.
+-- Run 20260907000001_open_up_team_roles.sql FIRST, or Aun's row is rejected:
+-- the old constraint allowed only five hardcoded roles and 'Finance' is not
+-- among them.
 --
--- role is free text up to 40 characters and shows on the card exactly as typed,
---   so 'Finance', 'Sponsorship' or 'VP Operations' are all fine. Only 'Co-Chair'
---   is special: those cards group at the top. Casing and stray spaces do not
---   matter for that match.
+-- Only people who have agreed to their name and photo being published and
+-- search-indexed belong here. Consent is per person and it is a launch gate.
 --
--- photo must be null, a path under public/ such as '/assets/Unknown_Member.jpg',
---   or an https:// URL. A database constraint rejects anything else, and a null
---   photo falls back to the placeholder portrait automatically.
---
--- Order on the page: co-chairs first, then everyone else, each group in the
--- order inserted here.
+-- Alex and Che have no portrait in the bucket yet, so their photo stays null
+-- and the card falls back to the placeholder rather than showing a broken
+-- image. Fill them in with the UPDATE at the bottom once the files are up.
 
-insert into public.team_members (name, role, year, program, responsibility, fun_fact, photo)
+insert into public.team_members (name, role, photo)
 values
-  -- ('Full Name',  'Co-Chair',    '3rd Year', 'Computing', 'What they run.', 'Something true.', null),
-  -- ('Full Name',  'Co-Chair',    null,       null,        null,             null,              null),
-  -- ('Full Name',  'Development', null,       null,        null,             null,              null),
-  -- ('Full Name',  'Design',      null,       null,        null,             null,              null),
-  -- ('Full Name',  'Outreach',    null,       null,        null,             null,              null),
-  -- ('Full Name',  'Education',   null,       null,        null,             null,              null)
-;
+  ('Zac',     'Co-Chair',    'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Zac.jpeg'),
+  ('Farhaan', 'Co-Chair',    'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Farhaan.jpeg'),
+  ('Griffin', 'Outreach',    'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Griffin.jpeg'),
+  ('Aun',     'Finance',     'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Aun.jpeg'),
+  ('Alex',    'Development', null);
+
+-- Che is not inserted: his role was cut off mid-message and is still unknown.
+-- Add him with his real title — the role column now accepts any short text and
+-- shows it on the card exactly as typed.
+--
+--   insert into public.team_members (name, role, photo) values ('Che', 'Education', null);
+
+-- Once a missing portrait is uploaded to the team-photos bucket:
+--
+--   update public.team_members
+--     set photo = 'https://wowqbavfyxhvckworrog.supabase.co/storage/v1/object/public/team-photos/Alex.jpeg'
+--   where name = 'Alex';
 
 -- Check what landed:
---   select name, role, year, program from public.team_members order by created_at;
+--   select name, role, photo is not null as has_photo from public.team_members order by created_at;
 --
--- Remove someone who asked to be taken down:
---   delete from public.team_members where name = 'Full Name';
---
--- Portraits: upload to public/assets/ in the repo and reference '/assets/Name.jpg',
--- or put them in a Supabase bucket and use the public https URL. Strip EXIF and
--- GPS metadata before uploading either way.
+-- Someone asks to be removed:
+--   delete from public.team_members where name = 'Zac';
+
+-- Cards group by role: anything matching 'Co-Chair' (any casing) sits at the
+-- top under "Co-chairs", everyone else appears under "Executives" in the order
+-- inserted above. Year, program, responsibility and fun_fact are all optional
+-- and can be filled in later without touching the site.
