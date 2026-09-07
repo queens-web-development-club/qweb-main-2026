@@ -11,6 +11,7 @@ import { InspectModeProvider, InspectToggle } from '../../components/InspectMode
 import './Landing.css';
 import { CodeSculpture } from './CodeSculpture';
 import { CurriculumTicker } from './CurriculumTicker';
+import { assetUrl } from '../../lib/urls';
 
 // Member count from qweb.dev; sites shipped is the count of the archive. The
 // old 'workshops a year' figure had no source, so it is gone rather than guessed.
@@ -110,17 +111,19 @@ export function Landing() {
   }, []);
 
   return <InspectModeProvider><main className="page">
+    {/* First thing in the tab order, so the nav can be bypassed (WCAG 2.4.1). */}
+    <a className="skip-link" href="#top">Skip to main content</a>
     <div className="noise" aria-hidden="true" />
     <SiteWaves />
     <section className="landing-page" id="home" aria-label="QWEB landing page">
       <header className="nav page-load" data-inspect="header.nav">
-        <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src="/assets/qweb-text-white.png" alt="QWEB" /></a>
+        <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src={assetUrl("/assets/qweb-text-white.png")} alt="QWEB" /></a>
         <nav><a href="#about">About</a><a href="#education">Education</a><a href="#join">Join</a></nav>
         <InspectToggle />
         <a className="nav-cta" href="#join">Join QWEB</a>
       </header>
 
-      <section className="hero" id="top" data-inspect="section.hero#top">
+      <section className="hero" id="top" tabIndex={-1} data-inspect="section.hero#top">
         <div className="hero-copy page-load page-load--delayed">
           <h1>Queen's Web<br /><span>Development</span> Club</h1>
           <p className="intro">We teach students to build for the web, from your first line of HTML to a production deploy. Whether you are a team that ships or someone figuring it out, there is a place for you here.</p>

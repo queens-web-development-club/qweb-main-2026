@@ -20,13 +20,26 @@ export function safeLink(value: unknown): string | null {
 }
 
 /**
+ * A root-relative path is only root-relative when the site owns the root. On a
+ * GitHub project Pages site it is served from /<repo>/, so every stored
+ * `/projects/...` path and every asset in `public/` needs the deployment's base
+ * in front of it or it 404s.
+ */
+export function assetUrl(path: string, base = import.meta.env.BASE_URL): string {
+  if (!path.startsWith('/') || path.startsWith('//')) return path;
+  const prefix = base.replace(/\/+$/, '');
+  if (prefix === '' || path.startsWith(`${prefix}/`)) return path;
+  return `${prefix}${path}`;
+}
+
+/**
  * Images may also be a same-origin asset shipped in `public/`, which is how
  * project screenshots and team portraits are stored.
  */
-export function safeImage(value: unknown): string | null {
+export function safeImage(value: unknown, base?: string): string | null {
   if (typeof value !== 'string') return null;
   const trimmed = value.trim();
   if (trimmed === '') return null;
-  if (trimmed.startsWith('/') && !trimmed.startsWith('//')) return trimmed;
+  if (trimmed.startsWith('/') && !trimmed.startsWith('//')) return assetUrl(trimmed, base);
   return safeLink(trimmed);
 }

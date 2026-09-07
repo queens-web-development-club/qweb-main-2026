@@ -4,6 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.ico" />
+    <!--
+      GitHub Pages serves static files and cannot send response headers, so the
+      policy has to travel in the document. A meta CSP is honoured for everything
+      below except frame-ancestors, which is header-only: clickjacking protection,
+      HSTS, nosniff, Referrer-Policy and Permissions-Policy cannot be set on Pages
+      at all. See the deployment section of README.md.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
     <title>Queen's Web Development Club</title>
     <meta name="description" content="Student-run web development at Queen's University in Kingston, Ontario. Workshops, build nights, and client projects — no experience required." />
   </head>

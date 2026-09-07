@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "upload:sponsor-logos": "node scripts/upload-sponsor-logos.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:env": "node scripts/check-public-env.mjs",
+    "check:secrets": "node scripts/check-committed-secrets.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.4",
@@ -23,5 +25,8 @@
     "@types/react-dom": "^19.2.7",
     "typescript": "^7.0.2",
     "vitest": "^4.1.11"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

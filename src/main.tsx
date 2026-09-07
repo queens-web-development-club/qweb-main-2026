@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { Landing } from './pages/Landing/Landing';
 import { NotFound } from './pages/NotFound/NotFound';
+import { isLandingPath } from './lib/route';
 
 // Anyone who opens the console is exactly who we are recruiting, so leave them a note.
 console.log(
@@ -9,6 +10,6 @@ console.log(
   'font:12px/1.6 monospace;color:#83919a',
 );
 
-const Page = window.location.pathname === '/' ? Landing : NotFound;
+const Page = isLandingPath(window.location.pathname, import.meta.env.BASE_URL) ? Landing : NotFound;
 
 createRoot(document.getElementById('root')!).render(<Page />);

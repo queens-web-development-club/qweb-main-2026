@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { safeImage, safeLink } from './urls';
+import { assetUrl, safeImage, safeLink } from './urls';
 
 describe('safeLink', () => {
   it('keeps an https destination', () => {
@@ -49,5 +49,33 @@ describe('safeImage', () => {
     [null],
   ])('refuses %s as an image source', (value) => {
     expect(safeImage(value)).toBeNull();
+  });
+});
+
+describe('assetUrl', () => {
+  it('leaves a root-relative path alone when the site is served from the domain root', () => {
+    expect(assetUrl('/assets/logo.png', '/')).toBe('/assets/logo.png');
+  });
+
+  it('resolves a root-relative path against a subdirectory deployment', () => {
+    expect(assetUrl('/assets/logo.png', '/qweb-main-2026/')).toBe('/qweb-main-2026/assets/logo.png');
+  });
+
+  it('does not double the base when it is already applied', () => {
+    expect(assetUrl('/qweb-main-2026/assets/logo.png', '/qweb-main-2026/')).toBe('/qweb-main-2026/assets/logo.png');
+  });
+
+  it('leaves an absolute URL untouched', () => {
+    expect(assetUrl('https://cdn.example.com/logo.png', '/qweb-main-2026/')).toBe('https://cdn.example.com/logo.png');
+  });
+});
+
+describe('safeImage under a subdirectory deployment', () => {
+  it('resolves a stored screenshot path against the base', () => {
+    expect(safeImage('/projects/qflip.jpg', '/qweb-main-2026/')).toBe('/qweb-main-2026/projects/qflip.jpg');
+  });
+
+  it('still refuses a hostile value regardless of the base', () => {
+    expect(safeImage('javascript:alert(1)', '/qweb-main-2026/')).toBeNull();
   });
 });
