@@ -50,7 +50,7 @@ Owner: database maintainer; second maintainer reviews the evidence.
 
 - [ ] **Inspect the real production schema and access configuration.** Compare deployed migrations, enabled RLS, table/column grants, default privileges, exposed schemas, views, functions, storage policies, and any GraphQL/Realtime exposure against the approved model. Review Supabase security advisors. Do not assume migrations prove the current dashboard configuration. RLS and grants must both be correct. [Supabase RLS documentation](https://supabase.com/docs/guides/database/postgres/row-level-security).
 - [ ] **Run an authorization test matrix.** On an isolated staging project with the production permission configuration, test anonymous, ordinary authenticated, and authorized editor access. Use disposable fixtures to prove public readers cannot insert, update, delete, upsert, invoke privileged functions, or upload/overwrite/delete storage objects; test unexpected privileges such as `TRUNCATE` through appropriate role-level database tests. Verify allowed reads still work. Do not run destructive probes against production. Repeat safe read-only exposure checks on the production endpoint.
-- [ ] **Protect storage independently.** Public buckets contain only approved public media; private buckets reject unauthenticated listing/download and use appropriately scoped, expiring access where needed. Object names and obscure URLs are not authorization. If no storage buckets are used, record that verification.
+- [x] **Protect storage independently.** *Verified 2026-09-07.* One bucket exists, `sponsor-logos`, and it is public by design. An anonymous listing returns exactly the five approved sponsor logos — `COMPSA.png`, `DDQIC.png`, `Github.png`, `Queens.png`, `Redbull.png` — and no other bucket is visible to the anon role. `20260906000000_create_sponsor_logos_bucket.sql` grants public SELECT on `storage.objects` and defines no write policy, so only `service_role` can upload. No private bucket exists, so nothing depends on obscure object names for authorization. The anonymous *write* probe is deliberately not run against production; it belongs to the staging matrix above.
 - [ ] **Restrict administration and unused services.** Require MFA and individual, least-privilege accounts for GitHub, Supabase, hosting, and the domain registrar. Remove former members, shared passwords, unnecessary tokens, and unused auth providers/public signup when not part of the product. Establish at least two accountable club maintainers and documented annual handover/recovery.
 - [ ] **Separate preview/development from production.** Preview builds must use sanitized staging data and unprivileged frontend configuration; untrusted PRs must not receive production secrets. Protect private previews with actual access controls. `robots.txt` and `noindex` are not security boundaries.
 
@@ -68,7 +68,7 @@ These are release decisions, not a claim that every law below automatically appl
 - [ ] **Confirm accessibility obligations and pass a manual audit.** Ontario website rules cover designated public-sector bodies and businesses/nonprofits with 50+ employees, with specified WCAG 2.0 AA requirements/exceptions. Queen's policy covers officially associated university sites, including those outside its domain where applicable. Confirm classification with the institution; use WCAG 2.2 AA as the engineering target without mislabeling it as the Ontario statutory version. [Ontario guidance](https://www.ontario.ca/page/how-make-websites-accessible), [Queen's Web Accessibility Policy](https://www.queensu.ca/secretariat/policies/information-technology/web-accessibility-policy).
 - [ ] **Fix identified accessibility risks and verify the deployed experience.** Add an operable pause/stop control for the continuously scrolling curriculum ticker or stop its automatic movement. Review background motion as well. Check keyboard-only operation, visible focus, screen-reader names/order, contrast (including gradients), image alternatives, 200% zoom, 320px reflow, reduced motion, and error/empty states. Automated tests alone cannot sign this off. [W3C pause/stop/hide guidance](https://www.w3.org/WAI/WCAG20/Understanding/pause-stop-hide.html).
 - [ ] **Document retention and incident obligations.** Assign deadlines/owners for profile removal, mailbox records, logs, backups, and access requests under the applicable rules. Establish escalation to Queen's/the responsible organization. If PIPEDA applies, assess reporting/notification for a real risk of significant harm and keep required breach records; do not import a universal 72-hour rule from another regime. [OPC breach guidance](https://www.priv.gc.ca/en/privacy-topics/privacy-for-businesses/privacy-breaches-at-your-business/gd_pb_201810/).
-- [ ] **Keep unassessed features out of launch.** Applications, uploads, payments, newsletters, tracking, and sensitive/minor data collection need their own security/privacy review before activation. Reassess other jurisdictions if targeting people or monitoring behavior outside Canada; simple worldwide reach does not by itself settle GDPR applicability. Record current exclusions so adding a feature cannot silently invalidate this review.
+- [x] **Keep unassessed features out of launch.** *Verified in source and in the built bundle, 2026-09-07.* The site collects nothing: no `<form>`, `<input>`, `<textarea>`, file input, `FormData`, or submit handler exists anywhere in `src/`. No analytics, tag manager, pixel, or session replay is present, and the code sets no cookie and writes to neither `localStorage` nor `sessionStorage`. The only third-party origins the built output requests are `fonts.googleapis.com` (with `fonts.gstatic.com` for the font files) and the Supabase project; every other external URL is a link destination, not a request. **Recorded exclusions:** membership applications, uploads, payments, newsletters, tracking, and accounts are all out of scope for this launch. Adding any of them re-opens this gate and gate 4.
 
 ## 5. Harden and verify the release
 
@@ -123,6 +123,28 @@ Run against the production endpoint with the anon key, reads only — no inserts
 - **`team_members` returns zero rows**, so the site renders the role-only structure with no names or photos. That is a content gap, not a permissions finding.
 
 Not tested, and still required: that an anonymous caller cannot insert, update, delete, upsert, invoke privileged functions, or write to storage. Those are write probes and belong on an isolated staging project with the production permission configuration, per the gate above.
+
+### Outbound link check (2026-09-07)
+
+Every external destination the site renders, followed to its final status:
+
+| Destination | Result |
+| --- | --- |
+| Instagram, GitHub org, Discord invite, LinkedIn | 200 |
+| compsa.ca, queensu.ca, queensu.ca/innovationcentre, github.com | 200 |
+| redbull.com | 403 to a command-line client; expected bot filtering, verify in a browser |
+| **qflip.ca** | **Does not resolve — no DNS record at all. `www.qflip.ca` returns 530.** |
+
+**`qflip.ca` is a finding, not a transient failure.** It is the stored `link` for the "Queen's Feminist Leadership in Politics" project. Two problems: students who click it reach nothing, and if the domain has lapsed rather than merely broken, anyone can register it and the club's site will send visitors to whatever they publish there. Gate 1's "review contact destinations" and gate 5's "prevent compromised content destinations" both cover this.
+
+Until the project owner confirms the domain, clear the link and keep the card:
+
+```sql
+update public.club_projects set link = null
+where name = 'Queen''s Feminist Leadership in Politics';
+```
+
+Reaching 200 is not the same as being approved. Whether each destination is owned by who the club thinks, and whether the Discord invite can expose private channels, is still gate 1 and needs a person.
 
 ## 6. Final go/no-go record
 
