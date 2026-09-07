@@ -53,6 +53,16 @@ The site reads these tables anonymously using the publishable/anon key. Row-leve
 - `Error parsing shader source` with `RGX2`/`RGX3` and `GpuShader filters are not supported when GPU compositing is disabled` points to browser image enhancement, not a QWEB shader. In Opera GX, disable RGX image/video enhancement and reload to confirm. [Opera documents RGX here](https://www.opera.com/gx/features/rgx). QWEB's hero uses CSS and SVG, with no GPU shader source.
 - `contentscript.js` listener and `ObjectMultiplex` warnings likely originate from an injected browser extension. Recheck with extensions disabled; inspect the script's full URL in DevTools to identify its owner. The React DevTools suggestion and QWEB source banner are informational.
 
+## Deployment
+
+The site deploys to Vercel from `vercel.json`, which builds with `npm run typecheck && npm test && npm run build` and publishes `dist/`. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as project environment variables in the Vercel dashboard; a build without them ships a site that cannot load any content.
+
+GitHub Pages is not a fit here. It serves static files with no way to set response headers, so the Content-Security-Policy, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy` gates in `TODOS.md` cannot be closed on it at all. Vercel also gives a preview deployment per pull request, which the checklist asks for, and it is the host the workshops teach.
+
+`vercel.json` sets those headers. The policy is written for what this site actually loads — its own bundle, Google Fonts stylesheets and font files, HTTPS images, `data:` SVGs in CSS, and Supabase requests — so verify the live response headers and the browser console after the first deploy rather than assuming it fits a later change. `img-src` currently allows any HTTPS host, matching what `src/lib/urls.ts` accepts; tighten both together once the club has approved a list of image hosts.
+
+There is deliberately no catch-all rewrite. An unknown path returns a real 404 from the host instead of a 200 carrying the React `NotFound` screen, which is what the checklist asks for; the tradeoff is that `NotFound` renders only during local development.
+
 ## Project structure
 
 ```text
@@ -75,6 +85,7 @@ public/
   assets/
   projects/
 scripts/
+vercel.json
 supabase/
   migrations/
 tsconfig.json
