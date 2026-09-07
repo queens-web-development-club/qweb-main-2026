@@ -85,6 +85,7 @@ September 2026 polish: Team entries without a supplied photo use `/assets/Unknow
 | Component | Purpose | Appearance-relevant surfaces |
 | --- | --- | --- |
 | `Landing` | Composes the single route, navigation, hero, stationary 3D code icon, animated stats, animated curriculum ticker, and four anchored regions | `src/pages/Landing/Landing.tsx` and `Landing.css` |
+| `CurriculumTicker` | The curriculum strip and its pause/play control | `src/pages/Landing/CurriculumTicker.tsx` |
 | `InspectMode` | Opt-in mode that labels each major section with the selector it is built from; `InspectModeProvider` owns the state, `InspectToggle` is the nav control, `InspectOverlay` draws the outline and tag | `src/components/InspectMode/` |
 | `AnimatedStat` | Counts a statistic from zero to its target when visible | `Landing.tsx`; rendered as bordered translucent stat cards |
 | `AboutUs` | Presents offerings as a numbered editorial index and first-year milestones as a continuous progress track | `src/pages/AboutUs/AboutUs.tsx` and `AboutUs.css` |
@@ -137,7 +138,7 @@ Vertical wheel scrolling over the project rail moves through projects horizontal
 | Motion | Trigger | Timing/technique | Evidence |
 | --- | --- | --- | --- |
 | Animated statistics | Intersection with stat card | `requestAnimationFrame`, `1100ms`, cubic easing `1 - (1 - progress) ** 3` | `Landing.tsx`, `AnimatedStat` |
-| Curriculum ticker | Continuous page load loop | CSS keyframes, `23s linear`, transform-based marquee; pauses on hover/focus and is disabled for reduced motion | `Landing.tsx` and `Landing.css`, `.bar-track` |
+| Curriculum ticker | Continuous page load loop | CSS keyframes, `23s linear`, transform-based marquee; disabled for reduced motion. A `.bar-toggle` button pauses and resumes it, because the track holds nothing focusable and hover alone reaches neither a keyboard nor a touch visitor (WCAG 2.2.2). Hover and focus still pause as a convenience | `CurriculumTicker.tsx` and `Landing.css`, `.bar-track[data-paused]` |
 | Rainbow wave drift | Continuous page background and regional atmosphere | CSS keyframes, `8s`–`23s`, `ease-in-out`, alternating directions; the full-page field is softer than the hero treatment | `Landing.tsx`, `SiteWaves`; `Landing.css`, `@keyframes drift` and `.wave-*` |
 | Link hover | Pointer hover | Color change; no duration specified | `Landing.css`, `nav a:hover`, footer link selectors |
 | Page-load entrance | Initial mount | `560ms`, opacity/translateY, staggered by `90ms`/`170ms` | `Landing.tsx` and `Landing.css`, `.page-load` |

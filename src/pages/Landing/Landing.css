@@ -52,7 +52,14 @@ footer { color:#4e5e66; display:flex; justify-content:space-between; padding:18p
 @media (max-width:700px) { nav { display:none; }.nav { height:61px; }.nav-cta { padding:9px 14px; }.brand img { width:69px; }.hero { padding-top:36px; }.hero-copy { max-width:100%; } h1 { font-size:clamp(42px,12.5vw,68px); }.intro { max-width:330px; }.wave-field { top:240px; }.site-wave-field .wave { height:260px; opacity:.12; }.bar-label { display:none; }.bar-group span { width:150px; padding:0 16px; }.stats { grid-template-columns:repeat(2,1fr); padding:16px 22px 21px; gap:8px; }.stats article { padding:12px 10px; }.stats article strong { font-size:24px; } footer { display:block; line-height:2; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; } .bar-track { transform:none; } }
 
-.bar-viewport:hover .bar-track,.bar-viewport:focus-within .bar-track { animation-play-state:paused; }
+/* Hover and focus are conveniences; the button is the mechanism a keyboard or
+   touch visitor can actually reach, so its paused state wins outright. */
+.bar-viewport:hover .bar-track,.bar-viewport:focus-within .bar-track,.bar-track[data-paused="true"] { animation-play-state:paused; }
+.bar-toggle { flex:none; align-self:stretch; padding:0 clamp(16px,3vw,26px); border:0; border-left:1px solid rgba(55,140,190,.22); background:transparent; color:#668892; font:500 var(--t-micro) 'DM Mono',monospace; letter-spacing:.15em; text-transform:uppercase; white-space:nowrap; cursor:pointer; }
+.bar-toggle:hover { color:#d5e2e4; }
+.bar-toggle:focus-visible { outline:2px solid #20cbb4; outline-offset:-4px; }
+.bar-toggle[aria-pressed="true"] { color:#20cbb4; }
+.visually-hidden { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
 @keyframes marquee { to { transform:translateX(-50%); } }
 
 /* Motion is opt-in after mount so a script failure never leaves content hidden.
