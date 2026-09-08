@@ -6,14 +6,14 @@ const offerings = [
   { number: '01', title: 'Workshops', description: 'Ten Thursdays, six to seven. You deploy a live site on the first night, then spend the term rebuilding it by hand until every line of it is yours.', artifactLabel: 'deploy', artifactValue: 'site.live', artifactState: 'ready', artifact: 'browser' },
   { number: '02', title: 'Build nights', description: 'Bring a half-finished idea and a laptop. Exec and senior members float the room until the bug is dead and the thing works.', artifactLabel: 'issue', artifactValue: 'resolved', artifactState: 'closed', artifact: 'bug' },
   { number: '03', title: 'Client projects', description: 'Small teams build real sites for Queen’s clubs and Kingston businesses — scoped, reviewed, shipped, and handed over. Teams are forming now.', artifactLabel: 'pull request', artifactValue: 'merged', artifactState: 'approved', artifact: 'merge' },
-  { number: '04', title: 'Two sprints a year', description: 'The fall sprint runs September to December, the winter sprint January to April. Start at the beginning of either one, or join partway through — people do.', artifactLabel: 'next sprint', artifactValue: 'jan → apr', artifactState: 'open', artifact: 'calendar' },
+  { number: '04', title: 'Two sprints a year', description: 'The fall sprint runs September to December, the winter sprint January to April. Start at the beginning of either one, or join partway through.', artifactLabel: 'next sprint', artifactValue: 'jan → apr', artifactState: 'open', artifact: 'calendar' },
 ];
 
 const milestones = [
   { month: 'September', title: 'Live in week one', description: 'You deploy a real site on the first night, with AI, and leave with the link. Then we start pulling it apart.' },
-  { month: 'October', title: 'Own every line', description: 'Rebuild the page by hand — structure, styling, interaction — until you can explain any part of it without help.' },
-  { month: 'November', title: 'Ship it properly', description: 'Git, Next.js and Vercel, then a polished portfolio you present to the room on the nineteenth.' },
-  { month: 'January', title: 'Build for someone else', description: 'The winter sprint opens. Join a client team, take a real ticket, and open a real pull request.' },
+  { month: 'October', title: 'Own every line', description: 'Rebuild the page by hand — structure, styling, interaction — then put it under version control and online at a link you own.' },
+  { month: 'November', title: 'Ship it properly', description: 'Rebuild it again in Next.js, deploy to Vercel, polish it, and present it to the room on the nineteenth.' },
+  { month: 'January', title: 'Build for someone else', description: 'The winter sprint runs January to April. Client teams take briefs year-round — take a real ticket and open a real pull request.' },
 ];
 
 function ArtifactGraphic({ type }: { type: string }) {
