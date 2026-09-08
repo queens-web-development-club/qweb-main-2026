@@ -3,17 +3,23 @@ import { SectionHeading } from '../../components/SectionHeading';
 import './AboutUs.css';
 
 const offerings = [
-  { number: '01', title: 'Workshops', description: 'Zero to deployed. Weekly sessions that start at “what is a div” and end with your own site live on the internet, on your own domain.', artifactLabel: 'deploy', artifactValue: 'site.live', artifactState: 'ready', artifact: 'browser' },
+  { number: '01', title: 'Workshops', description: 'Ten Thursdays, six to seven. You deploy a live site on the first night, then spend the term rebuilding it by hand until every line of it is yours.', artifactLabel: 'deploy', artifactValue: 'site.live', artifactState: 'ready', artifact: 'browser' },
   { number: '02', title: 'Build nights', description: 'Bring a half-finished idea and a laptop. Exec and senior members float the room until the bug is dead and the thing works.', artifactLabel: 'issue', artifactValue: 'resolved', artifactState: 'closed', artifact: 'bug' },
-  { number: '03', title: 'Client projects', description: 'Small teams build real sites for Queen’s club and Kingston businesses — scoped, reviewed, shipped, and handed over.', artifactLabel: 'pull request', artifactValue: 'merged', artifactState: 'approved', artifact: 'merge' },
-  { number: '04', title: 'Speakers & socials', description: 'Alumni and working developers on what actually happens after graduation — plus the coffee, pizza and Discord that hold it together.', artifactLabel: 'next event', artifactValue: 'thu · TBD', artifactState: 'open', artifact: 'calendar' },
+  { number: '03', title: 'Client projects', description: 'Small teams build real sites for Queen’s clubs and Kingston businesses — scoped, reviewed, shipped, and handed over. Teams are forming now.', artifactLabel: 'pull request', artifactValue: 'merged', artifactState: 'approved', artifact: 'merge' },
+  { number: '04', title: 'Two sprints a year', description: 'The fall sprint runs September to December, the winter sprint January to April. Start at the beginning of either one, or join partway through.', artifactLabel: 'next sprint', artifactValue: 'jan → apr', artifactState: 'open', artifact: 'calendar' },
 ];
 
+/**
+ * September to November follow the Fall 2026 schedule session by session.
+ * January is deliberately thin: the winter sprint's dates are confirmed but
+ * its syllabus is not written yet, so this says only what is known and gets
+ * revisited when that schedule exists.
+ */
 const milestones = [
-  { month: 'September', title: 'Show up', description: 'Kickoff night, a laptop setup that works, and your first page in the browser before you leave.' },
-  { month: 'October', title: 'Ship something', description: 'Your first deploy goes live and gets a real URL you can send to your parents.' },
-  { month: 'November', title: 'Join a team', description: 'Project teams form around client briefs. You take a real ticket and open a real pull request.' },
-  { month: 'March', title: 'Show your work', description: 'Demo night. Every team presents what they built, in front of members and industry guests.' },
+  { month: 'September', title: 'Live in week one', description: 'You deploy a real site on the first night, with AI, and leave with the link. Then we start pulling it apart.' },
+  { month: 'October', title: 'Own every line', description: 'Rebuild the page by hand — structure, styling, interaction — then put it under version control and online at a link you own.' },
+  { month: 'November', title: 'Ship it properly', description: 'Rebuild it again in Next.js, deploy to Vercel, polish it, and present it to the room on the nineteenth.' },
+  { month: 'January', title: 'Build for someone else', description: 'The winter sprint runs January to April. Client teams take briefs year-round — take a real ticket and open a real pull request.' },
 ];
 
 function ArtifactGraphic({ type }: { type: string }) {
@@ -95,7 +101,7 @@ export function AboutUs() {
   return <section ref={aboutRef} className="about-us reveal-on-scroll" aria-labelledby="about-title" data-inspect="section.about-us">
     <SectionHeading id="about-title" title={<>Four nights a month that<br /><span>turn into a portfolio.</span></>} summary="Everything we run is hands-on. You leave every session with something on your screen that wasn’t there when you walked in." />
 
-    <p className="about-us__bio">QWEB is a student-run club that teaches people to build websites — through tutorials, workshops, and real work for Kingston businesses and Queen’s clubs. Members are sorted into teams and handed an actual client, who stays in the room while the site takes shape. Experienced members lead those teams, and the people on them range from first-timers to fourth years. We do the design as well as the code.</p>
+    <p className="about-us__bio">QWEB is a student-run club that teaches people to build for the web. A sprint runs on one project — a personal portfolio that goes live on night one and gets rebuilt by hand until you understand it. We use AI in the room the way working developers actually do, as a tool you direct and then read, not a black box you copy from. Alongside that, teams of members build real sites for Queen’s clubs and Kingston businesses; experienced members lead, and the people on them range from first-timers to fourth years. We do the design as well as the code.</p>
 
     <div className="about-us__offerings" aria-label="What QWEB offers">
       {offerings.map((offering) => <article className="about-us__offering" key={offering.title} data-inspect="article.about-us__offering">
@@ -116,7 +122,7 @@ export function AboutUs() {
     <section ref={journeyRef} className="about-us__journey" aria-labelledby="journey-title" data-inspect="section.about-us__journey">
       <header className="about-us__journey-header">
         <p className="about-us__eyebrow" id="journey-title">// Your first year</p>
-        <span>Fall → Spring</span>
+        <span>Sept → April</span>
       </header>
       <ol className="about-us__milestones">
         {milestones.map((milestone, index) => <li key={milestone.month}>

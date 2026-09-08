@@ -13,11 +13,9 @@
 .join-actions a span { margin-left:4px; color:inherit; }
 .join-actions small { margin-top:8px; color:#91a6af; font:var(--t-micro) 'DM Mono',monospace; letter-spacing:.08em; text-align:center; text-transform:uppercase; }
 
-.join-routes { display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:32px; margin-top:32px; }
+.join-routes { display:grid; grid-template-columns:repeat(2,1fr); gap:32px; margin-top:32px; }
 .join-route { min-width:0; padding:0; overflow-wrap:anywhere; }
 .join-route h3 { margin:0 0 11px; color:#e2eded; font:500 var(--t-card) 'IBM Plex Sans',sans-serif; }
-/* Unfinished content reads as unfinished — never as a live control. */
-.join-route__pending { margin:0; color:#7d919a; font:var(--t-body)/1.7 'DM Mono',monospace; }
 .join-contacts { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
 .join-contacts a { display:inline-block; color:#a6bcc1; font:var(--t-body) 'DM Mono',monospace; }
 .join-contacts a:hover { color:#20cbb4; }
