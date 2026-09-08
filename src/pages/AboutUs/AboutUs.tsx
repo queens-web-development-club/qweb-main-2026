@@ -9,6 +9,12 @@ const offerings = [
   { number: '04', title: 'Two sprints a year', description: 'The fall sprint runs September to December, the winter sprint January to April. Start at the beginning of either one, or join partway through.', artifactLabel: 'next sprint', artifactValue: 'jan → apr', artifactState: 'open', artifact: 'calendar' },
 ];
 
+/**
+ * September to November follow the Fall 2026 schedule session by session.
+ * January is deliberately thin: the winter sprint's dates are confirmed but
+ * its syllabus is not written yet, so this says only what is known and gets
+ * revisited when that schedule exists.
+ */
 const milestones = [
   { month: 'September', title: 'Live in week one', description: 'You deploy a real site on the first night, with AI, and leave with the link. Then we start pulling it apart.' },
   { month: 'October', title: 'Own every line', description: 'Rebuild the page by hand — structure, styling, interaction — then put it under version control and online at a link you own.' },
