@@ -16,6 +16,10 @@
 .join-routes { display:grid; grid-template-columns:repeat(2,1fr); gap:32px; margin-top:32px; }
 .join-route { min-width:0; padding:0; overflow-wrap:anywhere; }
 .join-route h3 { margin:0 0 11px; color:#e2eded; font:500 var(--t-card) 'IBM Plex Sans',sans-serif; }
+/* Body copy in a route panel, matching the mono treatment every other
+   paragraph on the page uses. Without it a bare <p> inherits the sans
+   default and one panel reads in a different typeface from its neighbour. */
+.join-route > p { margin:0; color:#9aabb2; font:var(--t-body)/1.7 'DM Mono',monospace; }
 .join-contacts { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
 .join-contacts a { display:inline-block; color:#a6bcc1; font:var(--t-body) 'DM Mono',monospace; }
 .join-contacts a:hover { color:#20cbb4; }
