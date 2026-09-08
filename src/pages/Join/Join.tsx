@@ -20,8 +20,9 @@ export function Join() {
     <div className="join-routes">
       <article className="join-route" data-inspect="article.join-route">
         <h3>Applications</h3>
-        {/* No form exists yet. A disabled state is honest; a button to nowhere is not. */}
-        <p className="join-route__pending">Developer applications aren’t open yet. Ask on Discord and we’ll tell you the day they are.</p>
+        {/* Open informally: no form exists, so there is no link to give. Saying
+            so is more useful than a button to nowhere or a closed sign. */}
+        <p>We take developers on an ongoing basis — there’s no form and no deadline. Say hello on Discord, tell us what you want to build, and we’ll take it from there.</p>
       </article>
 
       <article className="join-route" data-inspect="article.join-route">
@@ -31,11 +32,6 @@ export function Join() {
           <li><a href={`mailto:${CLUB_EMAIL}`}>{CLUB_EMAIL}<span>↗</span></a><small>Sponsorship, client work, anything formal.</small></li>
           <li><span className="join-contacts__later">Slack</span><small>Coming later this year.</small></li>
         </ul>
-      </article>
-
-      <article className="join-route" data-inspect="article.join-route">
-        <h3>Where members end up</h3>
-        <p className="join-route__pending">We’re collecting where QWEB members went after graduating — the internships, the first jobs, the teams. It’ll be listed here.</p>
       </article>
     </div>
   </section>;
