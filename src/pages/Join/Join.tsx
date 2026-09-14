@@ -37,7 +37,6 @@ export function Join() {
         <ul className="join-contacts">
           <li><a href={DISCORD_INVITE} target="_blank" rel="noreferrer">Discord<span>↗</span></a><small>Fastest. This is where the club actually talks.</small></li>
           <li><a href={`mailto:${CLUB_EMAIL}`}>{CLUB_EMAIL}<span>↗</span></a><small>Sponsorship, client work, anything formal.</small></li>
-          <li><span className="join-contacts__later">Slack</span><small>Coming later this year.</small></li>
         </ul>
       </article>
     </div>

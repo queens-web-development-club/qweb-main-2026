@@ -27,7 +27,6 @@
 .join-contacts a { display:inline-block; color:#a6bcc1; font:var(--t-body) 'DM Mono',monospace; }
 .join-contacts a:hover { color:#20cbb4; }
 .join-contacts a span { margin-left:4px; color:#2586ee; }
-.join-contacts__later { display:inline-block; color:#6b858f; font:var(--t-body) 'DM Mono',monospace; }
 .join-contacts small { display:block; margin-top:5px; color:#7d919a; font:var(--t-meta)/1.7 'DM Mono',monospace; }
 
 @media (max-width:700px) {
