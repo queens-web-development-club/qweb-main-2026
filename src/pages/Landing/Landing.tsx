@@ -13,11 +13,13 @@ import { CodeSculpture } from './CodeSculpture';
 import { CurriculumTicker } from './CurriculumTicker';
 import { assetUrl } from '../../lib/urls';
 
-// Member count from qweb.dev; sites shipped is the count of the archive. The
-// old 'workshops a year' figure had no source, so it is gone rather than guessed.
+// Member count from qweb.dev; projects built is the count of the archive. Not
+// every archived build had a client (Torus Puzzle and Fiscal Fresh were team
+// ideas), so the label says built, not client sites. The old 'workshops a year'
+// figure had no source, so it is gone rather than guessed.
 const stats = [
-  { value: 300, suffix: '+', label: 'Active members' },
-  { value: 11, suffix: '', label: 'Client sites shipped' },
+  { value: 300, suffix: '+', label: 'Members' },
+  { value: 11, suffix: '', label: 'Projects built' },
   { value: 0, prefix: '$', suffix: '', label: 'Cost to join' },
 ];
 
@@ -126,7 +128,7 @@ export function Landing() {
       <section className="hero" id="top" tabIndex={-1} data-inspect="section.hero#top">
         <div className="hero-copy page-load page-load--delayed">
           <h1>Queen's Web<br /><span>Development</span> Club</h1>
-          <p className="intro">We teach students to build for the web, from your first line of HTML to a production deploy. Whether you are a team that ships or someone figuring it out, there is a place for you here.</p>
+          <p className="intro">We teach students to build for the web, from your first line of HTML to a production deploy. No experience needed: you leave the first night with a live site.</p>
           <div className="actions"><a className="primary" href="#join">Join the club</a><a className="secondary" href="#projects">See our work</a></div>
         </div>
         <CodeSculpture />
