@@ -11,8 +11,8 @@ export function Sponsors() {
     <SectionHeading id="sponsors-title" title="Backed by people who build things." summary="Sponsoring QWEB puts you in front of students who ship, all year, not once at a career fair." />
 
     <dl className="sponsors__reach">
-      <div><dt>Members reached</dt><dd>300+</dd></div>
-      <div><dt>Client sites shipped</dt><dd>11</dd></div>
+      <div><dt>Members</dt><dd>300+</dd></div>
+      <div><dt>Projects built</dt><dd>11</dd></div>
       <div><dt>Cost to a student</dt><dd>$0</dd></div>
     </dl>
 

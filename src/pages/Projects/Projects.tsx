@@ -57,7 +57,7 @@ export function Projects() {
   const pad = (n: number) => String(n).padStart(2, '0');
 
   return <section className="projects-section reveal-on-scroll" id="projects" aria-labelledby="projects-title" aria-busy={isLoading} data-inspect="section.projects-section#projects">
-    <SectionHeading id="projects-title" title="Live in the wild." />
+    <SectionHeading id="projects-title" title="Built by members." />
     {isLoading && <p className="projects-feedback" role="status">Loading projects...</p>}
     {!isLoading && hasError && <p className="projects-feedback" role="alert">Projects are unavailable right now. Please try again later.</p>}
     {!isLoading && !hasError && projects.length === 0 && <p className="projects-feedback">No projects have been added yet.</p>}
@@ -68,7 +68,7 @@ export function Projects() {
         ref={railRef}
         tabIndex={0}
         role="group"
-        aria-label={`${projects.length} client projects. Scroll over the cards, scroll sideways, or use the arrow keys.`}
+        aria-label={`${projects.length} member projects. Scroll over the cards, scroll sideways, or use the arrow keys.`}
         data-inspect="div.project-rail"
       >
         {projects.map((project, index) => {

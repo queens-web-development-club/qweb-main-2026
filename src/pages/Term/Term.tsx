@@ -16,7 +16,8 @@ export function Term() {
 
   const nextEventId = findNextEvent(events)?.id ?? null;
   const eventRows = events.map((event, index) => ({ event, index, status: getEventStatus(event, nextEventId) }));
-  const nextEvent = eventRows.find(({ status }) => status === 'next')?.event ?? null;
+  const nextRow = eventRows.find(({ status }) => status === 'next') ?? null;
+  const nextEvent = nextRow?.event ?? null;
   const upcomingEvents = eventRows.filter(({ event }) => event.id !== nextEvent?.id && event.event_date >= todayKey());
 
   return <section className="term-section reveal-on-scroll" aria-labelledby="term-title" aria-busy={isLoading} data-inspect="section.term-section">
@@ -26,10 +27,10 @@ export function Term() {
     {!isLoading && !error && events.length === 0 && <p className="term-feedback">No events have been scheduled yet.</p>}
     {!isLoading && !error && events.length > 0 && <>
       {nextEvent && <article className="term-featured" aria-label="Next upcoming event">
-        <div className="term-featured__date"><span>{formatEventMonth(nextEvent.event_date)}</span><strong>{formatEventDay(nextEvent.event_date)}</strong><small>Event 01</small></div>
+        <div className="term-featured__date"><span>{formatEventMonth(nextEvent.event_date)}</span><strong>{formatEventDay(nextEvent.event_date)}</strong><small>Session {String((nextRow?.index ?? 0) + 1).padStart(2, '0')}</small></div>
         <div className="term-featured__body"><h3>{nextEvent.event_name}</h3><p className="term-featured__description">{nextEvent.description}</p><EventMeta event={nextEvent} /></div>
       </article>}
-      {upcomingEvents.length > 0 && <div className="term-upcoming"><div className="term-upcoming__header"><span>Rest of the term</span><span>Select a row for details</span></div><div className="term-list">{upcomingEvents.map(({ event, index }) => <article className="term-row" key={event.id}><span className="term-number">{String(index + 1).padStart(2, '0')}</span><div><h3>{event.event_name}</h3><p>{event.description}</p></div><time dateTime={event.event_date}>{formatEventDate(event.event_date)}</time><span className="term-status">Scheduled</span></article>)}</div></div>}
+      {upcomingEvents.length > 0 && <div className="term-upcoming"><div className="term-upcoming__header"><span>Rest of the term</span></div><div className="term-list">{upcomingEvents.map(({ event, index }) => <article className="term-row" key={event.id}><span className="term-number">{String(index + 1).padStart(2, '0')}</span><div><h3>{event.event_name}</h3><p>{event.description}</p></div><time dateTime={event.event_date}>{formatEventDate(event.event_date)}</time><span className="term-status">Scheduled</span></article>)}</div></div>}
     </>}
   </section>;
 }

@@ -74,7 +74,7 @@ export function Education() {
   }, []);
 
   return <section className="education reveal-on-scroll" aria-labelledby="education-title" data-inspect="section.education">
-    <SectionHeading id="education-title" title="What you’ll actually learn." summary="Want more skills to put on your resume? We cover these — and more — in the curriculum." />
+    <SectionHeading id="education-title" title="What you’ll actually learn." summary="One portfolio, rebuilt five ways. Git, GitHub, Tailwind and Vercel come along for the ride." />
 
     <div className="education__workbench">
       <div>
