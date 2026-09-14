@@ -44,7 +44,7 @@ export function Team() {
   return <section className="team-section reveal-on-scroll" aria-labelledby="team-title" data-inspect="section.team-section">
     <SectionHeading id="team-title" title="Made by students." summary="The people behind the builds, the workshops, and the group chat that keeps it moving." />
     <div className="team-people">
-      <div className="people-group"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person) => <Person key={person.id} person={person} />)}</div></div>
+      <div className="people-group people-group--chairs"><p className="people-label">Co-chairs</p><div className="people-grid people-grid--chairs">{chairs.map((person) => <Person key={person.id} person={person} />)}</div></div>
       <div className="people-group"><p className="people-label">Executives</p><div className="people-grid">{executives.map((person) => <Person key={person.id} person={person} />)}</div></div>
     </div>
   </section>;
