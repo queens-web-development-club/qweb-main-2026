@@ -94,7 +94,7 @@ September 2026 polish: Team entries without a supplied photo use `/assets/Unknow
 | `Projects` | Presents eleven member-built project treatments on a horizontal snap rail, linking out where a live site is known | `src/pages/Projects/Projects.tsx` and `Projects.css` |
 | `Term` | Presents the next event as a date-led featured panel, followed by a compact remainder-of-term list | `src/pages/Term/Term.tsx` and `Term.css` |
 | `Team` / `Person` | Presents co-chairs and executives with optional personal details. Cards carry no index number — the order is not information | `src/pages/Team/Team.tsx` and `Team.css` |
-| `Join` | Presents membership contact routes and honest empty states for unavailable application and graduate data | `src/pages/Join/Join.tsx` and `Join.css` |
+| `Join` | Presents membership contact routes in three columns — developers (informal, no form), directors (rolling, linking out to the Google Form in a new tab), and contact channels | `src/pages/Join/Join.tsx` and `Join.css` |
 | `Sponsors` | Presents reach statistics, sponsor marks, and a sponsor contact route | `src/pages/Sponsors/Sponsors.tsx` and `Sponsors.css` |
 | `SiteFooter` | Presents QWEB identity and grouped navigation links | `src/pages/Footer/SiteFooter.tsx` and `SiteFooter.css` |
 

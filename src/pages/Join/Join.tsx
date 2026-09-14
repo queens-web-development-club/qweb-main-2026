@@ -2,6 +2,7 @@ import './Join.css';
 
 const DISCORD_INVITE = 'https://discord.gg/3Zpw49BVrh';
 const CLUB_EMAIL = 'qweb@queensu.ca';
+const DIRECTOR_FORM = 'https://forms.gle/F21U1EmAcFkuwXio8';
 
 export function Join() {
   return <section className="join reveal-on-scroll" aria-labelledby="join-title" data-inspect="section.join">
@@ -19,10 +20,16 @@ export function Join() {
 
     <div className="join-routes">
       <article className="join-route" data-inspect="article.join-route">
-        <h3>Applications</h3>
-        {/* Open informally: no form exists, so there is no link to give. Saying
-            so is more useful than a button to nowhere or a closed sign. */}
+        <h3>Developers</h3>
+        {/* Open informally: members need no form, so there is no link to give.
+            Saying so is more useful than a button to nowhere or a closed sign. */}
         <p>We take developers on an ongoing basis — there’s no form and no deadline. Say hello on Discord, tell us what you want to build, and we’ll take it from there.</p>
+      </article>
+
+      <article className="join-route" data-inspect="article.join-route">
+        <h3>Directors</h3>
+        <p>We’re recruiting directors to lead Education, Development, Design, Outreach and Finance. Applications are rolling, so apply whenever you’re ready.</p>
+        <a className="join-route__link" href={DIRECTOR_FORM} target="_blank" rel="noreferrer">Apply to be a director<span>↗</span></a>
       </article>
 
       <article className="join-route" data-inspect="article.join-route">
