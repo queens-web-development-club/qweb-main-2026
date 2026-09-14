@@ -4,7 +4,7 @@ import { Projects } from '../Projects/Projects';
 import { Term } from '../Term/Term';
 import { Education } from '../Education/Education';
 import { Team } from '../Team/Team';
-import { Join } from '../Join/Join';
+import { DIRECTOR_FORM, Join } from '../Join/Join';
 import { Sponsors } from '../Sponsors/Sponsors';
 import { SiteFooter } from '../Footer/SiteFooter';
 import { InspectModeProvider, InspectToggle } from '../../components/InspectMode';
@@ -122,7 +122,7 @@ export function Landing() {
         <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src={assetUrl("/assets/qweb-text-white.png")} alt="QWEB" /></a>
         <nav><a href="#about">About</a><a href="#education">Education</a><a href="#join">Join</a></nav>
         <InspectToggle />
-        <a className="nav-cta" href="#join">Join QWEB</a>
+        <a className="nav-cta" href={DIRECTOR_FORM} target="_blank" rel="noreferrer">Join QWEB</a>
       </header>
 
       <section className="hero" id="top" tabIndex={-1} data-inspect="section.hero#top">

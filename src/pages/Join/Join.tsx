@@ -2,7 +2,7 @@ import './Join.css';
 
 const DISCORD_INVITE = 'https://discord.gg/3Zpw49BVrh';
 const CLUB_EMAIL = 'qweb@queensu.ca';
-const DIRECTOR_FORM = 'https://forms.gle/F21U1EmAcFkuwXio8';
+export const DIRECTOR_FORM = 'https://forms.gle/F21U1EmAcFkuwXio8';
 
 export function Join() {
   return <section className="join reveal-on-scroll" aria-labelledby="join-title" data-inspect="section.join">
