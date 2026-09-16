@@ -21,3 +21,22 @@
   .motion-ready .team-section.is-visible .person:nth-child(5) { transition-delay:290ms; }
   .motion-ready .team-section.is-visible .person:nth-child(n+6) { transition-delay:320ms; }
 }
+
+/* Seven cards in one row get too small below 1000px, so the two groups stack.
+   Both grids keep five columns, which keeps every card the same width. */
+@media (min-width:701px) and (max-width:999px) {
+  .team-people { display:block; }
+  .people-group + .people-group { margin-top:40px; }
+  .people-grid,
+  .people-grid--chairs { grid-template-columns:repeat(5,minmax(0,1fr)); }
+}
+
+/* Phones list one person per row, portrait beside the text, so an odd number
+   of people never leaves someone alone on a row. */
+@media (max-width:700px) {
+  .people-grid,
+  .people-grid--chairs { grid-template-columns:minmax(0,1fr); gap:22px; }
+  .person { display:flow-root; }
+  .person-art { float:left; width:96px; margin-right:16px; }
+  .person h3 { margin-top:2px; }
+}
