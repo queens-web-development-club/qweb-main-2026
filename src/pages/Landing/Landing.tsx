@@ -120,7 +120,7 @@ export function Landing() {
     <section className="landing-page" id="home" aria-label="QWEB landing page">
       <header className="nav page-load" data-inspect="header.nav">
         <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src={assetUrl("/assets/qweb-text-white.png")} alt="QWEB" /></a>
-        <nav><a href="#about">About</a><a href="#education">Education</a><a href="#join">Join</a></nav>
+        <nav><a href="#about">About</a><a href="#education">Education</a><a href={assetUrl("/tutorials/")}>Tutorials</a><a href="#join">Join</a></nav>
         <InspectToggle />
         <a className="nav-cta" href={DIRECTOR_FORM} target="_blank" rel="noreferrer">Join QWEB</a>
       </header>

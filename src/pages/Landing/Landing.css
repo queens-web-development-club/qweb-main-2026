@@ -107,3 +107,16 @@ html { scrollbar-color:#1b3a44 transparent; scrollbar-width:thin; }
 
 /* A shared wash connects the heading and sculpture on the open hero surface. */
 .hero::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(ellipse at 74% 42%,#1bd6b012,transparent 52%),radial-gradient(ellipse at 40% 35%,#2878ed0c,transparent 55%); }
+
+@media (max-width: 700px) {
+  .landing-page .nav { height: auto; flex-wrap: wrap; padding-block: 10px; }
+  .nav nav {
+    display: flex;
+    order: 1;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 8px 0 0;
+  }
+  .nav nav a { padding-block: 5px; }
+}
