@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { AboutUs } from '../AboutUs/AboutUs';
 import { Projects } from '../Projects/Projects';
-import { TutorialArchive } from '../TutorialArchive/TutorialArchive';
+import { SiteNav } from '../../components/SiteNav/SiteNav';
 import { Term } from '../Term/Term';
 import { Education } from '../Education/Education';
 import { Team } from '../Team/Team';
-import { DIRECTOR_FORM, Join } from '../Join/Join';
+import { Join } from '../Join/Join';
 import { Sponsors } from '../Sponsors/Sponsors';
 import { SiteFooter } from '../Footer/SiteFooter';
-import { InspectModeProvider, InspectToggle } from '../../components/InspectMode';
+import { InspectModeProvider } from '../../components/InspectMode';
 import './Landing.css';
 import { CodeSculpture } from './CodeSculpture';
 import { CurriculumTicker } from './CurriculumTicker';
-import { assetUrl } from '../../lib/urls';
 
 // Member count from qweb.dev; projects built is the count of the archive. Not
 // every archived build had a client (Torus Puzzle and Fiscal Fresh were team
@@ -119,12 +118,7 @@ export function Landing() {
     <div className="noise" aria-hidden="true" />
     <SiteWaves />
     <section className="landing-page" id="home" aria-label="QWEB landing page">
-      <header className="nav page-load" data-inspect="header.nav">
-        <a className="brand" href="#home" aria-label="Queen's Web Development Club home"><img src={assetUrl("/assets/qweb-text-white.png")} alt="QWEB" /></a>
-        <nav><a href="#about">About</a><a href="#education">Education</a><a href="#join">Join</a></nav>
-        <InspectToggle />
-        <a className="nav-cta" href={DIRECTOR_FORM} target="_blank" rel="noreferrer">Join QWEB</a>
-      </header>
+      <SiteNav />
 
       <section className="hero" id="top" tabIndex={-1} data-inspect="section.hero#top">
         <div className="hero-copy page-load page-load--delayed">
@@ -143,7 +137,7 @@ export function Landing() {
         nights a month into a portfolio, and this is the portfolio. Claim, then proof,
         then the people, then who backs them. */}
     <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Projects /><Team /><Sponsors /></section>
-    <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /><TutorialArchive /></section>
+    <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /></section>
     <section className="region" id="join" data-inspect="section.region#join"><Join /></section>
     <SiteFooter />
   </main></InspectModeProvider>;

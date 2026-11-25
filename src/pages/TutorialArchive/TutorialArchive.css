@@ -6,6 +6,10 @@
   font: var(--t-body)/1.65 'DM Mono', monospace;
 }
 
+.archive-heading { max-width: 68ch; margin-bottom: var(--sp-md); }
+.archive-heading h1 { font-family: 'IBM Plex Sans', sans-serif; }
+.archive-heading p { margin: 0; }
+
 .archive-term, .archive-meta, .archive-content figcaption {
   font: var(--t-meta)/1.5 'DM Mono', monospace;
 }
@@ -19,7 +23,7 @@
   border-bottom: 1px solid #142832;
 }
 
-.archive-term h3, .archive-meta span {
+.archive-term h2, .archive-meta span {
   margin: 0;
   color: #8aa9b2;
   font: var(--t-micro)/1.5 'DM Mono', monospace;
@@ -57,7 +61,7 @@
   overflow-wrap: anywhere;
 }
 
-.archive-content h4 {
+.archive-content h3 {
   margin: 20px 0 5px;
   color: #e2eded;
   font: 500 var(--t-card)/1.4 'IBM Plex Sans', sans-serif;

@@ -3,7 +3,7 @@
 <!-- GENERATED:overview source=/document updated=2026-09-03 -->
 ## Overview
 
-This document describes the single-page Queen's Web Development Club site implemented in `src/main.tsx` and the page folders under `src/pages/` (Landing, AboutUs, Education, Projects, Term, Team, Join, Sponsors, and Footer), based on the CSS and TSX inspected on 2026-09-03. The implementation uses a near-black, mono-led editorial visual system with blue/teal accents and responsive section composition. A separate design-direction document was not found; the visual direction is represented by the implementation evidence below.
+This document describes the Queen's Web Development Club site implemented in `src/main.tsx` and the page folders under `src/pages/` (Landing, AboutUs, Education, Projects, Term, Team, Join, Sponsors, and Footer), based on the CSS and TSX inspected on 2026-09-03. The implementation uses a near-black, mono-led editorial visual system with blue/teal accents and responsive section composition. A separate design-direction document was not found; the visual direction is represented by the implementation evidence below.
 <!-- /GENERATED:overview -->
 
 <!-- GENERATED:typography source=/document updated=2026-09-03 -->
@@ -100,7 +100,7 @@ September 2026 polish: Team entries without a supplied photo use `/assets/Unknow
 
 Section-level components carry a `data-inspect` attribute holding their real selector (for example `section.projects-section`). Region wrappers own the shareable anchors such as `#about` and `#education`; inspect mode reads the nearest annotation on hover, and nothing else depends on it. New sections should set one.
 
-The navbar Inspect button is visible at every viewport width and on all pointer types. Below 700px it uses an automatic left margin, a 10px right gap, and 6px by 8px padding to fit beside Join QWEB. Inspect mode selects annotations on pointer movement or a tap; Escape or the toggle exits. The overlay remains decorative and does not intercept input.
+The navbar Inspect button is visible at every viewport width and on all pointer types. At 700px and below it uses an automatic left margin, a 10px right gap, and 6px by 8px padding to fit beside Join QWEB. Inspect mode selects annotations on pointer movement or a tap; Escape or the toggle exits. The overlay remains decorative and does not intercept input.
 
 `src/components/` holds cross-cutting UI that is not a page section. Page sections keep the colocated `src/pages/<Section>/` convention.
 
@@ -110,7 +110,7 @@ Projects and sponsor marks now load exclusively from Supabase, ordered by `displ
 <!-- GENERATED:layout source=/document updated=2026-09-03 -->
 ## Layout
 
-- The site is a single React route composed by `Landing` in `src/main.tsx`, with four anchored regions: `#home` is the landing frame, `#about` groups About Us, Projects, Team, and Sponsors, `#education` groups Education and Term, and `#join` contains membership routes. Projects also carries its own `#projects` anchor, targeted by the hero's "See our work" action and the footer's Projects link.
+- The homepage is a React route composed by `Landing` in `src/main.tsx`, with four anchored regions: `#home` is the landing frame, `#about` groups About Us, Projects, Team, and Sponsors, `#education` groups Education and Term, and `#join` contains membership routes. Projects also carries its own `#projects` anchor, targeted by the hero's "See our work" action and the footer's Projects link.
 - Reading order within `#about` is claim → proof → people → backing: About Us promises a portfolio, Projects is that portfolio, then the team behind it and the partners funding it.
 - Major sections use a centered `max-width: 1130px` container with responsive horizontal gutters, except the full-width landing frame and ticker.
 - Landing navigation is a flex row; hero copy is left-aligned beside the unframed 3D sculpture, with a shared blue/teal radial wash behind both.
@@ -157,7 +157,7 @@ The section container remains a plain cross-fade so a section never moves as a w
 <!-- GENERATED:responsive source=/document updated=2026-09-03 -->
 ## Responsive
 
-The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs, Education, Projects, Term, Team, Join, Sponsors, and Footer. At this breakpoint navigation links hide, the navigation and logo compact, hero copy and ticker spacing reduce, stats change from three to two columns, About offerings collapse to one column, curriculum and sponsor grids reflow, project cards collapse to one column, term metadata stacks and status pills hide, Join routes stack, and the footer stacks. Team also has an `800px` breakpoint that tightens card and group gaps, and a `999px` breakpoint that stacks the co-chair and executive groups. Evidence: the `@media` blocks in each section stylesheet.
+The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs, Education, Projects, Term, Team, Join, Sponsors, and Footer. At this breakpoint navigation links move to a second row, the logo compacts, hero copy and ticker spacing reduce, stats change from three to two columns, About offerings collapse to one column, curriculum and sponsor grids reflow, project cards collapse to one column, term metadata stacks and status pills hide, Join routes stack, and the footer stacks. Team also has an `800px` breakpoint that tightens card and group gaps, and a `999px` breakpoint that stacks the co-chair and executive groups. Evidence: the `@media` blocks in each section stylesheet.
 <!-- /GENERATED:responsive -->
 
 <!-- GENERATED:motion-reduced source=/document updated=2026-09-03 -->
@@ -187,9 +187,9 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 
 ## Tutorial archive
 
-The Education region includes the Tutorial archive below Term. The footer links to `#tutorial-archive`. Ten local Fall 2026 sample walkthroughs appear newest first in ruled disclosure rows. Each summary shows the session number, date, title and outcome. Opening a row reveals prerequisites, steps, an inline example, a completion check and a date-based session link. A session link opens its row directly.
+The Tutorial archive is a separate page at `/tutorials/`, linked from the main navigation and footer. At 700px and below the shared header places navigation links on a second row. Ten local Fall 2026 sample walkthroughs appear newest first in ruled disclosure rows. Each summary shows the session number, date, title and outcome. Opening a row reveals prerequisites, steps, an inline example, a completion check and a date-based session link. A session link opens its row directly.
 
-The archive uses the shared section heading, gutter and spacing tokens. Below 700px, session metadata moves above the title and expanded content aligns with the left gutter. Examples wrap at all widths. Native disclosures support keyboard interaction and open without animation.
+The archive uses a page-level heading, the shared gutter and section spacing tokens. Below 700px, session metadata moves above the title and expanded content aligns with the left gutter. Examples wrap at all widths. Native disclosures support keyboard interaction and open without animation.
 
 <!-- GENERATED:open-questions source=/document updated=2026-09-03 -->
 ## Open Questions
