@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AboutUs } from '../AboutUs/AboutUs';
 import { Projects } from '../Projects/Projects';
+import { TutorialArchive } from '../TutorialArchive/TutorialArchive';
 import { Term } from '../Term/Term';
 import { Education } from '../Education/Education';
 import { Team } from '../Team/Team';
@@ -142,7 +143,7 @@ export function Landing() {
         nights a month into a portfolio, and this is the portfolio. Claim, then proof,
         then the people, then who backs them. */}
     <section className="region" id="about" data-inspect="section.region#about"><AboutUs /><Projects /><Team /><Sponsors /></section>
-    <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /></section>
+    <section className="region" id="education" data-inspect="section.region#education"><Education /><Term /><TutorialArchive /></section>
     <section className="region" id="join" data-inspect="section.region#join"><Join /></section>
     <SiteFooter />
   </main></InspectModeProvider>;

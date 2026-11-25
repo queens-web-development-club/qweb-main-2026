@@ -185,6 +185,12 @@ The primary breakpoint is `700px`, defined in the CSS files for Landing, AboutUs
 - Keep section composition varied while preserving one visual system, use deliberate typography hierarchy and readable line lengths, prefer whitespace and dividers over unnecessary shells, and use semantic React elements.
 <!-- /GENERATED:implementation-guidance -->
 
+## Tutorial archive
+
+The Education region includes the Tutorial archive below Term. The footer links to `#tutorial-archive`. Ten local Fall 2026 sample walkthroughs appear newest first in ruled disclosure rows. Each summary shows the session number, date, title and outcome. Opening a row reveals prerequisites, steps, an inline example, a completion check and a date-based session link. A session link opens its row directly.
+
+The archive uses the shared section heading, gutter and spacing tokens. Below 700px, session metadata moves above the title and expanded content aligns with the left gutter. Examples wrap at all widths. Native disclosures support keyboard interaction and open without animation.
+
 <!-- GENERATED:open-questions source=/document updated=2026-09-03 -->
 ## Open Questions
 

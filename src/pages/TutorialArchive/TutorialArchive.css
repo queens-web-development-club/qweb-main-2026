@@ -1,0 +1,83 @@
+.tutorial-archive {
+  max-width: 1130px;
+  margin: 0 auto;
+  padding: var(--sp-lg) var(--gutter) var(--sp-md);
+  color: #93abb3;
+  font: var(--t-body)/1.65 'DM Mono', monospace;
+}
+
+.archive-term, .archive-meta, .archive-content figcaption {
+  font: var(--t-meta)/1.5 'DM Mono', monospace;
+}
+
+.archive-term {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #142832;
+}
+
+.archive-term h3, .archive-meta span {
+  margin: 0;
+  color: #8aa9b2;
+  font: var(--t-micro)/1.5 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.archive-session {
+  border-bottom: 1px solid #142832;
+  scroll-margin-top: 16px;
+}
+
+.archive-session summary {
+  display: grid;
+  grid-template-columns: 98px minmax(0, 1fr) 16px;
+  gap: 20px;
+  align-items: baseline;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.archive-session summary::-webkit-details-marker { display: none; }
+.archive-meta, .archive-overview { display: grid; gap: 4px; }
+.archive-overview { font-size: var(--t-meta); }
+.archive-overview strong { color: #e2eded; font: 500 var(--t-card)/1.3 'IBM Plex Sans', sans-serif; }
+.archive-session summary:hover strong, .archive-session[open] summary strong { color: #20cbb4; }
+.archive-indicator { color: #20cbb4; }
+.archive-indicator::before { content: '+'; }
+.archive-session[open] .archive-indicator::before { content: '−'; }
+
+.archive-content {
+  max-width: 70ch;
+  margin: 0 0 24px 118px;
+  overflow-wrap: anywhere;
+}
+
+.archive-content h4 {
+  margin: 20px 0 5px;
+  color: #e2eded;
+  font: 500 var(--t-card)/1.4 'IBM Plex Sans', sans-serif;
+}
+
+.archive-content p, .archive-content ol { margin: 0; }
+.archive-content ol { padding-left: 2em; }
+.archive-content li + li { margin-top: 5px; }
+.archive-content li::marker, .archive-content a { color: #20cbb4; }
+.archive-content a { display: inline-block; margin-top: 16px; font-size: var(--t-meta); }
+.archive-content figure { margin: 16px 0; background: #0a1015; border: 1px solid #142832; border-radius: var(--radius); }
+.archive-content figcaption { padding: 8px 14px; border-bottom: 1px solid #142832; }
+.archive-content pre { padding: 12px 14px; margin: 0; white-space: pre-wrap; }
+.archive-content code { color: #dbe6e7; font: var(--t-body)/1.6 'DM Mono', monospace; }
+
+@media (max-width: 700px) {
+  .tutorial-archive { padding: 56px 22px 48px; }
+  .archive-session summary { grid-template-columns: minmax(0, 1fr) 16px; gap: 6px 12px; }
+  .archive-meta { display: flex; align-items: baseline; gap: 12px; }
+  .archive-overview { grid-column: 1; }
+  .archive-indicator { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .archive-content { margin-left: 0; }
+}
